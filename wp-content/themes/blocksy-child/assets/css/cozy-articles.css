@@ -1,0 +1,391 @@
+/**
+ * ============================================================================
+ * COZY ARTICLES — Fiche jeu, notes, verdict (front-end)
+ * ============================================================================
+ */
+
+/* ------------------------------------------------------------------
+   VARIABLES
+   ------------------------------------------------------------------ */
+:root {
+    --cozy-card-radius: 16px;
+    --cozy-card-shadow: 0 4px 20px rgba(0, 0, 0, .06);
+    --cozy-card-border: #e5e7eb;
+    --cozy-star-color: #f59e0b;
+    --cozy-star-empty: #e5e7eb;
+    --cozy-pros-color: #059669;
+    --cozy-cons-color: #dc2626;
+}
+
+
+/* ==================================================================
+   1. FICHE JEU (en haut de l'article)
+   ================================================================== */
+
+.cozy-game-card {
+    position: relative;
+    background: linear-gradient(135deg, #faf5ff 0%, #f5f3ff 40%, #eff6ff 100%);
+    border: 1px solid #e0d7f5;
+    border-radius: var(--cozy-card-radius);
+    padding: 28px 30px 24px;
+    margin-bottom: 32px;
+    box-shadow: var(--cozy-card-shadow);
+}
+
+/* --- Badge type d'article --- */
+.cozy-game-card__type-badge {
+    display: inline-block;
+    padding: 5px 16px;
+    border-radius: 20px;
+    color: #fff;
+    font-size: .8rem;
+    font-weight: 700;
+    letter-spacing: .3px;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+}
+
+/* --- Header : nom du jeu + note globale --- */
+.cozy-game-card__header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.cozy-game-card__game-name {
+    margin: 0;
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: #1e1b4b;
+    line-height: 1.2;
+    flex: 1;
+}
+
+/* --- Note globale --- */
+.cozy-game-card__global-rating {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+.cozy-game-card__stars {
+    display: flex;
+    gap: 2px;
+}
+
+.cozy-game-card__star {
+    font-size: 1.5rem;
+    color: var(--cozy-star-empty);
+    line-height: 1;
+}
+
+.cozy-game-card__star.filled {
+    color: var(--cozy-star-color);
+}
+
+.cozy-game-card__rating-value {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--cozy-star-color);
+}
+
+/* --- Détails du jeu (grille) --- */
+.cozy-game-card__details {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 14px;
+    margin-bottom: 20px;
+}
+
+.cozy-game-card__detail {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.cozy-game-card__detail-label {
+    font-size: .78rem;
+    font-weight: 600;
+    color: #6b7280;
+    text-transform: uppercase;
+    letter-spacing: .4px;
+}
+
+.cozy-game-card__detail-value {
+    font-size: .95rem;
+    font-weight: 600;
+    color: #1f2937;
+}
+
+/* Plateformes (badges) */
+.cozy-game-card__platforms {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.cozy-game-card__platform {
+    display: inline-block;
+    padding: 3px 10px;
+    background: #fff;
+    border: 1px solid #ddd6fe;
+    border-radius: 8px;
+    font-size: .82rem;
+    font-weight: 500;
+    color: #5b21b6;
+    white-space: nowrap;
+}
+
+/* --- Notes détaillées (barres) --- */
+.cozy-game-card__ratings {
+    border-top: 1px solid #e0d7f5;
+    padding-top: 18px;
+}
+
+.cozy-game-card__ratings-title {
+    margin: 0 0 14px;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #374151;
+}
+
+.cozy-game-card__ratings-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.cozy-game-card__rating-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.cozy-game-card__rating-label {
+    min-width: 180px;
+    font-size: .88rem;
+    font-weight: 500;
+    color: #374151;
+    flex-shrink: 0;
+}
+
+.cozy-game-card__rating-bar {
+    flex: 1;
+    height: 10px;
+    background: #e5e7eb;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.cozy-game-card__rating-fill {
+    height: 100%;
+    border-radius: 10px;
+    background: linear-gradient(90deg, #a78bfa, #7c3aed);
+    transition: width .6s ease;
+}
+
+.cozy-game-card__rating-score {
+    min-width: 32px;
+    font-size: .85rem;
+    font-weight: 700;
+    color: #7c3aed;
+    text-align: right;
+}
+
+
+/* ==================================================================
+   2. VERDICT (en bas de l'article)
+   ================================================================== */
+
+.cozy-verdict {
+    background: #fff;
+    border: 1px solid var(--cozy-card-border);
+    border-radius: var(--cozy-card-radius);
+    padding: 28px 30px;
+    margin-top: 36px;
+    box-shadow: var(--cozy-card-shadow);
+}
+
+.cozy-verdict__title {
+    margin: 0 0 16px;
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: #1e1b4b;
+}
+
+.cozy-verdict__text {
+    margin: 0 0 20px;
+    padding: 16px 20px;
+    background: #f9fafb;
+    border-left: 4px solid #7c3aed;
+    border-radius: 0 10px 10px 0;
+    font-size: 1.02rem;
+    line-height: 1.6;
+    color: #374151;
+    font-style: italic;
+}
+
+/* --- Pros / Cons --- */
+.cozy-verdict__pros-cons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-bottom: 20px;
+}
+
+.cozy-verdict__column h4 {
+    margin: 0 0 10px;
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+.cozy-verdict__column--pros h4 { color: var(--cozy-pros-color); }
+.cozy-verdict__column--cons h4 { color: var(--cozy-cons-color); }
+
+.cozy-verdict__column ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.cozy-verdict__column li {
+    position: relative;
+    padding: 6px 0 6px 20px;
+    font-size: .93rem;
+    color: #374151;
+    line-height: 1.5;
+}
+
+.cozy-verdict__column--pros li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: var(--cozy-pros-color);
+    font-weight: 700;
+}
+
+.cozy-verdict__column--cons li::before {
+    content: '✗';
+    position: absolute;
+    left: 0;
+    color: var(--cozy-cons-color);
+    font-weight: 700;
+}
+
+/* --- Score final --- */
+.cozy-verdict__final-score {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    padding: 20px;
+    background: linear-gradient(135deg, #faf5ff 0%, #ede9fe 100%);
+    border-radius: 14px;
+    margin-top: 16px;
+}
+
+.cozy-verdict__score-label {
+    font-size: .9rem;
+    font-weight: 600;
+    color: #6b7280;
+    text-transform: uppercase;
+    letter-spacing: .5px;
+}
+
+.cozy-verdict__score-value {
+    display: flex;
+    align-items: baseline;
+}
+
+.cozy-verdict__score-number {
+    font-size: 2.4rem;
+    font-weight: 900;
+    color: #7c3aed;
+    line-height: 1;
+}
+
+.cozy-verdict__score-max {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #a78bfa;
+}
+
+.cozy-verdict__score-stars {
+    display: flex;
+    gap: 2px;
+}
+
+.cozy-verdict__star {
+    font-size: 1.4rem;
+    color: var(--cozy-star-empty);
+}
+
+.cozy-verdict__star.filled {
+    color: var(--cozy-star-color);
+}
+
+
+/* ==================================================================
+   3. RESPONSIVE
+   ================================================================== */
+
+@media (max-width: 768px) {
+    .cozy-game-card {
+        padding: 20px;
+    }
+
+    .cozy-game-card__header {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .cozy-game-card__game-name {
+        font-size: 1.3rem;
+    }
+
+    .cozy-game-card__details {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .cozy-game-card__rating-label {
+        min-width: 120px;
+        font-size: .82rem;
+    }
+
+    .cozy-verdict {
+        padding: 20px;
+    }
+
+    .cozy-verdict__pros-cons {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .cozy-verdict__final-score {
+        flex-direction: column;
+        gap: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .cozy-game-card__details {
+        grid-template-columns: 1fr;
+    }
+
+    .cozy-game-card__rating-row {
+        flex-wrap: wrap;
+    }
+
+    .cozy-game-card__rating-label {
+        min-width: 100%;
+    }
+
+    .cozy-game-card__rating-bar {
+        flex: 1;
+        min-width: 60%;
+    }
+}

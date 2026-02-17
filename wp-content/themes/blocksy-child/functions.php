@@ -7,6 +7,78 @@
 // Module : Profils sociaux (Discord & Twitch)
 require_once get_stylesheet_directory() . '/inc/cozy-social-profiles.php';
 
+// Module : Modes de communication (tags visuels événements)
+require_once get_stylesheet_directory() . '/inc/cozy-comm-modes.php';
+
+// Module : Codes ami par jeu
+require_once get_stylesheet_directory() . '/inc/cozy-friend-codes.php';
+
+// Module : Participants publics (affichage auto sur les single events)
+require_once get_stylesheet_directory() . '/inc/cozy-public-attendees.php';
+
+// Module : Personnalisation Login & Inscription
+require_once get_stylesheet_directory() . '/inc/cozy-login.php';
+
+// Module : Historique des réservations (shortcode profil)
+require_once get_stylesheet_directory() . '/inc/cozy-reservations.php';
+
+// Module : Charte de bienveillance (checkbox RSVP)
+require_once get_stylesheet_directory() . '/inc/cozy-charter.php';
+
+// Module : Content Warnings (avertissements de contenu)
+require_once get_stylesheet_directory() . '/inc/cozy-content-warnings.php';
+
+// Module : Galerie Setups Gaming (Pinterest masonry)
+require_once get_stylesheet_directory() . '/inc/cozy-setups.php';
+
+// Module : Articles Gaming (fiche jeu, notes, verdict)
+require_once get_stylesheet_directory() . '/inc/cozy-articles.php';
+
+// ============================================================================
+// FIX : Page « Mes Réservations » (/tickets) — Blocksy + TEC Views V2
+// ============================================================================
+// Le Page Template de TEC V2 crée un « mocked post » de type page, ce qui fait
+// échouer le check is_singular('tribe_events') dans intercept_content().
+// On réinjecte manuellement le template orders.php quand eventDisplay=tickets.
+// ============================================================================
+add_filter( 'the_content', 'cozy_fix_tickets_page_content', 8 );
+function cozy_fix_tickets_page_content( $content ) {
+    // Vérifier qu'on est sur la page /tickets
+    $display = get_query_var( 'eventDisplay', false );
+    if ( 'tickets' !== $display ) {
+        return $content;
+    }
+
+    // L'utilisateur doit être connecté
+    if ( ! is_user_logged_in() ) {
+        return $content;
+    }
+
+    // Éviter les boucles infinies
+    static $already_running = false;
+    if ( $already_running ) {
+        return $content;
+    }
+    $already_running = true;
+
+    // Vérifier que les classes du plugin existent
+    if ( ! class_exists( 'Tribe__Tickets__Templates' ) ) {
+        $already_running = false;
+        return $content;
+    }
+
+    // Charger les assets nécessaires
+    tribe_asset_enqueue_group( 'tribe-tickets-page-assets' );
+
+    // Charger le template orders.php du plugin
+    ob_start();
+    include Tribe__Tickets__Templates::get_template_hierarchy( 'tickets/orders.php' );
+    $content = ob_get_clean();
+
+    $already_running = false;
+    return $content;
+}
+
 //chargement de la feuille de style du thème parent et du thème enfant
 function cozy_gaming_child_enqueue_styles() {
     wp_enqueue_style( 'blocksy-parent-style', get_template_directory_uri() . '/style.css' );
@@ -95,6 +167,21 @@ add_action( 'wp_head', function() {
             padding: 12px 16px;
             border-radius: 8px;
             border-left: 4px solid #4caf50;
+        }
+
+        /* Quantité fixe (pas d'input, juste un chiffre) */
+        .cozy-quantity-fixed {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: #f0ecf5;
+            color: #2c3e50;
+            font-weight: 700;
+            font-size: 1.1em;
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            margin-top: 4px;
         }
     </style>
     <?php

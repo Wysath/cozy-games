@@ -1,0 +1,538 @@
+/**
+ * ============================================================================
+ * COZY SETUPS — Galerie Pinterest / Masonry
+ * ============================================================================
+ */
+
+/* ------------------------------------------------------------------
+   VARIABLES
+   ------------------------------------------------------------------ */
+:root {
+    --cozy-setup-gap: 16px;
+    --cozy-setup-radius: 14px;
+    --cozy-setup-shadow: 0 2px 12px rgba(0, 0, 0, .08);
+    --cozy-setup-accent: #7c3aed;
+    --cozy-setup-accent-light: #ede9fe;
+    --cozy-setup-success: #059669;
+    --cozy-setup-danger: #dc2626;
+}
+
+/* ------------------------------------------------------------------
+   WRAPPER
+   ------------------------------------------------------------------ */
+.cozy-setups {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 16px;
+}
+
+/* ------------------------------------------------------------------
+   LOGIN PROMPT
+   ------------------------------------------------------------------ */
+.cozy-setups__login-prompt {
+    text-align: center;
+    background: var(--cozy-setup-accent-light);
+    border-radius: var(--cozy-setup-radius);
+    padding: 24px;
+    margin-bottom: 24px;
+    font-size: .95rem;
+}
+
+.cozy-setups__login-prompt a {
+    color: var(--cozy-setup-accent);
+    font-weight: 600;
+    text-decoration: underline;
+}
+
+/* ------------------------------------------------------------------
+   FORMULAIRE — Bouton d'ajout
+   ------------------------------------------------------------------ */
+.cozy-setups__form-wrapper {
+    margin-bottom: 32px;
+}
+
+.cozy-setups__add-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0 auto 16px;
+    padding: 14px 28px;
+    background: var(--cozy-setup-accent);
+    color: #fff;
+    border: none;
+    border-radius: 50px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background .2s, transform .15s;
+}
+
+.cozy-setups__add-btn:hover {
+    background: #6d28d9;
+    transform: translateY(-1px);
+}
+
+/* ------------------------------------------------------------------
+   FORMULAIRE — Container
+   ------------------------------------------------------------------ */
+.cozy-setups__form {
+    max-width: 520px;
+    margin: 0 auto;
+    background: #fff;
+    border-radius: var(--cozy-setup-radius);
+    box-shadow: var(--cozy-setup-shadow);
+    padding: 28px;
+    animation: cozySetupSlideDown .3s ease;
+}
+
+@keyframes cozySetupSlideDown {
+    from { opacity: 0; transform: translateY(-12px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.cozy-setups__form-title {
+    text-align: center;
+    font-size: 1.15rem;
+    margin: 0 0 20px;
+}
+
+/* ------------------------------------------------------------------
+   FORMULAIRE — Champs
+   ------------------------------------------------------------------ */
+.cozy-setups__form-field {
+    margin-bottom: 16px;
+}
+
+.cozy-setups__form-field label {
+    display: block;
+    font-weight: 600;
+    font-size: .9rem;
+    margin-bottom: 6px;
+}
+
+.cozy-setups__form-field label small {
+    font-weight: 400;
+    color: #888;
+}
+
+.cozy-setups__form-field input[type="text"],
+.cozy-setups__form-field textarea {
+    width: 100%;
+    padding: 10px 14px;
+    border: 2px solid #e5e7eb;
+    border-radius: 10px;
+    font-size: .95rem;
+    transition: border-color .2s;
+    font-family: inherit;
+    box-sizing: border-box;
+}
+
+.cozy-setups__form-field input[type="text"]:focus,
+.cozy-setups__form-field textarea:focus {
+    outline: none;
+    border-color: var(--cozy-setup-accent);
+}
+
+/* ------------------------------------------------------------------
+   FORMULAIRE — Zone d'upload
+   ------------------------------------------------------------------ */
+.cozy-setups__upload-zone {
+    position: relative;
+    border: 2px dashed #d1d5db;
+    border-radius: 12px;
+    padding: 32px 16px;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color .2s, background .2s;
+    overflow: hidden;
+}
+
+.cozy-setups__upload-zone:hover,
+.cozy-setups__upload-zone.dragover {
+    border-color: var(--cozy-setup-accent);
+    background: var(--cozy-setup-accent-light);
+}
+
+.cozy-setups__upload-zone input[type="file"] {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    cursor: pointer;
+    width: 100%;
+    height: 100%;
+}
+
+.cozy-setups__upload-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    pointer-events: none;
+}
+
+.cozy-setups__upload-icon {
+    font-size: 2rem;
+}
+
+.cozy-setups__upload-text {
+    font-weight: 600;
+    font-size: .95rem;
+}
+
+.cozy-setups__upload-placeholder small {
+    color: #888;
+    font-size: .8rem;
+}
+
+/* Preview image dans la zone */
+.cozy-setups__upload-zone img.cozy-setup-preview {
+    max-width: 100%;
+    max-height: 240px;
+    border-radius: 8px;
+    object-fit: contain;
+}
+
+/* ------------------------------------------------------------------
+   FORMULAIRE — Actions
+   ------------------------------------------------------------------ */
+.cozy-setups__form-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.cozy-setups__submit-btn {
+    padding: 12px 24px;
+    background: var(--cozy-setup-accent);
+    color: #fff;
+    border: none;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: .95rem;
+    cursor: pointer;
+    transition: background .2s, opacity .2s;
+}
+
+.cozy-setups__submit-btn:hover {
+    background: #6d28d9;
+}
+
+.cozy-setups__submit-btn:disabled {
+    opacity: .5;
+    cursor: not-allowed;
+}
+
+.cozy-setups__cancel-btn {
+    padding: 12px 24px;
+    background: #f3f4f6;
+    color: #374151;
+    border: none;
+    border-radius: 50px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background .2s;
+}
+
+.cozy-setups__cancel-btn:hover {
+    background: #e5e7eb;
+}
+
+/* ------------------------------------------------------------------
+   FORMULAIRE — Message de feedback
+   ------------------------------------------------------------------ */
+.cozy-setups__form-message {
+    margin-top: 14px;
+    text-align: center;
+    font-size: .9rem;
+    min-height: 1.5em;
+}
+
+.cozy-setups__form-message.success {
+    color: var(--cozy-setup-success);
+    font-weight: 600;
+}
+
+.cozy-setups__form-message.error {
+    color: var(--cozy-setup-danger);
+    font-weight: 600;
+}
+
+/* ------------------------------------------------------------------
+   GALERIE MASONRY (CSS columns)
+   ------------------------------------------------------------------ */
+.cozy-setups__gallery {
+    columns: 4;
+    column-gap: var(--cozy-setup-gap);
+}
+
+.cozy-setups__empty {
+    text-align: center;
+    padding: 60px 20px;
+    color: #6b7280;
+    font-size: 1.05rem;
+}
+
+.cozy-setups__empty p:first-child {
+    font-size: 1.3rem;
+    margin-bottom: 4px;
+}
+
+/* ------------------------------------------------------------------
+   CARTE SETUP
+   ------------------------------------------------------------------ */
+.cozy-setups__card {
+    break-inside: avoid;
+    margin-bottom: var(--cozy-setup-gap);
+    background: #fff;
+    border-radius: var(--cozy-setup-radius);
+    box-shadow: var(--cozy-setup-shadow);
+    overflow: hidden;
+    transition: transform .2s, box-shadow .2s;
+}
+
+.cozy-setups__card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 24px rgba(0, 0, 0, .12);
+}
+
+/* Image */
+.cozy-setups__card-image {
+    cursor: pointer;
+    overflow: hidden;
+    line-height: 0;
+}
+
+.cozy-setups__card-image img {
+    width: 100%;
+    height: auto;
+    display: block;
+    transition: transform .3s;
+}
+
+.cozy-setups__card:hover .cozy-setups__card-image img {
+    transform: scale(1.03);
+}
+
+/* Body */
+.cozy-setups__card-body {
+    padding: 14px 16px 16px;
+}
+
+.cozy-setups__card-title {
+    margin: 0 0 4px;
+    font-size: .95rem;
+    font-weight: 700;
+    line-height: 1.3;
+}
+
+.cozy-setups__card-desc {
+    margin: 0 0 10px;
+    font-size: .85rem;
+    color: #6b7280;
+    line-height: 1.4;
+}
+
+/* Footer */
+.cozy-setups__card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.cozy-setups__card-author {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: .8rem;
+    font-weight: 500;
+}
+
+.cozy-setups__card-author img {
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+}
+
+.cozy-setups__card-date {
+    font-size: .75rem;
+    color: #9ca3af;
+}
+
+/* Bouton supprimer (affiché pour l'auteur) */
+.cozy-setups__card-delete {
+    display: none;
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 30px;
+    height: 30px;
+    background: rgba(220, 38, 38, .85);
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    font-size: 1rem;
+    line-height: 1;
+    cursor: pointer;
+    z-index: 2;
+    transition: background .2s;
+}
+
+.cozy-setups__card-delete:hover {
+    background: rgba(185, 28, 28, 1);
+}
+
+.cozy-setups__card[data-own="true"] {
+    position: relative;
+}
+
+.cozy-setups__card[data-own="true"]:hover .cozy-setups__card-delete {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* ------------------------------------------------------------------
+   PAGINATION
+   ------------------------------------------------------------------ */
+.cozy-setups__pagination {
+    margin-top: 32px;
+    text-align: center;
+    padding: 20px 0;
+}
+
+.cozy-setups__pagination .page-numbers {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 36px;
+    height: 36px;
+    padding: 0 10px;
+    margin: 0 3px;
+    border-radius: 8px;
+    background: #f3f4f6;
+    color: #374151;
+    font-size: .9rem;
+    text-decoration: none;
+    transition: background .2s, color .2s;
+}
+
+.cozy-setups__pagination .page-numbers.current,
+.cozy-setups__pagination .page-numbers:hover {
+    background: var(--cozy-setup-accent);
+    color: #fff;
+}
+
+/* ------------------------------------------------------------------
+   LIGHTBOX
+   ------------------------------------------------------------------ */
+.cozy-lightbox {
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    background: rgba(0, 0, 0, .88);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    animation: cozyLbFadeIn .25s ease;
+    cursor: pointer;
+}
+
+@keyframes cozyLbFadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+.cozy-lightbox__close {
+    position: absolute;
+    top: 16px;
+    right: 20px;
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 2.5rem;
+    cursor: pointer;
+    line-height: 1;
+    z-index: 2;
+    transition: transform .2s;
+}
+
+.cozy-lightbox__close:hover {
+    transform: scale(1.15);
+}
+
+.cozy-lightbox__content {
+    max-width: 90vw;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: default;
+}
+
+.cozy-lightbox__content img {
+    max-width: 100%;
+    max-height: 75vh;
+    border-radius: 10px;
+    object-fit: contain;
+}
+
+.cozy-lightbox__info {
+    color: #fff;
+    text-align: center;
+    margin-top: 16px;
+    max-width: 600px;
+}
+
+.cozy-lightbox__info h4 {
+    margin: 0 0 4px;
+    font-size: 1.1rem;
+}
+
+.cozy-lightbox__info p {
+    margin: 0 0 8px;
+    font-size: .9rem;
+    color: rgba(255, 255, 255, .75);
+}
+
+.cozy-lightbox__author {
+    font-size: .85rem;
+    color: rgba(255, 255, 255, .6);
+}
+
+/* ------------------------------------------------------------------
+   RESPONSIVE
+   ------------------------------------------------------------------ */
+@media (max-width: 1024px) {
+    .cozy-setups__gallery {
+        columns: 3;
+    }
+}
+
+@media (max-width: 768px) {
+    .cozy-setups__gallery {
+        columns: 2;
+    }
+
+    .cozy-setups__form {
+        padding: 20px;
+    }
+
+    .cozy-setups__form-actions {
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 480px) {
+    .cozy-setups__gallery {
+        columns: 1;
+    }
+
+    .cozy-setups__add-btn {
+        width: 100%;
+        justify-content: center;
+    }
+}

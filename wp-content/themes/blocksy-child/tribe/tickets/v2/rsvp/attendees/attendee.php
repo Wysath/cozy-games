@@ -43,6 +43,11 @@ $attendee_user_id = get_post_meta( $attendee_id, '_tribe_tickets_attendee_user_i
             if ( ! empty( $attendee_user_id ) && function_exists( 'cozy_get_social_badges' ) ) {
                 echo cozy_get_social_badges( $attendee_user_id );
             }
+
+            // Afficher les codes ami du participant
+            if ( ! empty( $attendee_user_id ) && function_exists( 'cozy_get_friend_code_badges' ) ) {
+                echo cozy_get_friend_code_badges( $attendee_user_id );
+            }
             ?>
         </div>
     </div>

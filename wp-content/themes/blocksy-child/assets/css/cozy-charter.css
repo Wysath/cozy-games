@@ -1,0 +1,188 @@
+/**
+ * ============================================================================
+ * COZY GAMING — Styles Charte de Bienveillance
+ * ============================================================================
+ */
+
+/* -----------------------------------------------
+   1. BANDEAU CHARTE (PAGE SINGLE EVENT)
+   ----------------------------------------------- */
+
+.cozy-charter {
+    margin: 20px 0;
+    padding: 20px 24px;
+    background: linear-gradient(135deg, #f0fdf4 0%, #ecfdf5 100%);
+    border-radius: 14px;
+    border: 1px solid #bbf7d0;
+    border-left: 4px solid #22c55e;
+}
+
+.cozy-charter__header {
+    margin-bottom: 14px;
+}
+
+.cozy-charter__title {
+    font-size: 1.15em;
+    font-weight: 700;
+    color: #166534;
+    margin: 0 0 4px 0;
+}
+
+.cozy-charter__subtitle {
+    font-size: 0.9em;
+    color: #15803d;
+    margin: 0;
+    font-style: italic;
+}
+
+.cozy-charter__rules {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.cozy-charter__rule {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    font-size: 0.92em;
+    color: #2c3e50;
+    line-height: 1.5;
+}
+
+.cozy-charter__rule-icon {
+    flex-shrink: 0;
+    font-size: 1.1em;
+}
+
+
+/* -----------------------------------------------
+   2. CHECKBOX DANS LE FORMULAIRE RSVP
+   ----------------------------------------------- */
+
+.cozy-charter-field {
+    margin-top: 16px;
+    padding: 16px;
+    background: linear-gradient(135deg, #f0fdf4 0%, #f7fee7 100%);
+    border-radius: 12px;
+    border: 1px solid #bbf7d0;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.cozy-charter-field--error {
+    border-color: #ef4444;
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+    animation: cozy-charter-shake 0.4s ease;
+}
+
+@keyframes cozy-charter-shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-4px); }
+    75% { transform: translateX(4px); }
+}
+
+.cozy-charter-field__summary {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+}
+
+.cozy-charter-field__icon {
+    font-size: 1.3em;
+}
+
+.cozy-charter-field__title {
+    font-size: 0.95em;
+    font-weight: 700;
+    color: #166534;
+}
+
+.cozy-charter-field__rules {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 14px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.cozy-charter-field__rules li {
+    font-size: 0.82em;
+    color: #555;
+    line-height: 1.4;
+    padding-left: 4px;
+}
+
+.cozy-charter-field__label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    padding: 10px 12px;
+    background: #fff;
+    border-radius: 10px;
+    border: 2px solid #d1fae5;
+    transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.cozy-charter-field__label:hover {
+    border-color: #86efac;
+    background: #f0fdf4;
+}
+
+.cozy-charter-field__label input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    accent-color: #22c55e;
+    flex-shrink: 0;
+    cursor: pointer;
+}
+
+.cozy-charter-field__text {
+    font-size: 0.9em;
+    font-weight: 600;
+    color: #166534;
+    line-height: 1.4;
+}
+
+/* Bouton submit désactivé quand charte non acceptée */
+.cozy-charter-disabled {
+    opacity: 0.5 !important;
+    cursor: not-allowed !important;
+    pointer-events: none;
+}
+
+
+/* -----------------------------------------------
+   3. RESPONSIVE
+   ----------------------------------------------- */
+
+@media (max-width: 600px) {
+    .cozy-charter {
+        padding: 16px 18px;
+    }
+
+    .cozy-charter__title {
+        font-size: 1.05em;
+    }
+
+    .cozy-charter__rule {
+        font-size: 0.85em;
+    }
+
+    .cozy-charter-field {
+        padding: 12px;
+    }
+
+    .cozy-charter-field__rules li {
+        font-size: 0.78em;
+    }
+
+    .cozy-charter-field__text {
+        font-size: 0.83em;
+    }
+}

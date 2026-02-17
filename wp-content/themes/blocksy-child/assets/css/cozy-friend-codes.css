@@ -1,0 +1,343 @@
+/**
+ * ============================================================================
+ * COZY GAMING — Styles Codes Ami
+ * ============================================================================
+ */
+
+/* -----------------------------------------------
+   1. FORMULAIRE FRONT-END (shortcode)
+   ----------------------------------------------- */
+
+.cozy-friend-codes {
+    max-width: 650px;
+    margin: 0 auto;
+    padding: 30px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+}
+
+.cozy-friend-codes__header {
+    margin-bottom: 24px;
+    text-align: center;
+}
+
+.cozy-friend-codes__header h3 {
+    font-size: 1.5em;
+    margin-bottom: 8px;
+    color: #2c3e50;
+}
+
+.cozy-friend-codes__header p {
+    color: #666;
+    font-size: 0.95em;
+    line-height: 1.5;
+}
+
+.cozy-friend-codes__field {
+    padding: 14px 16px;
+    margin-bottom: 8px;
+    border-radius: 10px;
+    background: #fafafa;
+    border: 1px solid #f0f0f0;
+    transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.cozy-friend-codes__field:hover {
+    border-color: #e0e0e0;
+    background: #fff;
+}
+
+.cozy-friend-codes__field label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    cursor: pointer;
+}
+
+.cozy-friend-codes__game-icon {
+    font-size: 1.5em;
+    line-height: 1;
+}
+
+.cozy-friend-codes__game-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.cozy-friend-codes__game-info strong {
+    font-size: 0.95em;
+    color: #333;
+}
+
+.cozy-friend-codes__game-info small {
+    font-size: 0.8em;
+    color: #999;
+    font-weight: 400;
+}
+
+.cozy-friend-codes__input-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.cozy-friend-codes__input-wrapper input {
+    flex: 1;
+    padding: 8px 12px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 0.95em;
+    font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Fira Code', monospace;
+    letter-spacing: 0.5px;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    background: #fff;
+}
+
+.cozy-friend-codes__input-wrapper input:focus {
+    outline: none;
+    border-color: #6c5ce7;
+    box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.12);
+}
+
+/* Champ avec erreur de validation */
+.cozy-friend-codes__input-wrapper input.cozy-fc-invalid {
+    border-color: #e74c3c;
+    box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.12);
+}
+
+.cozy-friend-codes__input-wrapper input.cozy-fc-valid {
+    border-color: #27ae60;
+}
+
+.cozy-friend-codes__status {
+    font-size: 0.85em;
+    font-weight: 600;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.cozy-friend-codes__status--saved {
+    background: #e8f5e9;
+    color: #2e7d32;
+}
+
+.cozy-friend-codes__status--error {
+    background: #fce4ec;
+    color: #c62828;
+}
+
+.cozy-friend-codes__hint {
+    margin-top: 4px;
+    margin-bottom: 0;
+    font-size: 0.8em;
+    color: #aaa;
+    padding-left: 2px;
+}
+
+.cozy-friend-codes__actions {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #f0f0f0;
+}
+
+.cozy-friend-codes__btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 12px 24px;
+    background: linear-gradient(135deg, #6c5ce7 0%, #a29bfe 100%);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 1em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.cozy-friend-codes__btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(108, 92, 231, 0.35);
+}
+
+.cozy-friend-codes__btn:active {
+    transform: translateY(0);
+}
+
+.cozy-friend-codes__btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.cozy-friend-codes__message {
+    font-size: 0.9em;
+    font-weight: 500;
+}
+
+.cozy-friend-codes__message--success {
+    color: #2e7d32;
+}
+
+.cozy-friend-codes__message--error {
+    color: #c62828;
+}
+
+
+/* -----------------------------------------------
+   2. BADGES CODES AMI (événements + attendees)
+   ----------------------------------------------- */
+
+.cozy-fc-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-top: 4px;
+}
+
+.cozy-fc-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 2px 8px;
+    border-radius: 6px;
+    font-size: 0.75em;
+    background: #f8f8ff;
+    border: 1px solid #e8e4f0;
+    color: #555;
+    white-space: nowrap;
+}
+
+.cozy-fc-badge code {
+    font-family: 'SF Mono', 'Monaco', 'Inconsolata', monospace;
+    font-size: 0.95em;
+    background: transparent;
+    padding: 0;
+    color: #6c5ce7;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+}
+
+
+/* -----------------------------------------------
+   3. ATTENDEES PUBLICS (avatars pile + liste)
+   ----------------------------------------------- */
+
+.cozy-attendees__title {
+    font-size: 1.1em;
+    color: #333;
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #f0f0f0;
+}
+
+.cozy-attendees__avatar-stack {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.cozy-attendees__avatar-item {
+    margin-left: -10px;
+    transition: transform 0.2s ease, z-index 0.2s ease;
+    position: relative;
+    z-index: 1;
+}
+
+.cozy-attendees__avatar-item:first-child {
+    margin-left: 0;
+}
+
+.cozy-attendees__avatar-item:hover {
+    transform: translateY(-3px) scale(1.1);
+    z-index: 10;
+}
+
+.cozy-attendees__avatar-item img {
+    border-radius: 50%;
+    border: 3px solid #fff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    width: 44px;
+    height: 44px;
+    object-fit: cover;
+    display: block;
+}
+
+.cozy-attendees__avatar-more {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #6c5ce7, #a29bfe);
+    color: #fff;
+    font-size: 0.8em;
+    font-weight: 700;
+    margin-left: -10px;
+    border: 3px solid #fff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.cozy-attendees__list {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.cozy-attendees__list-item {
+    padding: 8px 12px;
+    border-radius: 8px;
+    transition: background 0.15s ease;
+}
+
+.cozy-attendees__list-item:hover {
+    background: #f8f8ff;
+}
+
+
+/* -----------------------------------------------
+   4. RESPONSIVE
+   ----------------------------------------------- */
+
+@media (max-width: 600px) {
+    .cozy-friend-codes {
+        padding: 20px 16px;
+    }
+
+    .cozy-friend-codes__field label {
+        flex-wrap: wrap;
+    }
+
+    .cozy-friend-codes__actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .cozy-friend-codes__btn {
+        justify-content: center;
+    }
+
+    .cozy-attendees__avatar-item img {
+        width: 36px;
+        height: 36px;
+    }
+
+    .cozy-attendees__avatar-more {
+        width: 36px;
+        height: 36px;
+        font-size: 0.7em;
+    }
+}

@@ -1,20 +1,30 @@
 <?php
 /**
  * Block: RSVP (Surcharge pour l'association Cozy Gaming)
- * * @var Tribe__Tickets__Editor__Template $this
+ *
+ * @var Tribe__Tickets__Editor__Template $this
  * @var WP_Post|int                      $post_id       The post object or ID.
  * @var boolean                          $has_rsvps     True if there are RSVPs.
  * @var array                            $active_rsvps  An array containing the active RSVPs.
  * @var string                           $block_html_id The unique HTML id for the block.
  */
 
+// Protection anti-récursion
+static $cozy_rsvp_rendering = false;
+if ( $cozy_rsvp_rendering ) {
+    return;
+}
+$cozy_rsvp_rendering = true;
+
 // We don't display anything if there is no RSVP.
 if ( ! $has_rsvps ) {
+    $cozy_rsvp_rendering = false;
     return false;
 }
 
 // Bail if there are no active RSVP.
 if ( empty( $active_rsvps ) ) {
+    $cozy_rsvp_rendering = false;
     return;
 }
 
@@ -78,3 +88,4 @@ if ( $current_user_id ) {
     <?php endif; ?>
 
 </div>
+<?php $cozy_rsvp_rendering = false; ?>

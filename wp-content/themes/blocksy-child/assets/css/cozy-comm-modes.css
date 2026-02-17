@@ -1,0 +1,74 @@
+/**
+ * ============================================================================
+ * COZY GAMING — Styles Modes de Communication
+ * ============================================================================
+ */
+
+/* -----------------------------------------------
+   1. BADGES DE MODE DE COMM.
+   ----------------------------------------------- */
+
+.cozy-comm-modes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+}
+
+.cozy-comm-modes--single {
+    margin-bottom: 20px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.cozy-comm-modes--list {
+    margin-top: 6px;
+}
+
+.cozy-comm-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.85em;
+    font-weight: 600;
+    line-height: 1.3;
+    white-space: nowrap;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.cozy-comm-badge:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Version compacte pour les listes (icône seule) */
+.cozy-comm-badge--compact {
+    padding: 4px 8px;
+    font-size: 1em;
+}
+
+/* Version inline (dans le schedule details) */
+.cozy-comm-badge--inline {
+    padding: 2px 6px;
+    font-size: 0.9em;
+    vertical-align: middle;
+    margin-left: 4px;
+}
+
+
+/* -----------------------------------------------
+   2. RESPONSIVE
+   ----------------------------------------------- */
+
+@media (max-width: 600px) {
+    .cozy-comm-modes--single {
+        justify-content: center;
+    }
+
+    .cozy-comm-badge {
+        font-size: 0.8em;
+        padding: 5px 10px;
+    }
+}
