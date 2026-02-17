@@ -1,0 +1,12 @@
+# On ignore les fichiers cœurs de WordPress
+wp-admin/
+wp-includes/
+
+# On ignore le fichier de configuration (sécurité)
+wp-config.php
+
+# On ignore les médias
+wp-content/uploads/
+
+# On ignore les fichiers systèmes Mac
+.DS_Store
