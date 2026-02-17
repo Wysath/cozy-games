@@ -1,0 +1,344 @@
+/**
+ * ============================================================================
+ * COZY GAMING — Styles Profils Sociaux (Discord & Twitch)
+ * ============================================================================
+ */
+
+/* -----------------------------------------------
+   1. FORMULAIRE FRONT-END (shortcode)
+   ----------------------------------------------- */
+
+.cozy-social-profile {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 30px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+}
+
+.cozy-social-profile__header {
+    margin-bottom: 24px;
+    text-align: center;
+}
+
+.cozy-social-profile__header h3 {
+    font-size: 1.5em;
+    margin-bottom: 8px;
+    color: #2c3e50;
+}
+
+.cozy-social-profile__header p {
+    color: #666;
+    font-size: 0.95em;
+    line-height: 1.5;
+}
+
+.cozy-social-profile__field {
+    margin-bottom: 20px;
+}
+
+.cozy-social-profile__field label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+    font-size: 1em;
+    margin-bottom: 8px;
+    color: #333;
+}
+
+.cozy-social-profile__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    color: #fff;
+}
+
+.cozy-social-profile__icon--discord {
+    background-color: #5865F2;
+}
+
+.cozy-social-profile__icon--twitch {
+    background-color: #9146FF;
+}
+
+.cozy-social-profile__input-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.cozy-social-profile__input-wrapper input {
+    flex: 1;
+    padding: 10px 14px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 1em;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    background: #fafafa;
+}
+
+.cozy-social-profile__input-wrapper input:focus {
+    outline: none;
+    border-color: #5865F2;
+    box-shadow: 0 0 0 3px rgba(88, 101, 242, 0.15);
+    background: #fff;
+}
+
+.cozy-social-profile__status {
+    font-size: 0.85em;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 20px;
+    white-space: nowrap;
+}
+
+.cozy-social-profile__status--linked {
+    background: #e8f5e9;
+    color: #2e7d32;
+}
+
+.cozy-social-profile__status--unlinked {
+    background: #f5f5f5;
+    color: #999;
+}
+
+.cozy-social-profile__hint {
+    margin-top: 4px;
+    font-size: 0.85em;
+    color: #999;
+}
+
+.cozy-social-profile__actions {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-top: 24px;
+    padding-top: 20px;
+    border-top: 1px solid #f0f0f0;
+}
+
+.cozy-social-profile__btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 12px 24px;
+    background: linear-gradient(135deg, #5865F2 0%, #9146FF 100%);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 1em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.cozy-social-profile__btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(88, 101, 242, 0.35);
+}
+
+.cozy-social-profile__btn:active {
+    transform: translateY(0);
+}
+
+.cozy-social-profile__btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.cozy-social-profile__message {
+    font-size: 0.9em;
+    font-weight: 500;
+    transition: opacity 0.3s ease;
+}
+
+.cozy-social-profile__message--success {
+    color: #2e7d32;
+}
+
+.cozy-social-profile__message--error {
+    color: #c62828;
+}
+
+
+/* -----------------------------------------------
+   2. APERÇU DU PROFIL
+   ----------------------------------------------- */
+
+.cozy-social-profile__preview {
+    margin-top: 30px;
+    padding-top: 24px;
+    border-top: 2px dashed #e0e0e0;
+}
+
+.cozy-social-profile__preview h4 {
+    font-size: 1em;
+    color: #666;
+    margin-bottom: 12px;
+}
+
+.cozy-social-profile__preview-card {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 16px;
+    background: linear-gradient(135deg, #f8f9ff 0%, #f3f0ff 100%);
+    border-radius: 10px;
+    border: 1px solid #e8e4f0;
+}
+
+.cozy-social-profile__preview-avatar img {
+    border-radius: 50%;
+    border: 2px solid #fff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.cozy-social-profile__preview-info strong {
+    display: block;
+    margin-bottom: 6px;
+    color: #333;
+}
+
+.cozy-social-profile__preview-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+
+/* -----------------------------------------------
+   3. BADGES SOCIAUX (utilisé partout)
+   ----------------------------------------------- */
+
+.cozy-social-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 4px;
+}
+
+.cozy-social-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 0.8em;
+    font-weight: 600;
+    text-decoration: none;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    line-height: 1.4;
+}
+
+.cozy-social-badge:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.cozy-social-badge--discord {
+    background-color: #f0f1fe;
+    color: #5865F2;
+    border: 1px solid #d8dafe;
+}
+
+.cozy-social-badge--twitch {
+    background-color: #f3edff;
+    color: #9146FF;
+    border: 1px solid #ddd0f7;
+}
+
+a.cozy-social-badge--twitch:hover {
+    color: #7b2ff0;
+    background-color: #ebe0ff;
+}
+
+
+/* -----------------------------------------------
+   4. CARTE PARTICIPANT (événements)
+   ----------------------------------------------- */
+
+.cozy-attendee-card {
+    padding: 0 !important;
+}
+
+.cozy-attendee-card__main {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 0;
+}
+
+.cozy-attendee-card__avatar img {
+    border-radius: 50%;
+    border: 2px solid #e8e4f0;
+    width: 36px;
+    height: 36px;
+    object-fit: cover;
+}
+
+.cozy-attendee-card__info {
+    flex: 1;
+    min-width: 0;
+}
+
+
+/* -----------------------------------------------
+   5. MESSAGE LOGIN REQUIS
+   ----------------------------------------------- */
+
+.cozy-social-login-required {
+    text-align: center;
+    padding: 30px;
+    background: #fff3e0;
+    border-left: 5px solid #ff9800;
+    border-radius: 8px;
+}
+
+.cozy-social-login-required a {
+    color: #e65100;
+    font-weight: 600;
+}
+
+
+/* -----------------------------------------------
+   6. RESPONSIVE
+   ----------------------------------------------- */
+
+@media (max-width: 600px) {
+    .cozy-social-profile {
+        padding: 20px 16px;
+    }
+
+    .cozy-social-profile__input-wrapper {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .cozy-social-profile__status {
+        text-align: center;
+    }
+
+    .cozy-social-profile__actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .cozy-social-profile__btn {
+        justify-content: center;
+    }
+
+    .cozy-social-profile__preview-card {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .cozy-social-profile__preview-links {
+        justify-content: center;
+    }
+}

@@ -1,5 +1,12 @@
 <?php 
 
+// ============================================================================
+// CHARGEMENT DES MODULES COZY GAMING
+// ============================================================================
+
+// Module : Profils sociaux (Discord & Twitch)
+require_once get_stylesheet_directory() . '/inc/cozy-social-profiles.php';
+
 //chargement de la feuille de style du thème parent et du thème enfant
 function cozy_gaming_child_enqueue_styles() {
     wp_enqueue_style( 'blocksy-parent-style', get_template_directory_uri() . '/style.css' );
@@ -40,18 +47,55 @@ function cozy_remove_custom_role(){
 //le rôle est supprimé à la désactivation du thème enfant
 add_action('switch_theme', 'cozy_remove_custom_role');
 
-//Limiter la réservation RSVP aux utilisateurs à 1 seul billet
-add_filter( 'tribe_tickets_rsvp_max_tickets', function ( $max_tickets, $event_id, $user_id ) {
-    // Vérifie si l'utilisateur est connecté
-    if ( is_user_logged_in() ) {
-        // Récupère les billets réservés par l'utilisateur pour cet événement
-        $reserved_tickets = tribe_tickets_get_user_reserved_tickets( $event_id, $user_id );
+/**
+ * ============================================================================
+ * GESTION DES RÉSERVATIONS RSVP - 1 PLACE PAR MEMBRE
+ * ============================================================================
+ * Chez Cozy Gaming, chaque membre ne peut réserver qu'une seule place
+ * pour lui-même. Pas de réservation pour des invités.
+ */
 
-        // Si l'utilisateur a déjà réservé un billet, limite à 0 billets supplémentaires
-        if ( ! empty( $reserved_tickets ) ) {
-            return 0;
-        }
-    }
-    // Sinon, permet de réserver jusqu'à 1 billet
+// Limiter le nombre maximum de billets qu'un utilisateur peut réserver à 1
+add_filter( 'tribe_tickets_get_ticket_max_purchase', function( $max_purchase, $ticket_id ) {
+    // Forcer à 1 billet maximum pour tous les RSVP
     return 1;
+}, 10, 2 );
+
+// Validation côté serveur : forcer la quantité à 1 avant création du billet
+add_filter( 'tribe_tickets_rsvp_attendee_data', function( $attendee_data ) {
+    // Forcer la quantité à 1, peu importe ce qui a été envoyé
+    if ( isset( $attendee_data['quantity'] ) && $attendee_data['quantity'] > 1 ) {
+        $attendee_data['quantity'] = 1;
+    }
+    return $attendee_data;
+}, 10, 1 );
+
+// Intercepter et valider les données RSVP avant traitement
+add_filter( 'tribe_tickets_rsvp_tickets_to_generate', function( $tickets_data, $ticket_id, $event_id ) {
+    // S'assurer qu'il n'y a qu'un seul ticket généré
+    if ( is_array( $tickets_data ) && count( $tickets_data ) > 1 ) {
+        $tickets_data = array_slice( $tickets_data, 0, 1 );
+    }
+    return $tickets_data;
 }, 10, 3 );
+
+// Ajouter du CSS pour masquer les boutons + et - si le JS les affiche quand même
+add_action( 'wp_head', function() {
+    ?>
+    <style>
+        /* Masquer les contrôles de quantité RSVP */
+        .tribe-tickets__rsvp-ar-quantity-input .tribe-tickets__rsvp-ar-quantity-minus,
+        .tribe-tickets__rsvp-ar-quantity-input .tribe-tickets__rsvp-ar-quantity-plus {
+            display: none !important;
+        }
+        
+        /* Style du message de confirmation */
+        .cozy-single-ticket-info {
+            background: linear-gradient(135deg, #e8f5e9 0%, #f1f8e9 100%);
+            padding: 12px 16px;
+            border-radius: 8px;
+            border-left: 4px solid #4caf50;
+        }
+    </style>
+    <?php
+});
