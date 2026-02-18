@@ -1,0 +1,591 @@
+/**
+ * ============================================================================
+ * COZY GAMING — Styles Dashboard Admin Personnalisé
+ * ============================================================================
+ *
+ * Widgets personnalisés par rôle sur le tableau de bord wp-admin.
+ *
+ * @since 1.7.0
+ */
+
+/* ------------------------------------------------------------------
+   VARIABLES
+   ------------------------------------------------------------------ */
+:root {
+    --cozy-primary: #7c3aed;
+    --cozy-primary-light: #ede9fe;
+    --cozy-success: #10b981;
+    --cozy-success-light: #d1fae5;
+    --cozy-warning: #f59e0b;
+    --cozy-info: #3b82f6;
+    --cozy-info-light: #dbeafe;
+    --cozy-danger: #ef4444;
+    --cozy-text: #1e293b;
+    --cozy-text-muted: #64748b;
+    --cozy-border: #e2e8f0;
+    --cozy-bg-soft: #f8fafc;
+    --cozy-radius: 10px;
+}
+
+
+/* ==================================================================
+   1. WIDGET BIENVENUE
+   ================================================================== */
+
+.cozy-dash-welcome {
+    padding: 4px 0;
+}
+
+.cozy-dash-welcome__greeting {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.cozy-dash-welcome__emoji {
+    font-size: 2em;
+    line-height: 1;
+}
+
+.cozy-dash-welcome__greeting strong {
+    display: block;
+    font-size: 1.25em;
+    color: var(--cozy-text);
+    margin-bottom: 4px;
+}
+
+.cozy-dash-welcome__role {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 0.8em;
+    font-weight: 600;
+    background: var(--cozy-primary-light);
+    color: var(--role-color, var(--cozy-primary));
+}
+
+.cozy-dash-welcome__tagline {
+    color: var(--cozy-text-muted);
+    font-size: 0.93em;
+    line-height: 1.5;
+    margin: 0;
+}
+
+
+/* ==================================================================
+   2. CARTES STATISTIQUES
+   ================================================================== */
+
+.cozy-dash-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.cozy-dash-stats--compact {
+    grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+}
+
+.cozy-dash-stats__card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: 16px 10px;
+    background: var(--cozy-bg-soft);
+    border: 1px solid var(--cozy-border);
+    border-radius: var(--cozy-radius);
+    text-align: center;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.cozy-dash-stats__card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+}
+
+.cozy-dash-stats__icon {
+    font-size: 1.5em;
+    line-height: 1;
+}
+
+.cozy-dash-stats__value {
+    font-size: 1.6em;
+    font-weight: 800;
+    color: var(--cozy-primary);
+    line-height: 1.2;
+}
+
+.cozy-dash-stats__label {
+    font-size: 0.78em;
+    color: var(--cozy-text-muted);
+    line-height: 1.3;
+}
+
+
+/* ==================================================================
+   3. RÉPARTITION DES RÔLES (ADMIN)
+   ================================================================== */
+
+.cozy-dash-roles {
+    margin-top: 8px;
+    padding-top: 12px;
+    border-top: 1px solid var(--cozy-border);
+}
+
+.cozy-dash-roles h4 {
+    font-size: 0.85em;
+    color: var(--cozy-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin: 0 0 8px 0;
+}
+
+.cozy-dash-roles__list {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.cozy-dash-roles__item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: 0.88em;
+    background: var(--cozy-bg-soft);
+}
+
+.cozy-dash-roles__item strong {
+    color: var(--cozy-primary);
+}
+
+
+/* ==================================================================
+   4. DERNIERS MEMBRES (ADMIN)
+   ================================================================== */
+
+.cozy-dash-members {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.cozy-dash-members__item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 10px;
+    border-radius: 8px;
+    transition: background 0.15s ease;
+}
+
+.cozy-dash-members__item:hover {
+    background: var(--cozy-bg-soft);
+}
+
+.cozy-dash-members__avatar img {
+    border-radius: 50%;
+    display: block;
+}
+
+.cozy-dash-members__info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+}
+
+.cozy-dash-members__info strong {
+    font-size: 0.9em;
+    color: var(--cozy-text);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.cozy-dash-members__meta {
+    font-size: 0.78em;
+    color: var(--cozy-text-muted);
+}
+
+
+/* ==================================================================
+   5. LISTE D'ÉVÉNEMENTS (ANIMATEUR / ABONNÉ)
+   ================================================================== */
+
+.cozy-dash-events {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.cozy-dash-events__item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 10px;
+    border-radius: var(--cozy-radius);
+    border: 1px solid var(--cozy-border);
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.cozy-dash-events__item:hover {
+    border-color: var(--cozy-primary);
+    box-shadow: 0 2px 8px rgba(124, 58, 237, 0.08);
+}
+
+.cozy-dash-events__date {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-width: 48px;
+    padding: 6px 8px;
+    background: linear-gradient(135deg, var(--cozy-primary-light), #f5f3ff);
+    border-radius: 8px;
+    text-align: center;
+}
+
+.cozy-dash-events__day {
+    font-size: 1.3em;
+    font-weight: 800;
+    color: var(--cozy-primary);
+    line-height: 1.1;
+}
+
+.cozy-dash-events__month {
+    font-size: 0.7em;
+    font-weight: 600;
+    color: var(--cozy-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.cozy-dash-events__info {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    min-width: 0;
+    flex: 1;
+}
+
+.cozy-dash-events__title {
+    font-weight: 600;
+    font-size: 0.9em;
+    color: var(--cozy-text);
+    text-decoration: none;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.cozy-dash-events__title:hover {
+    color: var(--cozy-primary);
+}
+
+.cozy-dash-events__meta {
+    font-size: 0.78em;
+    color: var(--cozy-text-muted);
+}
+
+
+/* ==================================================================
+   6. BROUILLONS (RÉDACTEUR)
+   ================================================================== */
+
+.cozy-dash-drafts {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.cozy-dash-drafts__item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: 1px solid var(--cozy-border);
+    transition: border-color 0.15s ease;
+}
+
+.cozy-dash-drafts__item:hover {
+    border-color: var(--cozy-info);
+}
+
+.cozy-dash-drafts__info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+    flex: 1;
+}
+
+.cozy-dash-drafts__title {
+    font-weight: 600;
+    font-size: 0.9em;
+    color: var(--cozy-text);
+    text-decoration: none;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.cozy-dash-drafts__title:hover {
+    color: var(--cozy-info);
+}
+
+.cozy-dash-drafts__meta {
+    font-size: 0.75em;
+    color: var(--cozy-text-muted);
+}
+
+.cozy-dash-drafts__status {
+    flex-shrink: 0;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 0.72em;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.cozy-dash-drafts__status--draft {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.cozy-dash-drafts__status--pending {
+    background: var(--cozy-info-light);
+    color: #1e40af;
+}
+
+
+/* ==================================================================
+   7. PROFIL COMMUNAUTAIRE (ABONNÉ)
+   ================================================================== */
+
+.cozy-dash-profile {
+    padding: 4px 0;
+}
+
+.cozy-dash-profile__checklist {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.cozy-dash-profile__item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 0.9em;
+    background: var(--cozy-bg-soft);
+    border: 1px solid var(--cozy-border);
+    color: var(--cozy-text-muted);
+    transition: border-color 0.15s ease;
+}
+
+.cozy-dash-profile__item--done {
+    background: var(--cozy-success-light);
+    border-color: #a7f3d0;
+    color: #065f46;
+}
+
+.cozy-dash-profile__check {
+    font-size: 1.1em;
+    line-height: 1;
+}
+
+.cozy-dash-profile__stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+.cozy-dash-profile__stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 14px 10px;
+    background: linear-gradient(135deg, var(--cozy-primary-light), #f5f3ff);
+    border-radius: var(--cozy-radius);
+    text-align: center;
+}
+
+.cozy-dash-profile__stat-value {
+    font-size: 1.8em;
+    font-weight: 800;
+    color: var(--cozy-primary);
+    line-height: 1.2;
+}
+
+.cozy-dash-profile__stat-label {
+    font-size: 0.78em;
+    color: var(--cozy-text-muted);
+    margin-top: 2px;
+}
+
+
+/* ==================================================================
+   8. LIENS RAPIDES (GRILLE COMMUNE)
+   ================================================================== */
+
+.cozy-dash-links {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 8px;
+}
+
+.cozy-dash-links__item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 14px;
+    border-radius: var(--cozy-radius);
+    border: 1px solid var(--cozy-border);
+    text-decoration: none;
+    color: var(--cozy-text);
+    font-size: 0.85em;
+    font-weight: 500;
+    transition: all 0.15s ease;
+}
+
+.cozy-dash-links__item:hover {
+    border-color: var(--cozy-primary);
+    background: var(--cozy-primary-light);
+    color: var(--cozy-primary);
+    transform: translateY(-1px);
+    box-shadow: 0 3px 10px rgba(124, 58, 237, 0.08);
+}
+
+.cozy-dash-links__icon {
+    font-size: 1.2em;
+    line-height: 1;
+    flex-shrink: 0;
+}
+
+.cozy-dash-links__label {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+
+/* ==================================================================
+   9. ÉLÉMENTS COMMUNS
+   ================================================================== */
+
+/* Lien pied de widget */
+.cozy-dash-footer-link {
+    margin: 12px 0 0 0;
+    padding-top: 10px;
+    border-top: 1px solid var(--cozy-border);
+    text-align: right;
+}
+
+.cozy-dash-footer-link a {
+    font-size: 0.85em;
+    font-weight: 600;
+    color: var(--cozy-primary);
+    text-decoration: none;
+}
+
+.cozy-dash-footer-link a:hover {
+    text-decoration: underline;
+}
+
+/* Message vide */
+.cozy-dash-empty {
+    text-align: center;
+    padding: 20px 10px;
+    color: var(--cozy-text-muted);
+}
+
+.cozy-dash-empty p {
+    margin: 0 0 12px 0;
+    font-size: 0.95em;
+}
+
+.cozy-dash-empty .button {
+    margin-top: 4px;
+}
+
+
+/* ==================================================================
+   10. OVERRIDE WIDGETS WP — POLISH
+   ================================================================== */
+
+/* Appliquer un style cozy aux widgets enregistrés */
+#cozy_welcome_widget .inside,
+#cozy_admin_overview .inside,
+#cozy_admin_recent_members .inside,
+#cozy_admin_quick_links .inside,
+#cozy_editor_stats .inside,
+#cozy_editor_drafts .inside,
+#cozy_editor_quick_links .inside,
+#cozy_animateur_events .inside,
+#cozy_animateur_stats .inside,
+#cozy_animateur_quick_links .inside,
+#cozy_subscriber_reservations .inside,
+#cozy_subscriber_profile .inside,
+#cozy_subscriber_quick_links .inside {
+    padding: 12px 16px !important;
+}
+
+/* Titres de widget avec un peu de flair */
+#cozy_welcome_widget .postbox-header h2,
+#cozy_admin_overview .postbox-header h2,
+#cozy_admin_recent_members .postbox-header h2,
+#cozy_admin_quick_links .postbox-header h2,
+#cozy_editor_stats .postbox-header h2,
+#cozy_editor_drafts .postbox-header h2,
+#cozy_editor_quick_links .postbox-header h2,
+#cozy_animateur_events .postbox-header h2,
+#cozy_animateur_stats .postbox-header h2,
+#cozy_animateur_quick_links .postbox-header h2,
+#cozy_subscriber_reservations .postbox-header h2,
+#cozy_subscriber_profile .postbox-header h2,
+#cozy_subscriber_quick_links .postbox-header h2 {
+    font-size: 14px !important;
+}
+
+
+/* ==================================================================
+   11. RESPONSIVE
+   ================================================================== */
+
+@media (max-width: 782px) {
+    .cozy-dash-stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .cozy-dash-links {
+        grid-template-columns: 1fr;
+    }
+
+    .cozy-dash-welcome__greeting {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .cozy-dash-events__item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+
+    .cozy-dash-events__date {
+        flex-direction: row;
+        gap: 6px;
+    }
+}

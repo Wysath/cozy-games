@@ -432,3 +432,8 @@ Stack trace:
   thrown in /Applications/MAMP/htdocs/cozy-games/wp-content/themes/blocksy-child/functions.php on line 35
 [17-Feb-2026 18:19:38 UTC] tribe-canonical-line channel=default level=debug source="Tribe\Tickets\Promoter\Triggers\Dispatcher::trigger" type=rsvp_going error="License Key must be present."
 [17-Feb-2026 18:22:10 UTC] tribe-canonical-line channel=default level=error source="TEC\Tickets\Seating\Service\Updater::store_fetched_data" code=401
+[17-Feb-2026 18:49:15 UTC] PHP Warning:  mysqli_real_connect(): (HY000/2002): No such file or directory in /Applications/MAMP/htdocs/cozy-games/wp-includes/class-wpdb.php on line 1994
+[18-Feb-2026 08:06:11 UTC] Automatic updates starting...
+[18-Feb-2026 08:06:12 UTC] Automatic updates complete.
+[18-Feb-2026 09:19:55 UTC] tribe-canonical-line channel=default level=debug source="Tribe\Tickets\Promoter\Triggers\Dispatcher::trigger" type=rsvp_going error="License Key must be present."
+[18-Feb-2026 09:40:14 UTC] PHP Warning:  wp_update_plugins(): Une erreur imprévue s’est produite. Il pourrait y avoir un problème avec WordPress.org ou la configuration de ce serveur. Si vous continuez à rencontrer ce problème, veuillez vous rendre sur les <a href="https://wpfr.net/support">forums de support</a>. (WordPress n’a pas pu établir de connexion sécurisée vers WordPress.org. Veuillez contacter l’administrateur ou l’administratrice de votre serveur.) in /Applications/MAMP/htdocs/cozy-games/wp-includes/functions.php on line 6131
