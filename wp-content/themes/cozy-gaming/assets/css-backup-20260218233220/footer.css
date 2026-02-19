@@ -1,0 +1,198 @@
+/**
+ * ============================================================================
+ * COZY GAMING — Footer (footer.css)
+ * ============================================================================
+ *
+ * Footer sombre (indigo-950) avec éléments HUD, grille 3 colonnes.
+ *
+ * @since 2.0.0
+ */
+
+
+/* ==================================================================
+   1. STRUCTURE
+   ================================================================== */
+
+@keyframes cozy-gradient-line {
+    0%   { background-position: 0% 50%; }
+    50%  { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.cozy-footer {
+    background:
+        radial-gradient(
+            rgba(99, 102, 241, 0.06) 1px,
+            transparent 1px
+        ) 0 0 / 24px 24px,
+        radial-gradient(
+            ellipse at 30% 0%,
+            rgba(99, 102, 241, 0.08) 0%,
+            transparent 50%
+        ),
+        radial-gradient(
+            ellipse at 70% 100%,
+            rgba(20, 184, 166, 0.06) 0%,
+            transparent 50%
+        ),
+        var(--cozy-bg-dark);
+    color: var(--cozy-text-on-dark);
+    margin-top: var(--cozy-space-xl);
+    position: relative;
+}
+
+/* ── Ligne d'accent supérieure animée ── */
+.cozy-footer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(
+        90deg,
+        transparent 0%,
+        var(--cozy-success) 15%,
+        var(--cozy-primary) 35%,
+        #8b5cf6 50%,
+        var(--cozy-primary) 65%,
+        var(--cozy-success) 85%,
+        transparent 100%
+    );
+    background-size: 200% 100%;
+    animation: cozy-gradient-line 6s ease infinite;
+}
+
+.cozy-footer__inner {
+    max-width: var(--cozy-max-width);
+    margin: 0 auto;
+    padding: var(--cozy-space-3xl) var(--cozy-space-lg) var(--cozy-space-lg);
+}
+
+
+/* ==================================================================
+   2. WIDGETS GRID
+   ================================================================== */
+
+.cozy-footer__widgets {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--cozy-space-2xl);
+    padding-bottom: var(--cozy-space-2xl);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.cozy-footer__widgets .widget-title {
+    font-family: var(--cozy-font-mono);
+    font-size: 0.6875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--cozy-primary-muted);
+    margin-bottom: var(--cozy-space-lg);
+    position: relative;
+    padding-left: 14px;
+    padding-bottom: var(--cozy-space-sm);
+    border-bottom: 1px solid rgba(99, 102, 241, 0.12);
+}
+
+/* ── Petit bracket avant le titre ── */
+.cozy-footer__widgets .widget-title::before {
+    content: '//';
+    position: absolute;
+    left: 0;
+    color: var(--cozy-primary);
+    font-weight: 400;
+}
+
+.cozy-footer__widgets a {
+    color: var(--cozy-text-on-dark);
+    text-decoration: none;
+    transition: color var(--cozy-transition);
+    font-size: var(--cozy-text-sm);
+}
+
+.cozy-footer__widgets a:hover {
+    color: #a5b4fc;
+    text-shadow: 0 0 14px rgba(99, 102, 241, 0.4), 0 0 30px rgba(99, 102, 241, 0.15);
+}
+
+.cozy-footer__widgets ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.cozy-footer__widgets li {
+    padding: var(--cozy-space-xs) 0;
+}
+
+.cozy-footer__widgets p {
+    font-size: var(--cozy-text-sm);
+    line-height: 1.7;
+    opacity: 0.8;
+}
+
+
+/* ==================================================================
+   3. BOTTOM BAR
+   ================================================================== */
+
+.cozy-footer__bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: var(--cozy-space-lg);
+    font-size: var(--cozy-text-xs);
+    color: rgba(255, 255, 255, 0.35);
+}
+
+.cozy-footer__copyright {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.cozy-footer__copyright .lucide {
+    width: 14px;
+    height: 14px;
+    color: var(--cozy-primary-muted);
+}
+
+.cozy-footer__nav {
+    display: flex;
+    gap: var(--cozy-space-md);
+}
+
+.cozy-footer__nav a {
+    color: rgba(255, 255, 255, 0.35);
+    text-decoration: none;
+    font-size: var(--cozy-text-xs);
+    transition: color var(--cozy-transition);
+}
+
+.cozy-footer__nav a:hover {
+    color: var(--cozy-primary-hover);
+}
+
+
+/* ==================================================================
+   4. RESPONSIVE
+   ================================================================== */
+
+@media (max-width: 900px) {
+    .cozy-footer__widgets {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 600px) {
+    .cozy-footer__widgets {
+        grid-template-columns: 1fr;
+    }
+
+    .cozy-footer__bottom {
+        flex-direction: column;
+        gap: var(--cozy-space-sm);
+        text-align: center;
+    }
+}

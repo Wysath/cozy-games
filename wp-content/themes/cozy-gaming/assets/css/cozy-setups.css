@@ -1,538 +1,775 @@
 /**
  * ============================================================================
- * COZY SETUPS — Galerie Pinterest / Masonry
+ * COZY GROVE — Setups Gallery  (v3.0 — Design System Guilde)
  * ============================================================================
  */
 
-/* ------------------------------------------------------------------
-   VARIABLES
-   ------------------------------------------------------------------ */
-:root {
-    --cozy-setup-gap: 16px;
-    --cozy-setup-radius: 14px;
-    --cozy-setup-shadow: 0 2px 12px rgba(0, 0, 0, .08);
-    --cozy-setup-accent: #7c3aed;
-    --cozy-setup-accent-light: #ede9fe;
-    --cozy-setup-success: #059669;
-    --cozy-setup-danger: #dc2626;
-}
 
-/* ------------------------------------------------------------------
-   WRAPPER
-   ------------------------------------------------------------------ */
+/* -----------------------------------------------
+   1. SECTION
+   ----------------------------------------------- */
+
 .cozy-setups {
-    max-width: 1200px;
+    max-width: 1100px;
     margin: 0 auto;
-    padding: 0 16px;
+    padding: var(--cozy-space-xl) 0;
 }
 
-/* ------------------------------------------------------------------
-   LOGIN PROMPT
-   ------------------------------------------------------------------ */
-.cozy-setups__login-prompt {
-    text-align: center;
-    background: var(--cozy-setup-accent-light);
-    border-radius: var(--cozy-setup-radius);
-    padding: 24px;
-    margin-bottom: 24px;
-    font-size: .95rem;
+.cozy-setups__title {
+    font-family: var(--cozy-font-heading);
+    font-weight: 800;
+    font-size: clamp(1.3rem, 3vw, 1.7rem);
+    color: var(--cozy-cream);
+    margin-bottom: var(--cozy-space-md);
 }
 
-.cozy-setups__login-prompt a {
-    color: var(--cozy-setup-accent);
-    font-weight: 600;
-    text-decoration: underline;
+
+/* -----------------------------------------------
+   2. GRILLE GALERIE
+   ----------------------------------------------- */
+
+.cozy-setups__gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: var(--cozy-space-md);
 }
 
-/* ------------------------------------------------------------------
-   FORMULAIRE — Bouton d'ajout
-   ------------------------------------------------------------------ */
-.cozy-setups__form-wrapper {
-    margin-bottom: 32px;
+@media (max-width: 500px) {
+    .cozy-setups__gallery {
+        grid-template-columns: 1fr;
+    }
 }
 
-.cozy-setups__add-btn {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin: 0 auto 16px;
-    padding: 14px 28px;
-    background: var(--cozy-setup-accent);
-    color: #fff;
-    border: none;
-    border-radius: 50px;
-    font-size: 1rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background .2s, transform .15s;
-}
 
-.cozy-setups__add-btn:hover {
-    background: #6d28d9;
-    transform: translateY(-1px);
-}
+/* -----------------------------------------------
+   3. CARTE SETUP — Left stripe
+   ----------------------------------------------- */
 
-/* ------------------------------------------------------------------
-   FORMULAIRE — Container
-   ------------------------------------------------------------------ */
-.cozy-setups__form {
-    max-width: 520px;
-    margin: 0 auto;
-    background: #fff;
-    border-radius: var(--cozy-setup-radius);
-    box-shadow: var(--cozy-setup-shadow);
-    padding: 28px;
-    animation: cozySetupSlideDown .3s ease;
-}
-
-@keyframes cozySetupSlideDown {
-    from { opacity: 0; transform: translateY(-12px); }
-    to   { opacity: 1; transform: translateY(0); }
-}
-
-.cozy-setups__form-title {
-    text-align: center;
-    font-size: 1.15rem;
-    margin: 0 0 20px;
-}
-
-/* ------------------------------------------------------------------
-   FORMULAIRE — Champs
-   ------------------------------------------------------------------ */
-.cozy-setups__form-field {
-    margin-bottom: 16px;
-}
-
-.cozy-setups__form-field label {
-    display: block;
-    font-weight: 600;
-    font-size: .9rem;
-    margin-bottom: 6px;
-}
-
-.cozy-setups__form-field label small {
-    font-weight: 400;
-    color: #888;
-}
-
-.cozy-setups__form-field input[type="text"],
-.cozy-setups__form-field textarea {
-    width: 100%;
-    padding: 10px 14px;
-    border: 2px solid #e5e7eb;
-    border-radius: 10px;
-    font-size: .95rem;
-    transition: border-color .2s;
-    font-family: inherit;
-    box-sizing: border-box;
-}
-
-.cozy-setups__form-field input[type="text"]:focus,
-.cozy-setups__form-field textarea:focus {
-    outline: none;
-    border-color: var(--cozy-setup-accent);
-}
-
-/* ------------------------------------------------------------------
-   FORMULAIRE — Zone d'upload
-   ------------------------------------------------------------------ */
-.cozy-setups__upload-zone {
+.cozy-setups__card {
     position: relative;
-    border: 2px dashed #d1d5db;
-    border-radius: 12px;
-    padding: 32px 16px;
-    text-align: center;
-    cursor: pointer;
-    transition: border-color .2s, background .2s;
-    overflow: hidden;
-}
-
-.cozy-setups__upload-zone:hover,
-.cozy-setups__upload-zone.dragover {
-    border-color: var(--cozy-setup-accent);
-    background: var(--cozy-setup-accent-light);
-}
-
-.cozy-setups__upload-zone input[type="file"] {
-    position: absolute;
-    inset: 0;
-    opacity: 0;
-    cursor: pointer;
-    width: 100%;
-    height: 100%;
-}
-
-.cozy-setups__upload-placeholder {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    gap: 4px;
-    pointer-events: none;
-}
-
-.cozy-setups__upload-icon {
-    font-size: 2rem;
-}
-
-.cozy-setups__upload-text {
-    font-weight: 600;
-    font-size: .95rem;
-}
-
-.cozy-setups__upload-placeholder small {
-    color: #888;
-    font-size: .8rem;
-}
-
-/* Preview image dans la zone */
-.cozy-setups__upload-zone img.cozy-setup-preview {
-    max-width: 100%;
-    max-height: 240px;
-    border-radius: 8px;
-    object-fit: contain;
-}
-
-/* ------------------------------------------------------------------
-   FORMULAIRE — Actions
-   ------------------------------------------------------------------ */
-.cozy-setups__form-actions {
-    display: flex;
-    gap: 12px;
-    justify-content: center;
-    margin-top: 20px;
-}
-
-.cozy-setups__submit-btn {
-    padding: 12px 24px;
-    background: var(--cozy-setup-accent);
-    color: #fff;
-    border: none;
-    border-radius: 50px;
-    font-weight: 600;
-    font-size: .95rem;
-    cursor: pointer;
-    transition: background .2s, opacity .2s;
-}
-
-.cozy-setups__submit-btn:hover {
-    background: #6d28d9;
-}
-
-.cozy-setups__submit-btn:disabled {
-    opacity: .5;
-    cursor: not-allowed;
-}
-
-.cozy-setups__cancel-btn {
-    padding: 12px 24px;
-    background: #f3f4f6;
-    color: #374151;
-    border: none;
-    border-radius: 50px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: background .2s;
-}
-
-.cozy-setups__cancel-btn:hover {
-    background: #e5e7eb;
-}
-
-/* ------------------------------------------------------------------
-   FORMULAIRE — Message de feedback
-   ------------------------------------------------------------------ */
-.cozy-setups__form-message {
-    margin-top: 14px;
-    text-align: center;
-    font-size: .9rem;
-    min-height: 1.5em;
-}
-
-.cozy-setups__form-message.success {
-    color: var(--cozy-setup-success);
-    font-weight: 600;
-}
-
-.cozy-setups__form-message.error {
-    color: var(--cozy-setup-danger);
-    font-weight: 600;
-}
-
-/* ------------------------------------------------------------------
-   GALERIE MASONRY (CSS columns)
-   ------------------------------------------------------------------ */
-.cozy-setups__gallery {
-    columns: 4;
-    column-gap: var(--cozy-setup-gap);
-}
-
-.cozy-setups__empty {
-    text-align: center;
-    padding: 60px 20px;
-    color: #6b7280;
-    font-size: 1.05rem;
-}
-
-.cozy-setups__empty p:first-child {
-    font-size: 1.3rem;
-    margin-bottom: 4px;
-}
-
-/* ------------------------------------------------------------------
-   CARTE SETUP
-   ------------------------------------------------------------------ */
-.cozy-setups__card {
-    break-inside: avoid;
-    margin-bottom: var(--cozy-setup-gap);
-    background: #fff;
-    border-radius: var(--cozy-setup-radius);
-    box-shadow: var(--cozy-setup-shadow);
+    border-radius: var(--cozy-radius);
+    border: 1px solid var(--cozy-border);
+    background: var(--cozy-bg-card);
     overflow: hidden;
-    transition: transform .2s, box-shadow .2s;
+    transition: all var(--cozy-transition);
+}
+
+/* Left amber stripe */
+.cozy-setups__card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 2px;
+    height: 100%;
+    background: linear-gradient(180deg, var(--cozy-amber), var(--cozy-ember));
+    z-index: 2;
+    opacity: 0;
+    transition: opacity var(--cozy-transition);
+}
+
+.cozy-setups__card::after {
+    display: none;
 }
 
 .cozy-setups__card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 6px 24px rgba(0, 0, 0, .12);
+    border-color: var(--cozy-amber-dim);
+    box-shadow: 0 0 24px var(--cozy-glow-amber), var(--cozy-shadow-md);
+    transform: translateY(-2px);
 }
 
-/* Image */
+.cozy-setups__card:hover::before {
+    opacity: 1;
+}
+
+
+/* -----------------------------------------------
+   4. IMAGE
+   ----------------------------------------------- */
+
 .cozy-setups__card-image {
     cursor: pointer;
     overflow: hidden;
-    line-height: 0;
 }
 
 .cozy-setups__card-image img {
     width: 100%;
-    height: auto;
     display: block;
-    transition: transform .3s;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    transition: opacity var(--cozy-transition), transform var(--cozy-transition);
 }
 
 .cozy-setups__card:hover .cozy-setups__card-image img {
+    opacity: 0.92;
     transform: scale(1.03);
 }
 
-/* Body */
+
+/* -----------------------------------------------
+   4b. CARD BODY / FOOTER / DELETE
+   ----------------------------------------------- */
+
 .cozy-setups__card-body {
-    padding: 14px 16px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: var(--cozy-space-sm) var(--cozy-space-md) var(--cozy-space-md);
 }
 
 .cozy-setups__card-title {
-    margin: 0 0 4px;
-    font-size: .95rem;
+    font-family: var(--cozy-font-heading);
+    font-size: var(--cozy-text-base);
     font-weight: 700;
-    line-height: 1.3;
+    color: var(--cozy-cream);
+    margin: 0;
 }
 
 .cozy-setups__card-desc {
-    margin: 0 0 10px;
-    font-size: .85rem;
-    color: #6b7280;
-    line-height: 1.4;
+    font-size: var(--cozy-text-sm);
+    color: var(--cozy-muted);
+    line-height: 1.55;
+    margin: 0;
 }
 
-/* Footer */
 .cozy-setups__card-footer {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 8px;
-    flex-wrap: wrap;
+    gap: var(--cozy-space-sm);
+    margin-top: auto;
+    padding-top: var(--cozy-space-xs);
+    border-top: 1px solid var(--cozy-border);
 }
 
 .cozy-setups__card-author {
     display: flex;
     align-items: center;
     gap: 6px;
-    font-size: .8rem;
-    font-weight: 500;
 }
 
 .cozy-setups__card-author img {
+    width: 24px;
+    height: 24px;
     border-radius: 50%;
-    width: 28px;
-    height: 28px;
+    border: 1px solid var(--cozy-border);
+}
+
+.cozy-setups__card-author span {
+    font-family: var(--cozy-font-ui);
+    font-size: 10px;
+    font-weight: 500;
+    color: var(--cozy-cream);
+    letter-spacing: 0.02em;
 }
 
 .cozy-setups__card-date {
-    font-size: .75rem;
-    color: #9ca3af;
+    font-family: var(--cozy-font-ui);
+    font-size: 10px;
+    color: var(--cozy-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
 }
 
-/* Bouton supprimer (affiché pour l'auteur) */
 .cozy-setups__card-delete {
-    display: none;
     position: absolute;
     top: 8px;
     right: 8px;
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     width: 30px;
     height: 30px;
-    background: rgba(220, 38, 38, .85);
-    color: #fff;
-    border: none;
-    border-radius: 50%;
-    font-size: 1rem;
-    line-height: 1;
+    background: rgba(0, 0, 0, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: var(--cozy-radius);
+    color: rgba(255, 255, 255, 0.7);
     cursor: pointer;
-    z-index: 2;
-    transition: background .2s;
+    opacity: 0;
+    transition: opacity var(--cozy-transition), background var(--cozy-transition), color var(--cozy-transition);
+}
+
+.cozy-setups__card:hover .cozy-setups__card-delete {
+    opacity: 1;
+}
+
+.cozy-setups__card-delete .lucide {
+    width: 14px;
+    height: 14px;
 }
 
 .cozy-setups__card-delete:hover {
-    background: rgba(185, 28, 28, 1);
+    background: var(--cozy-ember);
+    border-color: var(--cozy-ember);
+    color: #fff;
 }
 
-.cozy-setups__card[data-own="true"] {
+
+/* -----------------------------------------------
+   4c. TOGGLE / SUBMIT / CANCEL BUTTONS
+   ----------------------------------------------- */
+
+.cozy-setups__add-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 11px 22px;
+    background: var(--cozy-amber);
+    color: var(--cozy-ink);
+    border: none;
+    border-radius: var(--cozy-radius);
+    font-family: var(--cozy-font-ui);
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    cursor: pointer;
+    transition: all var(--cozy-transition);
+    margin-bottom: var(--cozy-space-md);
+    box-shadow: 0 1px 0 var(--cozy-amber-dim), 0 4px 14px rgba(200, 129, 58, 0.18);
+}
+
+.cozy-setups__add-btn:hover {
+    background: var(--cozy-amber-glow);
+    box-shadow: 0 1px 0 var(--cozy-amber-dim), 0 6px 20px rgba(200, 129, 58, 0.25);
+    transform: translateY(-1px);
+}
+
+.cozy-setups__add-btn .lucide {
+    width: 16px;
+    height: 16px;
+}
+
+.cozy-setups__submit-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 11px 22px;
+    background: var(--cozy-amber);
+    color: var(--cozy-ink);
+    border: none;
+    border-radius: var(--cozy-radius);
+    font-family: var(--cozy-font-ui);
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    cursor: pointer;
+    transition: all var(--cozy-transition);
+    box-shadow: 0 1px 0 var(--cozy-amber-dim), 0 4px 14px rgba(200, 129, 58, 0.18);
+}
+
+.cozy-setups__submit-btn:hover {
+    background: var(--cozy-amber-glow);
+    box-shadow: 0 1px 0 var(--cozy-amber-dim), 0 6px 20px rgba(200, 129, 58, 0.25);
+    transform: translateY(-1px);
+}
+
+.cozy-setups__submit-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.cozy-setups__submit-btn .lucide {
+    width: 16px;
+    height: 16px;
+}
+
+.cozy-setups__cancel-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 20px;
+    background: transparent;
+    border: 1px solid var(--cozy-border);
+    border-radius: var(--cozy-radius);
+    font-family: var(--cozy-font-ui);
+    font-size: 10px;
+    font-weight: 500;
+    color: var(--cozy-muted);
+    cursor: pointer;
+    transition: all var(--cozy-transition);
+}
+
+.cozy-setups__cancel-btn:hover {
+    border-color: var(--cozy-amber);
+    color: var(--cozy-amber);
+}
+
+.cozy-setups__form-actions {
+    display: flex;
+    align-items: center;
+    gap: var(--cozy-space-md);
+    flex-wrap: wrap;
+}
+
+
+/* -----------------------------------------------
+   5. LÉGENDE
+   ----------------------------------------------- */
+
+.cozy-setups__meta {
+    padding: var(--cozy-space-sm) var(--cozy-space-md);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--cozy-space-sm);
+    border-top: 1px solid var(--cozy-border);
+}
+
+.cozy-setups__author {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.cozy-setups__avatar {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    border: 1px solid var(--cozy-border);
+}
+
+.cozy-setups__name {
+    font-family: var(--cozy-font-ui);
+    font-size: 10px;
+    font-weight: 500;
+    color: var(--cozy-cream);
+    letter-spacing: 0.02em;
+}
+
+.cozy-setups__date {
+    font-family: var(--cozy-font-ui);
+    font-size: 10px;
+    color: var(--cozy-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.cozy-setups__description {
+    padding: 0 var(--cozy-space-md) var(--cozy-space-sm);
+    font-size: var(--cozy-text-sm);
+    color: var(--cozy-muted);
+    line-height: 1.55;
+}
+
+
+/* -----------------------------------------------
+   6. ACTIONS (like/delete)
+   ----------------------------------------------- */
+
+.cozy-setups__actions {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 0 var(--cozy-space-md) var(--cozy-space-sm);
+}
+
+.cozy-setups__action-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 10px;
+    border: 1px solid var(--cozy-border);
+    border-radius: var(--cozy-radius);
+    background: transparent;
+    font-family: var(--cozy-font-ui);
+    font-size: 10px;
+    color: var(--cozy-muted);
+    cursor: pointer;
+    transition: all var(--cozy-transition);
+}
+
+.cozy-setups__action-btn .lucide {
+    width: 13px;
+    height: 13px;
+}
+
+.cozy-setups__action-btn:hover {
+    border-color: var(--cozy-amber);
+    color: var(--cozy-amber);
+}
+
+.cozy-setups__action-btn--liked {
+    color: var(--cozy-ember);
+    border-color: var(--cozy-ember);
+}
+
+.cozy-setups__action-btn--delete:hover {
+    border-color: var(--cozy-ember);
+    color: var(--cozy-ember);
+}
+
+
+/* -----------------------------------------------
+   7. UPLOAD ZONE
+   ----------------------------------------------- */
+
+.cozy-setups__upload-zone {
+    margin-bottom: var(--cozy-space-lg);
+    padding: var(--cozy-space-xl) var(--cozy-space-lg);
+    border: 2px dashed var(--cozy-border);
+    border-radius: var(--cozy-radius);
+    text-align: center;
+    transition: all var(--cozy-transition);
+    cursor: pointer;
+}
+
+.cozy-setups__upload-zone:hover,
+.cozy-setups__upload-zone--dragover {
+    border-color: var(--cozy-amber);
+    background: rgba(200, 129, 58, 0.03);
+}
+
+.cozy-setups__upload-icon {
+    margin-bottom: var(--cozy-space-xs);
+}
+
+.cozy-setups__upload-icon .lucide {
+    width: 36px;
+    height: 36px;
+    color: var(--cozy-muted);
+    transition: color var(--cozy-transition);
+}
+
+.cozy-setups__upload-zone:hover .cozy-setups__upload-icon .lucide {
+    color: var(--cozy-amber);
+}
+
+.cozy-setups__upload-text {
+    font-family: var(--cozy-font-ui);
+    font-size: 10px;
+    color: var(--cozy-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.cozy-setups__upload-hint {
+    font-size: var(--cozy-text-xs);
+    color: var(--cozy-muted);
+    margin-top: 2px;
+}
+
+.cozy-setups__upload-input {
+    display: none;
+}
+
+
+/* -----------------------------------------------
+   8. FORMULAIRE
+   ----------------------------------------------- */
+
+.cozy-setups__form {
+    margin-bottom: var(--cozy-space-lg);
+    padding: var(--cozy-space-lg);
+    background: var(--cozy-bg-card);
+    border: 1px solid var(--cozy-border);
+    border-radius: var(--cozy-radius);
     position: relative;
 }
 
-.cozy-setups__card[data-own="true"]:hover .cozy-setups__card-delete {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+/* Left amber stripe */
+.cozy-setups__form::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 2px;
+    height: 100%;
+    background: linear-gradient(180deg, var(--cozy-amber), var(--cozy-ember));
 }
 
-/* ------------------------------------------------------------------
-   PAGINATION
-   ------------------------------------------------------------------ */
-.cozy-setups__pagination {
-    margin-top: 32px;
-    text-align: center;
-    padding: 20px 0;
+.cozy-setups__form::after {
+    display: none;
 }
 
-.cozy-setups__pagination .page-numbers {
+.cozy-setups__form-title {
+    font-family: var(--cozy-font-ui);
+    font-size: 10px;
+    font-weight: 500;
+    color: var(--cozy-cream);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: var(--cozy-space-md);
+}
+
+.cozy-setups__form-group {
+    margin-bottom: var(--cozy-space-md);
+}
+
+.cozy-setups__form-label {
+    display: block;
+    font-family: var(--cozy-font-ui);
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--cozy-stone);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 6px;
+}
+
+.cozy-setups__form-input,
+.cozy-setups__form-textarea {
+    width: 100%;
+    padding: 11px 14px;
+    border: 1px solid var(--cozy-border);
+    border-radius: var(--cozy-radius);
+    background: var(--cozy-ink-soft);
+    font-family: var(--cozy-font-body);
+    font-size: var(--cozy-text-sm);
+    color: var(--cozy-cream);
+    transition: border-color var(--cozy-transition), box-shadow var(--cozy-transition);
+}
+
+.cozy-setups__form-input:focus,
+.cozy-setups__form-textarea:focus {
+    outline: none;
+    border-color: var(--cozy-amber-dim);
+    box-shadow: 0 0 0 3px rgba(200, 129, 58, 0.08);
+}
+
+.cozy-setups__form-textarea {
+    min-height: 80px;
+    resize: vertical;
+}
+
+.cozy-setups__form-preview {
+    margin-bottom: var(--cozy-space-md);
+    max-width: 200px;
+    border-radius: var(--cozy-radius);
+    border: 1px solid var(--cozy-border);
+}
+
+.cozy-setups__form-submit {
     display: inline-flex;
     align-items: center;
-    justify-content: center;
-    min-width: 36px;
-    height: 36px;
-    padding: 0 10px;
-    margin: 0 3px;
-    border-radius: 8px;
-    background: #f3f4f6;
-    color: #374151;
-    font-size: .9rem;
-    text-decoration: none;
-    transition: background .2s, color .2s;
+    gap: 6px;
+    padding: 11px 22px;
+    background: var(--cozy-amber);
+    color: var(--cozy-ink);
+    border: none;
+    border-radius: var(--cozy-radius);
+    font-family: var(--cozy-font-ui);
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    cursor: pointer;
+    transition: all var(--cozy-transition);
+    box-shadow: 0 1px 0 var(--cozy-amber-dim), 0 4px 14px rgba(200, 129, 58, 0.18);
 }
 
-.cozy-setups__pagination .page-numbers.current,
-.cozy-setups__pagination .page-numbers:hover {
-    background: var(--cozy-setup-accent);
-    color: #fff;
+.cozy-setups__form-submit:hover {
+    background: var(--cozy-amber-glow);
+    box-shadow: 0 1px 0 var(--cozy-amber-dim), 0 6px 20px rgba(200, 129, 58, 0.25);
+    transform: translateY(-1px);
 }
 
-/* ------------------------------------------------------------------
-   LIGHTBOX
-   ------------------------------------------------------------------ */
+
+/* -----------------------------------------------
+   9. LIGHTBOX
+   ----------------------------------------------- */
+
 .cozy-lightbox {
     position: fixed;
     inset: 0;
-    z-index: 99999;
-    background: rgba(0, 0, 0, .88);
+    z-index: 9999;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 24px;
-    animation: cozyLbFadeIn .25s ease;
-    cursor: pointer;
+    background: rgba(0, 0, 0, 0.88);
+    backdrop-filter: blur(6px);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 
-@keyframes cozyLbFadeIn {
-    from { opacity: 0; }
-    to   { opacity: 1; }
-}
-
-.cozy-lightbox__close {
-    position: absolute;
-    top: 16px;
-    right: 20px;
-    background: none;
-    border: none;
-    color: #fff;
-    font-size: 2.5rem;
-    cursor: pointer;
-    line-height: 1;
-    z-index: 2;
-    transition: transform .2s;
-}
-
-.cozy-lightbox__close:hover {
-    transform: scale(1.15);
+.cozy-lightbox--open {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
 }
 
 .cozy-lightbox__content {
-    max-width: 90vw;
-    max-height: 90vh;
     display: flex;
     flex-direction: column;
     align-items: center;
-    cursor: default;
+    gap: var(--cozy-space-md);
+    max-width: 92vw;
+    max-height: 90vh;
 }
 
 .cozy-lightbox__content img {
     max-width: 100%;
-    max-height: 75vh;
-    border-radius: 10px;
+    max-height: 80vh;
     object-fit: contain;
+    border-radius: var(--cozy-radius);
+    border: 2px solid rgba(200, 129, 58, 0.2);
 }
 
 .cozy-lightbox__info {
-    color: #fff;
     text-align: center;
-    margin-top: 16px;
-    max-width: 600px;
+    color: rgba(255, 255, 255, 0.85);
 }
 
 .cozy-lightbox__info h4 {
-    margin: 0 0 4px;
-    font-size: 1.1rem;
+    font-family: var(--cozy-font-heading);
+    font-size: var(--cozy-text-lg);
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 4px;
 }
 
 .cozy-lightbox__info p {
-    margin: 0 0 8px;
-    font-size: .9rem;
-    color: rgba(255, 255, 255, .75);
+    font-size: var(--cozy-text-sm);
+    color: rgba(255, 255, 255, 0.6);
+    margin-bottom: 2px;
 }
 
 .cozy-lightbox__author {
-    font-size: .85rem;
-    color: rgba(255, 255, 255, .6);
+    font-family: var(--cozy-font-ui);
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.45);
 }
 
-/* ------------------------------------------------------------------
-   RESPONSIVE
-   ------------------------------------------------------------------ */
-@media (max-width: 1024px) {
-    .cozy-setups__gallery {
-        columns: 3;
-    }
+.cozy-lightbox__close {
+    position: absolute;
+    top: 24px;
+    right: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: var(--cozy-radius);
+    color: #fff;
+    cursor: pointer;
+    transition: background var(--cozy-transition);
 }
 
-@media (max-width: 768px) {
-    .cozy-setups__gallery {
-        columns: 2;
+.cozy-lightbox__close:hover {
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.cozy-lightbox__close .lucide {
+    width: 20px;
+    height: 20px;
+}
+
+.cozy-lightbox__nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: var(--cozy-radius);
+    color: #fff;
+    cursor: pointer;
+    transition: background var(--cozy-transition);
+}
+
+.cozy-lightbox__nav:hover {
+    background: rgba(255, 255, 255, 0.14);
+}
+
+.cozy-lightbox__nav--prev { left: 20px; }
+.cozy-lightbox__nav--next { right: 20px; }
+
+
+/* -----------------------------------------------
+   10. PAGINATION
+   ----------------------------------------------- */
+
+.cozy-setups__pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    margin-top: var(--cozy-space-lg);
+}
+
+.cozy-setups__pagination a,
+.cozy-setups__pagination span {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 34px;
+    height: 34px;
+    padding: 0 10px;
+    border: 1px solid var(--cozy-border);
+    border-radius: var(--cozy-radius);
+    font-family: var(--cozy-font-ui);
+    font-size: 10px;
+    color: var(--cozy-muted);
+    transition: all var(--cozy-transition);
+}
+
+.cozy-setups__pagination a:hover {
+    border-color: var(--cozy-amber);
+    color: var(--cozy-amber);
+}
+
+.cozy-setups__pagination .current {
+    background: var(--cozy-amber);
+    border-color: var(--cozy-amber);
+    color: var(--cozy-ink);
+}
+
+
+/* -----------------------------------------------
+   11. EMPTY STATE
+   ----------------------------------------------- */
+
+.cozy-setups__empty {
+    padding: var(--cozy-space-xl);
+    text-align: center;
+    color: var(--cozy-muted);
+}
+
+.cozy-setups__empty .lucide {
+    width: 48px;
+    height: 48px;
+    margin-bottom: var(--cozy-space-sm);
+    opacity: 0.4;
+}
+
+.cozy-setups__empty p {
+    font-size: var(--cozy-text-sm);
+}
+
+
+/* -----------------------------------------------
+   12. RESPONSIVE
+   ----------------------------------------------- */
+
+@media (max-width: 600px) {
+    .cozy-setups {
+        padding: var(--cozy-space-md) 0;
     }
 
     .cozy-setups__form {
-        padding: 20px;
+        padding: var(--cozy-space-md);
     }
 
-    .cozy-setups__form-actions {
-        flex-direction: column;
-    }
-}
-
-@media (max-width: 480px) {
-    .cozy-setups__gallery {
-        columns: 1;
+    .cozy-setups__upload-zone {
+        padding: var(--cozy-space-lg) var(--cozy-space-md);
     }
 
-    .cozy-setups__add-btn {
-        width: 100%;
-        justify-content: center;
+    .cozy-lightbox__close {
+        top: 12px;
+        right: 12px;
     }
+
+    .cozy-lightbox__nav { display: none; }
 }

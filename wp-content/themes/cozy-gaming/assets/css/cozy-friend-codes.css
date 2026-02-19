@@ -1,198 +1,224 @@
 /**
  * ============================================================================
- * COZY GAMING — Styles Codes Ami
+ * COZY GROVE — Codes Ami  (v3.0 — Design System Guilde)
  * ============================================================================
  */
 
+
 /* -----------------------------------------------
-   1. FORMULAIRE FRONT-END (shortcode)
+   1. FORMULAIRE FRONT-END
    ----------------------------------------------- */
 
 .cozy-friend-codes {
     max-width: 650px;
     margin: 0 auto;
-    padding: 30px;
-    background: #fff;
-    border-radius: 12px;
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+    padding: var(--cozy-space-xl);
+    background: var(--cozy-bg-card);
+    border: 1px solid var(--cozy-border);
+    border-radius: var(--cozy-radius);
+    position: relative;
+    box-shadow: var(--cozy-shadow-sm);
+}
+
+/* Left amber stripe */
+.cozy-friend-codes::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 2px;
+    height: 100%;
+    background: linear-gradient(180deg, var(--cozy-amber), var(--cozy-ember));
+}
+
+.cozy-friend-codes::after {
+    display: none;
 }
 
 .cozy-friend-codes__header {
-    margin-bottom: 24px;
+    margin-bottom: var(--cozy-space-lg);
     text-align: center;
 }
 
 .cozy-friend-codes__header h3 {
-    font-size: 1.5em;
-    margin-bottom: 8px;
-    color: #2c3e50;
+    font-family: var(--cozy-font-heading);
+    font-size: var(--cozy-text-xl);
+    margin-bottom: var(--cozy-space-xs);
+    color: var(--cozy-cream);
 }
 
 .cozy-friend-codes__header p {
-    color: #666;
-    font-size: 0.95em;
-    line-height: 1.5;
+    color: var(--cozy-muted);
+    font-size: var(--cozy-text-sm);
+    line-height: 1.6;
 }
 
 .cozy-friend-codes__field {
-    padding: 14px 16px;
-    margin-bottom: 8px;
-    border-radius: 10px;
-    background: #fafafa;
-    border: 1px solid #f0f0f0;
-    transition: border-color 0.2s ease, background 0.2s ease;
+    padding: var(--cozy-space-md);
+    margin-bottom: var(--cozy-space-xs);
+    border-radius: var(--cozy-radius);
+    background: var(--cozy-bg-soft);
+    border: 1px solid var(--cozy-border);
+    transition: border-color var(--cozy-transition);
 }
 
 .cozy-friend-codes__field:hover {
-    border-color: #e0e0e0;
-    background: #fff;
+    border-color: var(--cozy-amber-dim);
 }
 
 .cozy-friend-codes__field label {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: var(--cozy-space-sm);
     font-weight: 600;
-    margin-bottom: 8px;
+    margin-bottom: var(--cozy-space-sm);
     cursor: pointer;
 }
 
-.cozy-friend-codes__game-icon {
-    font-size: 1.5em;
-    line-height: 1;
+.cozy-friend-codes__platform-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: var(--cozy-radius);
+    color: #fff;
+    flex-shrink: 0;
 }
 
-.cozy-friend-codes__game-info {
+.cozy-friend-codes__platform-icon .lucide {
+    width: 16px;
+    height: 16px;
+}
+
+.cozy-friend-codes__platform-info {
     display: flex;
     flex-direction: column;
-    gap: 2px;
+    gap: 1px;
 }
 
-.cozy-friend-codes__game-info strong {
-    font-size: 0.95em;
-    color: #333;
+.cozy-friend-codes__platform-info strong {
+    font-size: var(--cozy-text-sm);
+    color: var(--cozy-cream);
 }
 
-.cozy-friend-codes__game-info small {
-    font-size: 0.8em;
-    color: #999;
-    font-weight: 400;
+.cozy-friend-codes__platform-info small {
+    font-size: 0.75rem;
+    color: var(--cozy-muted);
+    font-weight: 500;
 }
 
 .cozy-friend-codes__input-wrapper {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: var(--cozy-space-sm);
 }
 
 .cozy-friend-codes__input-wrapper input {
     flex: 1;
-    padding: 8px 12px;
-    border: 2px solid #e0e0e0;
-    border-radius: 8px;
-    font-size: 0.95em;
-    font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Fira Code', monospace;
-    letter-spacing: 0.5px;
-    transition: border-color 0.2s ease, box-shadow 0.2s ease;
-    background: #fff;
+    padding: 11px 14px;
+    border: 1px solid var(--cozy-border);
+    border-radius: var(--cozy-radius);
+    font-family: var(--cozy-font-body);
+    font-size: var(--cozy-text-sm);
+    letter-spacing: 0.03em;
+    background: var(--cozy-ink-soft);
+    color: var(--cozy-cream);
+    transition: border-color var(--cozy-transition), box-shadow var(--cozy-transition);
 }
 
 .cozy-friend-codes__input-wrapper input:focus {
     outline: none;
-    border-color: #6c5ce7;
-    box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.12);
+    border-color: var(--cozy-amber-dim);
+    box-shadow: 0 0 0 3px rgba(200, 129, 58, 0.08);
 }
 
-/* Champ avec erreur de validation */
 .cozy-friend-codes__input-wrapper input.cozy-fc-invalid {
-    border-color: #e74c3c;
-    box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.12);
+    border-color: var(--cozy-ember);
+    box-shadow: 0 0 0 3px rgba(155, 58, 30, 0.1);
 }
 
 .cozy-friend-codes__input-wrapper input.cozy-fc-valid {
-    border-color: #27ae60;
+    border-color: var(--cozy-moss);
 }
 
 .cozy-friend-codes__status {
-    font-size: 0.85em;
+    font-size: 0.8rem;
     font-weight: 600;
-    width: 24px;
-    height: 24px;
+    width: 22px;
+    height: 22px;
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 50%;
+    border-radius: var(--cozy-radius);
     flex-shrink: 0;
 }
 
 .cozy-friend-codes__status--saved {
-    background: #e8f5e9;
-    color: #2e7d32;
+    background: rgba(74, 102, 73, 0.1);
+    color: var(--cozy-moss-light);
 }
 
 .cozy-friend-codes__status--error {
-    background: #fce4ec;
-    color: #c62828;
+    background: rgba(155, 58, 30, 0.1);
+    color: var(--cozy-ember-glow);
 }
 
 .cozy-friend-codes__hint {
-    margin-top: 4px;
+    margin-top: 3px;
     margin-bottom: 0;
-    font-size: 0.8em;
-    color: #aaa;
+    font-size: 0.75rem;
+    color: var(--cozy-muted);
     padding-left: 2px;
 }
 
 .cozy-friend-codes__actions {
     display: flex;
     align-items: center;
-    gap: 16px;
-    margin-top: 20px;
-    padding-top: 20px;
-    border-top: 1px solid #f0f0f0;
+    gap: var(--cozy-space-md);
+    margin-top: var(--cozy-space-lg);
+    padding-top: var(--cozy-space-lg);
+    border-top: 1px solid var(--cozy-border);
 }
 
 .cozy-friend-codes__btn {
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    padding: 12px 24px;
-    background: linear-gradient(135deg, #6c5ce7 0%, #a29bfe 100%);
-    color: #fff;
+    padding: 11px 22px;
+    background: var(--cozy-amber);
+    color: var(--cozy-ink);
     border: none;
-    border-radius: 8px;
-    font-size: 1em;
-    font-weight: 600;
+    border-radius: var(--cozy-radius);
+    font-size: var(--cozy-text-sm);
+    font-weight: 700;
     cursor: pointer;
-    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    transition: all var(--cozy-transition);
+    box-shadow: 0 1px 0 var(--cozy-amber-dim), 0 4px 14px rgba(200, 129, 58, 0.18);
 }
 
 .cozy-friend-codes__btn:hover {
+    background: var(--cozy-amber-glow);
+    box-shadow: 0 1px 0 var(--cozy-amber-dim), 0 6px 20px rgba(200, 129, 58, 0.25);
     transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(108, 92, 231, 0.35);
-}
-
-.cozy-friend-codes__btn:active {
-    transform: translateY(0);
 }
 
 .cozy-friend-codes__btn:disabled {
-    opacity: 0.6;
+    opacity: 0.5;
     cursor: not-allowed;
-    transform: none;
 }
 
 .cozy-friend-codes__message {
-    font-size: 0.9em;
+    font-size: var(--cozy-text-sm);
     font-weight: 500;
 }
 
 .cozy-friend-codes__message--success {
-    color: #2e7d32;
+    color: var(--cozy-moss-light);
 }
 
 .cozy-friend-codes__message--error {
-    color: #c62828;
+    color: var(--cozy-ember-glow);
 }
 
 
@@ -203,7 +229,7 @@
 .cozy-fc-badges {
     display: flex;
     flex-wrap: wrap;
-    gap: 5px;
+    gap: 4px;
     margin-top: 4px;
 }
 
@@ -211,47 +237,68 @@
     display: inline-flex;
     align-items: center;
     gap: 5px;
-    padding: 2px 8px;
-    border-radius: 6px;
-    font-size: 0.75em;
-    background: #f8f8ff;
-    border: 1px solid #e8e4f0;
-    color: #555;
+    padding: 3px 10px;
+    border-radius: var(--cozy-radius);
+    font-size: 0.7rem;
+    background: var(--cozy-bg-soft);
+    border: 1px solid var(--cozy-border);
+    color: var(--cozy-muted);
     white-space: nowrap;
+    transition: all var(--cozy-transition);
+}
+
+.cozy-fc-badge:hover {
+    border-color: var(--fc-color, var(--cozy-amber-dim));
+    box-shadow: 0 0 8px color-mix(in srgb, var(--fc-color, var(--cozy-amber)) 20%, transparent);
+}
+
+.cozy-fc-badge .lucide {
+    width: 12px;
+    height: 12px;
+    color: var(--fc-color, var(--cozy-amber));
+}
+
+.cozy-fc-badge__name {
+    font-family: var(--cozy-font-ui);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    opacity: 0.7;
 }
 
 .cozy-fc-badge code {
-    font-family: 'SF Mono', 'Monaco', 'Inconsolata', monospace;
-    font-size: 0.95em;
+    font-family: var(--cozy-font-body);
+    font-size: 0.85em;
     background: transparent;
     padding: 0;
-    color: #6c5ce7;
+    color: var(--cozy-cream);
     font-weight: 600;
-    letter-spacing: 0.3px;
+    letter-spacing: 0.03em;
 }
 
 
 /* -----------------------------------------------
-   3. ATTENDEES PUBLICS (avatars pile + liste)
+   3. ATTENDEES (avatars + liste)
    ----------------------------------------------- */
 
 .cozy-attendees__title {
-    font-size: 1.1em;
-    color: #333;
-    margin-bottom: 16px;
-    padding-bottom: 8px;
-    border-bottom: 2px solid #f0f0f0;
+    font-family: var(--cozy-font-heading);
+    font-size: var(--cozy-text-base);
+    color: var(--cozy-cream);
+    margin-bottom: var(--cozy-space-md);
+    padding-bottom: var(--cozy-space-sm);
+    border-bottom: 1px solid var(--cozy-border);
 }
 
 .cozy-attendees__avatar-stack {
     display: flex;
     align-items: center;
-    margin-bottom: 20px;
+    margin-bottom: var(--cozy-space-lg);
 }
 
 .cozy-attendees__avatar-item {
     margin-left: -10px;
-    transition: transform 0.2s ease, z-index 0.2s ease;
+    transition: transform var(--cozy-transition);
     position: relative;
     z-index: 1;
 }
@@ -266,11 +313,10 @@
 }
 
 .cozy-attendees__avatar-item img {
-    border-radius: 50%;
-    border: 3px solid #fff;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    width: 44px;
-    height: 44px;
+    border-radius: var(--cozy-radius-full);
+    border: 2px solid var(--cozy-ink);
+    width: 40px;
+    height: 40px;
     object-fit: cover;
     display: block;
 }
@@ -279,32 +325,32 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 44px;
-    height: 44px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, #6c5ce7, #a29bfe);
-    color: #fff;
-    font-size: 0.8em;
-    font-weight: 700;
+    width: 40px;
+    height: 40px;
+    border-radius: var(--cozy-radius-full);
+    background: var(--cozy-amber);
+    color: var(--cozy-ink);
+    font-family: var(--cozy-font-ui);
+    font-size: 10px;
+    font-weight: 600;
     margin-left: -10px;
-    border: 3px solid #fff;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border: 2px solid var(--cozy-ink);
 }
 
 .cozy-attendees__list {
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 3px;
 }
 
 .cozy-attendees__list-item {
-    padding: 8px 12px;
-    border-radius: 8px;
-    transition: background 0.15s ease;
+    padding: var(--cozy-space-sm) var(--cozy-space-md);
+    border-radius: var(--cozy-radius);
+    transition: background var(--cozy-transition);
 }
 
 .cozy-attendees__list-item:hover {
-    background: #f8f8ff;
+    background: rgba(200, 129, 58, 0.04);
 }
 
 
@@ -314,7 +360,7 @@
 
 @media (max-width: 600px) {
     .cozy-friend-codes {
-        padding: 20px 16px;
+        padding: var(--cozy-space-lg);
     }
 
     .cozy-friend-codes__field label {
@@ -328,16 +374,5 @@
 
     .cozy-friend-codes__btn {
         justify-content: center;
-    }
-
-    .cozy-attendees__avatar-item img {
-        width: 36px;
-        height: 36px;
-    }
-
-    .cozy-attendees__avatar-more {
-        width: 36px;
-        height: 36px;
-        font-size: 0.7em;
     }
 }

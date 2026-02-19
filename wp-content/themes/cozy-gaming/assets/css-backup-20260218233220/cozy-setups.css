@@ -1,0 +1,779 @@
+/**
+ * ============================================================================
+ * COZY GAMING — Setups Gallery  (v2.0 — Design System HUD)
+ * ============================================================================
+ */
+
+
+/* -----------------------------------------------
+   1. SECTION
+   ----------------------------------------------- */
+
+.cozy-setups {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: var(--cozy-space-xl) 0;
+}
+
+.cozy-setups__title {
+    font-family: var(--cozy-font-heading);
+    font-weight: 800;
+    font-size: clamp(1.3rem, 3vw, 1.7rem);
+    color: var(--cozy-text);
+    margin-bottom: var(--cozy-space-md);
+}
+
+
+/* -----------------------------------------------
+   2. GRILLE GALERIE (masonry-like)
+   ----------------------------------------------- */
+
+.cozy-setups__gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: var(--cozy-space-md);
+}
+
+@media (max-width: 500px) {
+    .cozy-setups__gallery {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+/* -----------------------------------------------
+   3. CARTE SETUP — HUD bracket
+   ----------------------------------------------- */
+
+.cozy-setups__card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    border-radius: var(--cozy-radius);
+    border: 1px solid var(--cozy-border);
+    background: var(--cozy-bg-card);
+    overflow: hidden;
+    transition: border-color var(--cozy-transition), box-shadow var(--cozy-transition), transform var(--cozy-transition);
+}
+
+.cozy-setups__card::before,
+.cozy-setups__card::after {
+    content: "";
+    position: absolute;
+    width: var(--cozy-hud-bracket);
+    height: var(--cozy-hud-bracket);
+    border-color: var(--cozy-primary);
+    border-style: solid;
+    pointer-events: none;
+    z-index: 2;
+    transition: border-color var(--cozy-transition);
+}
+
+.cozy-setups__card::before {
+    top: 0; left: 0;
+    border-width: 2px 0 0 2px;
+}
+
+.cozy-setups__card::after {
+    bottom: 0; right: 0;
+    border-width: 0 2px 2px 0;
+}
+
+.cozy-setups__card:hover {
+    border-color: var(--cozy-primary);
+    box-shadow: var(--cozy-glow-primary), var(--cozy-shadow-md);
+    transform: translateY(-2px);
+}
+
+.cozy-setups__card:hover::before,
+.cozy-setups__card:hover::after {
+    border-color: #a78bfa;
+    width: calc(var(--cozy-hud-bracket) + 4px);
+    height: calc(var(--cozy-hud-bracket) + 4px);
+}
+
+
+/* -----------------------------------------------
+   4. IMAGE
+   ----------------------------------------------- */
+
+.cozy-setups__card-image {
+    cursor: pointer;
+    overflow: hidden;
+}
+
+.cozy-setups__card-image img {
+    width: 100%;
+    display: block;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    transition: opacity var(--cozy-transition), transform var(--cozy-transition);
+}
+
+.cozy-setups__card:hover .cozy-setups__card-image img {
+    opacity: 0.92;
+    transform: scale(1.03);
+}
+
+
+/* -----------------------------------------------
+   4b. CARD BODY / FOOTER / DELETE
+   ----------------------------------------------- */
+
+.cozy-setups__card-body {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: var(--cozy-space-sm) var(--cozy-space-md) var(--cozy-space-md);
+}
+
+.cozy-setups__card-title {
+    font-family: var(--cozy-font-heading);
+    font-size: var(--cozy-text-base);
+    font-weight: 700;
+    color: var(--cozy-text);
+    margin: 0;
+}
+
+.cozy-setups__card-desc {
+    font-size: var(--cozy-text-sm);
+    color: var(--cozy-text-muted);
+    line-height: 1.55;
+    margin: 0;
+}
+
+.cozy-setups__card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--cozy-space-sm);
+    margin-top: auto;
+    padding-top: var(--cozy-space-xs);
+    border-top: 1px solid var(--cozy-border);
+}
+
+.cozy-setups__card-author {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.cozy-setups__card-author img {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: 1px solid var(--cozy-border);
+}
+
+.cozy-setups__card-author span {
+    font-family: var(--cozy-font-mono);
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--cozy-text);
+    letter-spacing: 0.02em;
+}
+
+.cozy-setups__card-date {
+    font-family: var(--cozy-font-mono);
+    font-size: 0.65rem;
+    color: var(--cozy-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.cozy-setups__card-delete {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    background: rgba(0, 0, 0, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: var(--cozy-radius);
+    color: rgba(255, 255, 255, 0.7);
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity var(--cozy-transition), background var(--cozy-transition), color var(--cozy-transition);
+}
+
+.cozy-setups__card:hover .cozy-setups__card-delete {
+    opacity: 1;
+}
+
+.cozy-setups__card-delete .lucide {
+    width: 14px;
+    height: 14px;
+}
+
+.cozy-setups__card-delete:hover {
+    background: var(--cozy-error, #ef4444);
+    border-color: var(--cozy-error, #ef4444);
+    color: #fff;
+}
+
+
+/* -----------------------------------------------
+   4c. TOGGLE / SUBMIT / CANCEL BUTTONS
+   ----------------------------------------------- */
+
+.cozy-setups__add-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 24px;
+    background: var(--cozy-primary);
+    color: #fff;
+    border: none;
+    font-family: var(--cozy-font-mono);
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    cursor: pointer;
+    clip-path: polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 6px 100%, 0 calc(100% - 6px));
+    transition: background var(--cozy-transition);
+    margin-bottom: var(--cozy-space-md);
+}
+
+.cozy-setups__add-btn:hover {
+    background: var(--cozy-primary-hover);
+}
+
+.cozy-setups__add-btn .lucide {
+    width: 16px;
+    height: 16px;
+}
+
+.cozy-setups__submit-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 24px;
+    background: var(--cozy-primary);
+    color: #fff;
+    border: none;
+    font-family: var(--cozy-font-mono);
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    cursor: pointer;
+    clip-path: polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 6px 100%, 0 calc(100% - 6px));
+    transition: background var(--cozy-transition), opacity var(--cozy-transition);
+}
+
+.cozy-setups__submit-btn:hover {
+    background: var(--cozy-primary-hover);
+}
+
+.cozy-setups__submit-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.cozy-setups__submit-btn .lucide {
+    width: 16px;
+    height: 16px;
+}
+
+.cozy-setups__cancel-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 20px;
+    background: transparent;
+    border: 1px solid var(--cozy-border);
+    border-radius: var(--cozy-radius);
+    font-family: var(--cozy-font-mono);
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--cozy-text-muted);
+    cursor: pointer;
+    transition: border-color var(--cozy-transition), color var(--cozy-transition);
+}
+
+.cozy-setups__cancel-btn:hover {
+    border-color: var(--cozy-primary);
+    color: var(--cozy-primary);
+}
+
+.cozy-setups__form-actions {
+    display: flex;
+    align-items: center;
+    gap: var(--cozy-space-md);
+    flex-wrap: wrap;
+}
+
+
+/* -----------------------------------------------
+   5. LÉGENDE
+   ----------------------------------------------- */
+
+.cozy-setups__meta {
+    padding: var(--cozy-space-sm) var(--cozy-space-md);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--cozy-space-sm);
+    border-top: 1px solid var(--cozy-border);
+}
+
+.cozy-setups__author {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.cozy-setups__avatar {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    border: 1px solid var(--cozy-border);
+}
+
+.cozy-setups__name {
+    font-family: var(--cozy-font-mono);
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--cozy-text);
+    letter-spacing: 0.02em;
+}
+
+.cozy-setups__date {
+    font-family: var(--cozy-font-mono);
+    font-size: 0.65rem;
+    color: var(--cozy-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.cozy-setups__description {
+    padding: 0 var(--cozy-space-md) var(--cozy-space-sm);
+    font-size: var(--cozy-text-sm);
+    color: var(--cozy-text-muted);
+    line-height: 1.55;
+}
+
+
+/* -----------------------------------------------
+   6. ACTIONS (like/delete)
+   ----------------------------------------------- */
+
+.cozy-setups__actions {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 0 var(--cozy-space-md) var(--cozy-space-sm);
+}
+
+.cozy-setups__action-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 10px;
+    border: 1px solid var(--cozy-border);
+    border-radius: var(--cozy-radius);
+    background: transparent;
+    font-family: var(--cozy-font-mono);
+    font-size: 0.65rem;
+    color: var(--cozy-text-muted);
+    cursor: pointer;
+    transition: all var(--cozy-transition);
+}
+
+.cozy-setups__action-btn .lucide {
+    width: 13px;
+    height: 13px;
+}
+
+.cozy-setups__action-btn:hover {
+    border-color: var(--cozy-primary);
+    color: var(--cozy-primary);
+}
+
+.cozy-setups__action-btn--liked {
+    color: var(--cozy-error);
+    border-color: var(--cozy-error);
+}
+
+.cozy-setups__action-btn--delete:hover {
+    border-color: var(--cozy-error);
+    color: var(--cozy-error);
+}
+
+
+/* -----------------------------------------------
+   7. UPLOAD ZONE
+   ----------------------------------------------- */
+
+.cozy-setups__upload-zone {
+    margin-bottom: var(--cozy-space-lg);
+    padding: var(--cozy-space-xl) var(--cozy-space-lg);
+    border: 2px dashed var(--cozy-border);
+    border-radius: var(--cozy-radius);
+    text-align: center;
+    transition: border-color var(--cozy-transition);
+    cursor: pointer;
+}
+
+.cozy-setups__upload-zone:hover,
+.cozy-setups__upload-zone--dragover {
+    border-color: var(--cozy-primary);
+    background: rgba(99, 102, 241, 0.03);
+}
+
+.cozy-setups__upload-icon {
+    margin-bottom: var(--cozy-space-xs);
+}
+
+.cozy-setups__upload-icon .lucide {
+    width: 36px;
+    height: 36px;
+    color: var(--cozy-text-muted);
+    transition: color var(--cozy-transition);
+}
+
+.cozy-setups__upload-zone:hover .cozy-setups__upload-icon .lucide {
+    color: var(--cozy-primary);
+}
+
+.cozy-setups__upload-text {
+    font-family: var(--cozy-font-mono);
+    font-size: 0.75rem;
+    color: var(--cozy-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.cozy-setups__upload-hint {
+    font-size: var(--cozy-text-xs);
+    color: var(--cozy-text-muted);
+    margin-top: 2px;
+}
+
+.cozy-setups__upload-input {
+    display: none;
+}
+
+
+/* -----------------------------------------------
+   8. FORMULAIRE
+   ----------------------------------------------- */
+
+.cozy-setups__form {
+    margin-bottom: var(--cozy-space-lg);
+    padding: var(--cozy-space-lg);
+    background: var(--cozy-bg-card);
+    border: 1px solid var(--cozy-border);
+    border-radius: var(--cozy-radius);
+    position: relative;
+}
+
+.cozy-setups__form::before,
+.cozy-setups__form::after {
+    content: "";
+    position: absolute;
+    width: var(--cozy-hud-bracket);
+    height: var(--cozy-hud-bracket);
+    border-color: var(--cozy-primary);
+    border-style: solid;
+    pointer-events: none;
+}
+
+.cozy-setups__form::before {
+    top: 0; left: 0;
+    border-width: 2px 0 0 2px;
+}
+
+.cozy-setups__form::after {
+    bottom: 0; right: 0;
+    border-width: 0 2px 2px 0;
+}
+
+.cozy-setups__form-title {
+    font-family: var(--cozy-font-mono);
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: var(--cozy-text);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: var(--cozy-space-md);
+}
+
+.cozy-setups__form-group {
+    margin-bottom: var(--cozy-space-md);
+}
+
+.cozy-setups__form-label {
+    display: block;
+    font-family: var(--cozy-font-mono);
+    font-size: 0.68rem;
+    font-weight: 600;
+    color: var(--cozy-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 4px;
+}
+
+.cozy-setups__form-input,
+.cozy-setups__form-textarea {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid var(--cozy-border);
+    border-radius: var(--cozy-radius);
+    background: var(--cozy-bg);
+    font-family: var(--cozy-font-body);
+    font-size: var(--cozy-text-sm);
+    color: var(--cozy-text);
+    transition: border-color var(--cozy-transition);
+}
+
+.cozy-setups__form-input:focus,
+.cozy-setups__form-textarea:focus {
+    outline: none;
+    border-color: var(--cozy-primary);
+}
+
+.cozy-setups__form-textarea {
+    min-height: 80px;
+    resize: vertical;
+}
+
+.cozy-setups__form-preview {
+    margin-bottom: var(--cozy-space-md);
+    max-width: 200px;
+    border-radius: var(--cozy-radius);
+    border: 1px solid var(--cozy-border);
+}
+
+.cozy-setups__form-submit {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 24px;
+    background: var(--cozy-primary);
+    color: #fff;
+    border: none;
+    font-family: var(--cozy-font-mono);
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    cursor: pointer;
+    clip-path: polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 6px 100%, 0 calc(100% - 6px));
+    transition: background var(--cozy-transition);
+}
+
+.cozy-setups__form-submit:hover {
+    background: var(--cozy-primary-hover);
+}
+
+
+/* -----------------------------------------------
+   9. LIGHTBOX
+   ----------------------------------------------- */
+
+.cozy-lightbox {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.88);
+    backdrop-filter: blur(6px);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.cozy-lightbox--open {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+.cozy-lightbox__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--cozy-space-md);
+    max-width: 92vw;
+    max-height: 90vh;
+}
+
+.cozy-lightbox__content img {
+    max-width: 100%;
+    max-height: 80vh;
+    object-fit: contain;
+    border-radius: var(--cozy-radius);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+.cozy-lightbox__info {
+    text-align: center;
+    color: rgba(255, 255, 255, 0.85);
+}
+
+.cozy-lightbox__info h4 {
+    font-family: var(--cozy-font-heading);
+    font-size: var(--cozy-text-lg);
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 4px;
+}
+
+.cozy-lightbox__info p {
+    font-size: var(--cozy-text-sm);
+    color: rgba(255, 255, 255, 0.6);
+    margin-bottom: 2px;
+}
+
+.cozy-lightbox__author {
+    font-family: var(--cozy-font-mono);
+    font-size: 0.72rem;
+    color: rgba(255, 255, 255, 0.45);
+}
+
+.cozy-lightbox__close {
+    position: absolute;
+    top: 24px;
+    right: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: var(--cozy-radius);
+    color: #fff;
+    cursor: pointer;
+    transition: background var(--cozy-transition);
+}
+
+.cozy-lightbox__close:hover {
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.cozy-lightbox__close .lucide {
+    width: 20px;
+    height: 20px;
+}
+
+.cozy-lightbox__nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: var(--cozy-radius);
+    color: #fff;
+    cursor: pointer;
+    transition: background var(--cozy-transition);
+}
+
+.cozy-lightbox__nav:hover {
+    background: rgba(255, 255, 255, 0.14);
+}
+
+.cozy-lightbox__nav--prev { left: 20px; }
+.cozy-lightbox__nav--next { right: 20px; }
+
+
+/* -----------------------------------------------
+   10. PAGINATION
+   ----------------------------------------------- */
+
+.cozy-setups__pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    margin-top: var(--cozy-space-lg);
+}
+
+.cozy-setups__pagination a,
+.cozy-setups__pagination span {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 34px;
+    height: 34px;
+    padding: 0 10px;
+    border: 1px solid var(--cozy-border);
+    border-radius: var(--cozy-radius);
+    font-family: var(--cozy-font-mono);
+    font-size: 0.72rem;
+    color: var(--cozy-text-muted);
+    transition: all var(--cozy-transition);
+}
+
+.cozy-setups__pagination a:hover {
+    border-color: var(--cozy-primary);
+    color: var(--cozy-primary);
+}
+
+.cozy-setups__pagination .current {
+    background: var(--cozy-primary);
+    border-color: var(--cozy-primary);
+    color: #fff;
+}
+
+
+/* -----------------------------------------------
+   11. EMPTY STATE
+   ----------------------------------------------- */
+
+.cozy-setups__empty {
+    padding: var(--cozy-space-xl);
+    text-align: center;
+    color: var(--cozy-text-muted);
+}
+
+.cozy-setups__empty .lucide {
+    width: 48px;
+    height: 48px;
+    margin-bottom: var(--cozy-space-sm);
+    opacity: 0.4;
+}
+
+.cozy-setups__empty p {
+    font-size: var(--cozy-text-sm);
+}
+
+
+/* -----------------------------------------------
+   12. RESPONSIVE
+   ----------------------------------------------- */
+
+@media (max-width: 600px) {
+    .cozy-setups {
+        padding: var(--cozy-space-md) 0;
+    }
+
+    .cozy-setups__form {
+        padding: var(--cozy-space-md);
+    }
+
+    .cozy-setups__upload-zone {
+        padding: var(--cozy-space-lg) var(--cozy-space-md);
+    }
+
+    .cozy-lightbox__close {
+        top: 12px;
+        right: 12px;
+    }
+
+    .cozy-lightbox__nav { display: none; }
+}

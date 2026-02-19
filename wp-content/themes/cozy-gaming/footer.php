@@ -20,8 +20,8 @@
                 </div>
             <?php else : ?>
                 <div class="cozy-footer__col">
-                    <h4 class="cozy-footer-widget__title">🎮 Cozy Gaming</h4>
-                    <p>Une communauté bienveillante de passionné·e·s de jeux vidéo cozy.</p>
+                    <h4 class="cozy-footer-widget__title">Cozy Grove</h4>
+                    <p>Une guilde bienveillante de passionné·e·s de jeux vidéo cozy.</p>
                 </div>
             <?php endif; ?>
 
@@ -50,8 +50,8 @@
                 </div>
             <?php else : ?>
                 <div class="cozy-footer__col">
-                    <h4 class="cozy-footer-widget__title">Rejoins-nous</h4>
-                    <p>Discord, Twitch et bien plus…<br>Viens comme tu es ! 🕹️</p>
+                    <h4 class="cozy-footer-widget__title">Rejoins la guilde</h4>
+                    <p>Discord, Twitch et bien plus…<br>Viens comme tu es !</p>
                 </div>
             <?php endif; ?>
         </div>
@@ -62,7 +62,7 @@
                 &copy; <?php echo date( 'Y' ); ?> <?php bloginfo( 'name' ); ?>.
                 <?php esc_html_e( 'Tous droits réservés.', 'cozy-gaming' ); ?>
                 <span class="cozy-footer__credit">
-                    Fait avec 💜 par la communauté.
+                    Fait avec <i data-lucide="heart" class="lucide"></i> par la guilde.
                 </span>
             </p>
         </div>

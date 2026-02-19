@@ -5,7 +5,7 @@
  * ============================================================================
  *
  * Enrichit les articles WordPress (posts) avec des champs métier
- * adaptés à une communauté gaming, gérés par ACF (gratuit).
+ * adaptés à une guilde gaming, gérés par ACF (gratuit).
  *
  * 📋 FICHE JEU :
  *   - Nom du jeu, plateformes, nombre de joueurs
@@ -46,8 +46,8 @@ function cozy_check_acf_dependency() {
             ?>
             <div class="notice notice-warning is-dismissible">
                 <p>
-                    <strong>Cozy Gaming :</strong> Le module « Articles Gaming » nécessite le plugin
-                    <a href="<?php echo admin_url( 'plugin-install.php?s=advanced+custom+fields&tab=search&type=keyword' ); ?>">Advanced Custom Fields</a>
+                    <strong>Cozy Grove :</strong> Le module « Articles Gaming » nécessite le plugin
+                    <a href="<?php echo esc_url( admin_url( 'plugin-install.php?s=advanced+custom+fields&tab=search&type=keyword' ) ); ?>">Advanced Custom Fields</a>
                     (gratuit). Installe et active-le pour profiter des fiches jeu.
                 </p>
             </div>
@@ -93,7 +93,7 @@ function cozy_get_platforms() {
  */
 function cozy_get_article_types() {
     return apply_filters( 'cozy_article_types', array(
-        'test'        => array( 'label' => 'Test / Review',   'icon' => '🎯', 'color' => '#7c3aed' ),
+        'test'        => array( 'label' => 'Test / Review',   'icon' => '🎯', 'color' => '#C8813A' ),
         'guide'       => array( 'label' => 'Guide',           'icon' => '📖', 'color' => '#0891b2' ),
         'coup_coeur'  => array( 'label' => 'Coup de cœur',    'icon' => '💜', 'color' => '#db2777' ),
         'actualite'   => array( 'label' => 'Actualité',        'icon' => '📰', 'color' => '#059669' ),
@@ -172,6 +172,49 @@ function cozy_register_article_type_taxonomy() {
 }
 add_action( 'init', 'cozy_register_article_type_taxonomy' );
 
+
+/**
+ * -----------------------------------------------
+ * 2b. TAXONOMIE JEU (fallback si le plugin Cozy Events n'est pas actif)
+ * -----------------------------------------------
+ * La taxonomie cozy_game est normalement enregistrée par le plugin.
+ * Ce fallback garantit qu'elle existe même sans le plugin.
+ */
+function cozy_register_game_taxonomy_fallback() {
+    if ( taxonomy_exists( 'cozy_game' ) ) {
+        // Le plugin l'a déjà enregistrée, on s'assure que les posts sont inclus
+        register_taxonomy_for_object_type( 'cozy_game', 'post' );
+        return;
+    }
+
+    // Enregistrement autonome si le plugin est désactivé
+    register_taxonomy( 'cozy_game', 'post', array(
+        'labels'            => array(
+            'name'                       => 'Jeux',
+            'singular_name'              => 'Jeu',
+            'menu_name'                  => '🎮 Jeux',
+            'all_items'                  => 'Tous les jeux',
+            'edit_item'                  => 'Modifier le jeu',
+            'view_item'                  => 'Voir le jeu',
+            'add_new_item'               => 'Ajouter un jeu',
+            'new_item_name'              => 'Nom du nouveau jeu',
+            'search_items'               => 'Rechercher un jeu',
+            'popular_items'              => 'Jeux populaires',
+            'separate_items_with_commas' => 'Séparer les jeux par des virgules',
+            'add_or_remove_items'        => 'Ajouter ou retirer des jeux',
+            'choose_from_most_used'      => 'Choisir parmi les jeux les plus utilisés',
+            'not_found'                  => 'Aucun jeu trouvé',
+            'back_to_items'              => '← Retour aux jeux',
+        ),
+        'hierarchical'      => false,
+        'public'            => true,
+        'show_in_rest'      => true,
+        'show_admin_column' => true,
+        'rewrite'           => array( 'slug' => 'jeu' ),
+    ) );
+}
+add_action( 'init', 'cozy_register_game_taxonomy_fallback', 25 );
+
 /**
  * Insère les types d'article par défaut
  */
@@ -230,15 +273,7 @@ function cozy_register_acf_fields() {
                 'name'          => '',
                 'label'         => '',
                 'type'          => 'message',
-                'message'       => '💡 Remplis uniquement les champs pertinents pour ton article. Tu peux tout laisser vide si ce n\'est pas un article lié à un jeu.',
-            ),
-            array(
-                'key'           => 'field_cozy_game_name',
-                'name'          => 'cozy_game_name',
-                'label'         => '🎮 Nom du jeu',
-                'type'          => 'text',
-                'placeholder'   => 'Ex : Animal Crossing: New Horizons',
-                'maxlength'     => 200,
+                'message'       => '💡 <strong>Utilise la taxonomie « 🎮 Jeux » dans la barre latérale</strong> pour associer un jeu à cet article (comme les étiquettes). Les champs ci-dessous sont optionnels et ne servent que si le jeu n\'est pas encore dans la collection.',
             ),
             array(
                 'key'           => 'field_cozy_game_platforms',
@@ -398,6 +433,89 @@ function cozy_register_acf_fields() {
         'style'        => 'default',
         'menu_order'   => 2,
     ) );
+
+
+    // =====================================================
+    // FIELD GROUP 4 : FICHE JEU (sur taxonomie cozy_game)
+    // =====================================================
+    acf_add_local_field_group( array(
+        'key'      => 'group_cozy_game_term',
+        'title'    => '🎮 Fiche du jeu',
+        'fields'   => array(
+            array(
+                'key'           => 'field_cozy_game_cover',
+                'name'          => 'cozy_game_cover',
+                'label'         => '🖼️ Image de couverture',
+                'type'          => 'image',
+                'instructions'  => 'Image de couverture du jeu (ratio 16:9 recommandé, min. 600×340 px).',
+                'return_format' => 'array',
+                'preview_size'  => 'medium',
+                'library'       => 'all',
+            ),
+            array(
+                'key'           => 'field_cozy_game_term_platforms',
+                'name'          => 'cozy_game_term_platforms',
+                'label'         => '🕹️ Plateformes',
+                'type'          => 'checkbox',
+                'choices'       => $platform_choices,
+                'layout'        => 'horizontal',
+            ),
+            array(
+                'key'           => 'field_cozy_game_term_developer',
+                'name'          => 'cozy_game_term_developer',
+                'label'         => '🛠️ Développeur',
+                'type'          => 'text',
+                'placeholder'   => 'Ex : Nintendo EPD',
+            ),
+            array(
+                'key'           => 'field_cozy_game_term_publisher',
+                'name'          => 'cozy_game_term_publisher',
+                'label'         => '📦 Éditeur',
+                'type'          => 'text',
+                'placeholder'   => 'Ex : Nintendo',
+            ),
+            array(
+                'key'           => 'field_cozy_game_term_players',
+                'name'          => 'cozy_game_term_players',
+                'label'         => '👥 Nombre de joueurs',
+                'type'          => 'text',
+                'placeholder'   => 'Ex : 1-4 joueurs, 1-8 en ligne',
+            ),
+            array(
+                'key'           => 'field_cozy_game_term_playtime',
+                'name'          => 'cozy_game_term_playtime',
+                'label'         => '⏱️ Temps de jeu moyen',
+                'type'          => 'text',
+                'placeholder'   => 'Ex : ~30h (histoire), 100h+ (complétion)',
+            ),
+            array(
+                'key'           => 'field_cozy_game_term_release_year',
+                'name'          => 'cozy_game_term_release_year',
+                'label'         => '📅 Année de sortie',
+                'type'          => 'text',
+                'placeholder'   => 'Ex : 2020',
+            ),
+            array(
+                'key'           => 'field_cozy_game_term_genre',
+                'name'          => 'cozy_game_term_genre',
+                'label'         => '🏷️ Genre',
+                'type'          => 'text',
+                'placeholder'   => 'Ex : Simulation de vie, Aventure',
+            ),
+        ),
+        'location' => array(
+            array(
+                array(
+                    'param'    => 'taxonomy',
+                    'operator' => '==',
+                    'value'    => 'cozy_game',
+                ),
+            ),
+        ),
+        'position'     => 'normal',
+        'style'        => 'default',
+        'menu_order'   => 0,
+    ) );
 }
 add_action( 'acf/init', 'cozy_register_acf_fields' );
 
@@ -409,12 +527,59 @@ add_action( 'acf/init', 'cozy_register_acf_fields' );
  */
 
 /**
- * Récupère les données de la fiche jeu d'un article
+ * Récupère les données d'un jeu depuis un terme de taxonomie cozy_game
+ *
+ * @param int $term_id
+ * @return array
+ */
+function cozy_get_game_term_data( $term_id ) {
+    if ( ! function_exists( 'get_field' ) ) {
+        return array();
+    }
+
+    $prefix = 'cozy_game_' . $term_id;
+
+    return array(
+        'cover'        => get_field( 'cozy_game_cover', $prefix ) ?: null,
+        'platforms'    => get_field( 'cozy_game_term_platforms', $prefix ) ?: array(),
+        'developer'    => get_field( 'cozy_game_term_developer', $prefix ) ?: '',
+        'publisher'    => get_field( 'cozy_game_term_publisher', $prefix ) ?: '',
+        'players'      => get_field( 'cozy_game_term_players', $prefix ) ?: '',
+        'playtime'     => get_field( 'cozy_game_term_playtime', $prefix ) ?: '',
+        'release_year' => get_field( 'cozy_game_term_release_year', $prefix ) ?: '',
+        'genre'        => get_field( 'cozy_game_term_genre', $prefix ) ?: '',
+    );
+}
+
+/**
+ * Récupère les données de la fiche jeu d'un article.
+ * Priorité : taxonomie cozy_game → champs ACF sur l'article.
  *
  * @param int $post_id
  * @return array
  */
 function cozy_get_game_data( $post_id ) {
+
+    // 1. Priorité à la taxonomie cozy_game
+    if ( taxonomy_exists( 'cozy_game' ) ) {
+        $game_terms = wp_get_post_terms( $post_id, 'cozy_game', array( 'fields' => 'all' ) );
+
+        if ( ! is_wp_error( $game_terms ) && ! empty( $game_terms ) ) {
+            $term      = $game_terms[0];
+            $term_data = cozy_get_game_term_data( $term->term_id );
+
+            return array(
+                'name'       => $term->name,
+                'platforms'  => ! empty( $term_data['platforms'] ) ? $term_data['platforms'] : array(),
+                'players'    => $term_data['players'],
+                'playtime'   => $term_data['playtime'],
+                'developer'  => $term_data['developer'],
+                'publisher'  => $term_data['publisher'],
+            );
+        }
+    }
+
+    // 2. Fallback : champs ACF sur l'article
     if ( ! function_exists( 'get_field' ) ) {
         return array();
     }
@@ -497,6 +662,15 @@ function cozy_get_verdict( $post_id ) {
  * @return bool
  */
 function cozy_article_has_game_data( $post_id ) {
+    // Vérifier la taxonomie cozy_game
+    if ( taxonomy_exists( 'cozy_game' ) ) {
+        $terms = wp_get_post_terms( $post_id, 'cozy_game' );
+        if ( ! is_wp_error( $terms ) && ! empty( $terms ) ) {
+            return true;
+        }
+    }
+
+    // Fallback ACF
     if ( ! function_exists( 'get_field' ) ) {
         return false;
     }
@@ -605,28 +779,28 @@ function cozy_render_game_card( $post_id ) {
 
             <?php if ( ! empty( $game['players'] ) ) : ?>
                 <div class="cozy-game-card__detail">
-                    <span class="cozy-game-card__detail-label">👥 Joueurs</span>
+                    <span class="cozy-game-card__detail-label"><i data-lucide="users"></i> Joueurs</span>
                     <span class="cozy-game-card__detail-value"><?php echo esc_html( $game['players'] ); ?></span>
                 </div>
             <?php endif; ?>
 
             <?php if ( ! empty( $game['playtime'] ) ) : ?>
                 <div class="cozy-game-card__detail">
-                    <span class="cozy-game-card__detail-label">⏱️ Temps de jeu</span>
+                    <span class="cozy-game-card__detail-label"><i data-lucide="clock"></i> Temps de jeu</span>
                     <span class="cozy-game-card__detail-value"><?php echo esc_html( $game['playtime'] ); ?></span>
                 </div>
             <?php endif; ?>
 
             <?php if ( ! empty( $game['developer'] ) ) : ?>
                 <div class="cozy-game-card__detail">
-                    <span class="cozy-game-card__detail-label">🛠️ Développeur</span>
+                    <span class="cozy-game-card__detail-label"><i data-lucide="wrench"></i> Développeur</span>
                     <span class="cozy-game-card__detail-value"><?php echo esc_html( $game['developer'] ); ?></span>
                 </div>
             <?php endif; ?>
 
             <?php if ( ! empty( $game['publisher'] ) ) : ?>
                 <div class="cozy-game-card__detail">
-                    <span class="cozy-game-card__detail-label">📦 Éditeur</span>
+                    <span class="cozy-game-card__detail-label"><i data-lucide="package"></i> Éditeur</span>
                     <span class="cozy-game-card__detail-value"><?php echo esc_html( $game['publisher'] ); ?></span>
                 </div>
             <?php endif; ?>
@@ -634,7 +808,7 @@ function cozy_render_game_card( $post_id ) {
 
         <?php if ( ! empty( $ratings['criteria'] ) ) : ?>
             <div class="cozy-game-card__ratings">
-                <h3 class="cozy-game-card__ratings-title">📊 Notes détaillées</h3>
+                <h3 class="cozy-game-card__ratings-title"><i data-lucide="bar-chart-3"></i> Notes détaillées</h3>
                 <div class="cozy-game-card__ratings-grid">
                     <?php foreach ( $ratings['criteria'] as $slug => $value ) :
                         if ( ! isset( $criteria[ $slug ] ) ) continue;
@@ -684,7 +858,7 @@ function cozy_render_verdict_card( $post_id ) {
     ob_start();
     ?>
     <div class="cozy-verdict">
-        <h3 class="cozy-verdict__title">📝 Notre verdict</h3>
+        <h3 class="cozy-verdict__title"><i data-lucide="file-text"></i> Notre verdict</h3>
 
         <?php if ( ! empty( $verdict['text'] ) ) : ?>
             <blockquote class="cozy-verdict__text">
@@ -696,7 +870,7 @@ function cozy_render_verdict_card( $post_id ) {
             <div class="cozy-verdict__pros-cons">
                 <?php if ( ! empty( $verdict['pros'] ) ) : ?>
                     <div class="cozy-verdict__column cozy-verdict__column--pros">
-                        <h4>✅ Points forts</h4>
+                        <h4><i data-lucide="circle-check"></i> Points forts</h4>
                         <ul>
                             <?php foreach ( $verdict['pros'] as $pro ) : ?>
                                 <li><?php echo esc_html( $pro ); ?></li>
@@ -707,7 +881,7 @@ function cozy_render_verdict_card( $post_id ) {
 
                 <?php if ( ! empty( $verdict['cons'] ) ) : ?>
                     <div class="cozy-verdict__column cozy-verdict__column--cons">
-                        <h4>❌ Points faibles</h4>
+                        <h4><i data-lucide="circle-x"></i> Points faibles</h4>
                         <ul>
                             <?php foreach ( $verdict['cons'] as $con ) : ?>
                                 <li><?php echo esc_html( $con ); ?></li>

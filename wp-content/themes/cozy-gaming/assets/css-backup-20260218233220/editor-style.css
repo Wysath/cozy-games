@@ -1,0 +1,77 @@
+/**
+ * ============================================================================
+ * COZY GAMING — Editor Style (editor-style.css)
+ * ============================================================================
+ *
+ * Typographie et couleurs dans l'éditeur Gutenberg
+ * pour correspondre au rendu front-end.
+ *
+ * @since 2.0.0
+ */
+
+:root {
+    --cozy-font-heading: 'Nunito', sans-serif;
+    --cozy-font-body: 'DM Sans', sans-serif;
+    --cozy-text: #1e1b4b;
+    --cozy-text-secondary: #5b5d89;
+    --cozy-primary: #6366f1;
+    --cozy-bg: #faf8f5;
+}
+
+.editor-styles-wrapper {
+    font-family: var(--cozy-font-body);
+    font-size: 1rem;
+    line-height: 1.7;
+    color: var(--cozy-text);
+    background: var(--cozy-bg);
+}
+
+.editor-styles-wrapper h1,
+.editor-styles-wrapper h2,
+.editor-styles-wrapper h3,
+.editor-styles-wrapper h4,
+.editor-styles-wrapper h5,
+.editor-styles-wrapper h6 {
+    font-family: var(--cozy-font-heading);
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--cozy-text);
+}
+
+.editor-styles-wrapper h1 { font-size: 2.25rem; }
+.editor-styles-wrapper h2 { font-size: 1.875rem; }
+.editor-styles-wrapper h3 { font-size: 1.5rem; }
+.editor-styles-wrapper h4 { font-size: 1.25rem; }
+
+.editor-styles-wrapper a {
+    color: var(--cozy-primary);
+}
+
+.editor-styles-wrapper blockquote {
+    border-left: 3px solid var(--cozy-primary);
+    padding-left: 1.25em;
+    color: var(--cozy-text-secondary);
+    font-style: italic;
+}
+
+.editor-styles-wrapper code {
+    font-family: 'JetBrains Mono', 'Fira Code', monospace;
+    font-size: 0.875em;
+    background: rgba(99, 102, 241, 0.06);
+    padding: 2px 6px;
+    border-radius: 2px;
+}
+
+.editor-styles-wrapper pre {
+    background: #1e1b4b;
+    color: #e0e0f0;
+    padding: 1.25em 1.5em;
+    border-radius: 3px;
+    font-family: 'JetBrains Mono', 'Fira Code', monospace;
+    font-size: 0.875rem;
+    overflow-x: auto;
+}
+
+.editor-styles-wrapper img {
+    border-radius: 3px;
+}

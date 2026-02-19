@@ -15,10 +15,20 @@
      * DOM Ready
      * --------------------------------------------------------------- */
     document.addEventListener('DOMContentLoaded', function () {
+        initLucideIcons();
         initMobileMenu();
         initStickyHeader();
         initSmoothScroll();
     });
+
+    /* ---------------------------------------------------------------
+     * 0. Lucide Icons — transforme les <i data-lucide> en SVG
+     * --------------------------------------------------------------- */
+    function initLucideIcons() {
+        if (typeof lucide !== 'undefined' && lucide.createIcons) {
+            lucide.createIcons();
+        }
+    }
 
     /* ---------------------------------------------------------------
      * 1. Menu mobile (hamburger toggle)

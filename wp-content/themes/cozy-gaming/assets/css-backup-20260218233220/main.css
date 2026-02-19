@@ -1,0 +1,837 @@
+/**
+ * ============================================================================
+ * COZY GAMING — Design System (main.css)
+ * ============================================================================
+ *
+ * Fondations visuelles : tokens, reset, typographie, layout, utilitaires.
+ * Esthétique HUD gaming · Palette indigo · Fond bleu nuit.
+ *
+ * @since 2.0.0
+ */
+
+
+/* ==================================================================
+   1. DESIGN TOKENS (Custom Properties)
+   ================================================================== */
+
+:root {
+    /* ── Primaire (Indigo) ── */
+    --cozy-primary:          #6366f1;
+    --cozy-primary-hover:    #818cf8;
+    --cozy-primary-active:   #4f46e5;
+    --cozy-primary-subtle:   rgba(99, 102, 241, 0.1);
+    --cozy-primary-muted:    #4f4b8b;
+    --cozy-primary-glow:     rgba(99, 102, 241, 0.15);
+    --cozy-primary-ghost:    rgba(99, 102, 241, 0.06);
+
+    /* ── Fond (Bleu nuit) ── */
+    --cozy-bg:               #0c0a1d;
+    --cozy-bg-card:          #151330;
+    --cozy-bg-elevated:      rgba(21, 19, 48, 0.85);
+    --cozy-bg-soft:          #110f28;
+    --cozy-bg-dark:          #0a0818;
+    --cozy-bg-darker:        #060512;
+
+    /* ── Texte (Clair sur fond sombre) ── */
+    --cozy-text:             #e2e0ef;
+    --cozy-text-secondary:   #a8a5c0;
+    --cozy-text-muted:       #6b6890;
+    --cozy-text-on-dark:     #d4d2f0;
+    --cozy-text-on-primary:  #ffffff;
+
+    /* ── Bordures ── */
+    --cozy-border:           rgba(99, 102, 241, 0.12);
+    --cozy-border-subtle:    rgba(99, 102, 241, 0.06);
+    --cozy-border-hover:     rgba(99, 102, 241, 0.25);
+    --cozy-border-active:    rgba(99, 102, 241, 0.40);
+
+    /* ── États ── */
+    --cozy-success:          #14b8a6;
+    --cozy-success-subtle:   rgba(20, 184, 166, 0.1);
+    --cozy-success-muted:    rgba(20, 184, 166, 0.3);
+    --cozy-error:            #f43f5e;
+    --cozy-error-subtle:     rgba(244, 63, 94, 0.1);
+    --cozy-error-muted:      rgba(244, 63, 94, 0.2);
+    --cozy-warning:          #eab308;
+    --cozy-warning-subtle:   rgba(234, 179, 8, 0.1);
+    --cozy-warning-muted:    rgba(234, 179, 8, 0.2);
+    --cozy-info:             #818cf8;
+    --cozy-info-subtle:      rgba(129, 140, 248, 0.1);
+    --cozy-info-muted:       rgba(129, 140, 248, 0.25);
+
+    /* ── Typographie ── */
+    --cozy-font-heading:     'Nunito', -apple-system, BlinkMacSystemFont, sans-serif;
+    --cozy-font-body:        'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    --cozy-font-mono:        'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+
+    --cozy-text-xs:   0.75rem;    /* 12px */
+    --cozy-text-sm:   0.875rem;   /* 14px */
+    --cozy-text-base: 1rem;       /* 16px */
+    --cozy-text-lg:   1.125rem;   /* 18px */
+    --cozy-text-xl:   1.25rem;    /* 20px */
+    --cozy-text-2xl:  1.5rem;     /* 24px */
+    --cozy-text-3xl:  1.875rem;   /* 30px */
+    --cozy-text-4xl:  2.25rem;    /* 36px */
+    --cozy-text-5xl:  3rem;       /* 48px */
+
+    /* ── Espacement ── */
+    --cozy-space-xs:   0.25rem;
+    --cozy-space-sm:   0.5rem;
+    --cozy-space-md:   1rem;
+    --cozy-space-lg:   1.5rem;
+    --cozy-space-xl:   2rem;
+    --cozy-space-2xl:  3rem;
+    --cozy-space-3xl:  4rem;
+    --cozy-space-4xl:  6rem;
+
+    /* ── Rayons (Sharp / Tech) ── */
+    --cozy-radius:      3px;
+    --cozy-radius-sm:   2px;
+    --cozy-radius-lg:   4px;
+    --cozy-radius-full: 9999px;
+
+    /* ── HUD ── */
+    --cozy-hud-bracket: 14px;
+    --cozy-hud-cut:     10px;
+
+    /* ── Gradients ── */
+    --cozy-gradient-primary:   linear-gradient(135deg, #6366f1, #8b5cf6, #a78bfa);
+    --cozy-gradient-accent:    linear-gradient(135deg, #6366f1, #14b8a6);
+    --cozy-gradient-warm:      linear-gradient(135deg, #f43f5e, #6366f1);
+    --cozy-gradient-aurora:    linear-gradient(135deg, #14b8a6, #6366f1, #f43f5e);
+    --cozy-gradient-subtle:    linear-gradient(135deg, rgba(99,102,241,0.10), rgba(20,184,166,0.10));
+    --cozy-gradient-dark:      linear-gradient(135deg, #0a0818, #060512);
+    --cozy-gradient-hero:      linear-gradient(135deg, #0a0818 0%, #1a1540 40%, #0a0818 100%);
+
+    /* ── Shadows & Glows ── */
+    --cozy-shadow-sm:    0 1px 3px rgba(0, 0, 0, 0.3);
+    --cozy-shadow-md:    0 4px 12px rgba(0, 0, 0, 0.35);
+    --cozy-shadow-lg:    0 8px 30px rgba(0, 0, 0, 0.4);
+    --cozy-shadow-xl:    0 12px 40px rgba(0, 0, 0, 0.45);
+    --cozy-glow-primary: 0 0 20px rgba(99, 102, 241, 0.25), 0 0 60px rgba(99, 102, 241, 0.08);
+    --cozy-glow-success: 0 0 20px rgba(20, 184, 166, 0.25), 0 0 60px rgba(20, 184, 166, 0.08);
+    --cozy-glow-warm:    0 0 20px rgba(244, 63, 94, 0.20), 0 0 60px rgba(244, 63, 94, 0.06);
+
+    /* ── Transitions ── */
+    --cozy-transition:      0.2s ease;
+    --cozy-transition-slow: 0.35s ease;
+    --cozy-transition-spring: 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+
+    /* ── Layout ── */
+    --cozy-max-width:     1440px;
+    --cozy-narrow-width:  900px;
+    --cozy-header-height: 64px;
+    --cozy-grid-gap:      1.5rem;
+}
+
+
+/* ==================================================================
+   1b. GLOBAL ANIMATIONS
+   ================================================================== */
+
+@keyframes cozy-shimmer {
+    0%   { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+}
+
+@keyframes cozy-float {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(-6px); }
+}
+
+@keyframes cozy-glow-pulse {
+    0%, 100% { opacity: 0.4; filter: blur(8px); }
+    50%      { opacity: 0.8; filter: blur(12px); }
+}
+
+@keyframes cozy-gradient-rotate {
+    0%   { --cozy-angle: 0deg; }
+    100% { --cozy-angle: 360deg; }
+}
+
+@keyframes cozy-border-dance {
+    0%   { background-position: 0% 50%; }
+    50%  { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+@keyframes cozy-scale-in {
+    0%   { transform: scale(0.92); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+
+/* ==================================================================
+   2. CSS RESET
+   ================================================================== */
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+    scroll-padding-top: calc(var(--cozy-header-height) + var(--cozy-space-lg));
+}
+
+body {
+    font-family: var(--cozy-font-body);
+    font-size: var(--cozy-text-base);
+    line-height: 1.7;
+    color: var(--cozy-text);
+    background:
+        radial-gradient(
+            ellipse at 20% 0%,
+            rgba(99, 102, 241, 0.08) 0%,
+            transparent 50%
+        ),
+        radial-gradient(
+            ellipse at 80% 100%,
+            rgba(20, 184, 166, 0.05) 0%,
+            transparent 50%
+        ),
+        var(--cozy-bg);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+body.menu-open {
+    overflow: hidden;
+}
+
+img, picture, video, canvas, svg {
+    display: block;
+    max-width: 100%;
+    height: auto;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+    transition: color var(--cozy-transition), background var(--cozy-transition);
+}
+
+a:hover {
+    color: var(--cozy-primary);
+}
+
+ul, ol {
+    list-style: none;
+}
+
+input, button, textarea, select {
+    font: inherit;
+    color: inherit;
+}
+
+button {
+    cursor: pointer;
+    border: none;
+    background: none;
+}
+
+::selection {
+    background: var(--cozy-primary);
+    color: #fff;
+}
+
+
+/* ==================================================================
+   3. TYPOGRAPHIE
+   ================================================================== */
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--cozy-font-heading);
+    font-weight: 800;
+    line-height: 1.2;
+    color: var(--cozy-text);
+    letter-spacing: -0.01em;
+}
+
+h1 { font-size: var(--cozy-text-4xl); }
+h2 { font-size: var(--cozy-text-3xl); }
+h3 { font-size: var(--cozy-text-2xl); }
+h4 { font-size: var(--cozy-text-xl); }
+h5 { font-size: var(--cozy-text-lg); }
+h6 { font-size: var(--cozy-text-base); font-weight: 700; }
+
+p {
+    margin-bottom: 1em;
+    color: var(--cozy-text-secondary);
+}
+
+strong { font-weight: 600; }
+
+/* ── Gradient text utility ── */
+.cozy-gradient-text {
+    background: var(--cozy-gradient-accent);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.cozy-gradient-text--warm {
+    background: var(--cozy-gradient-warm);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.cozy-gradient-text--aurora {
+    background: var(--cozy-gradient-aurora);
+    background-size: 200% 200%;
+    animation: cozy-border-dance 4s ease infinite;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* ── Séparateur de section décoré ── */
+.cozy-section-divider {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: var(--cozy-space-3xl) 0;
+}
+
+.cozy-section-divider::before,
+.cozy-section-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        var(--cozy-primary-muted) 30%,
+        var(--cozy-success-muted) 70%,
+        transparent
+    );
+}
+
+.cozy-section-divider__diamond {
+    width: 8px;
+    height: 8px;
+    background: var(--cozy-gradient-accent);
+    transform: rotate(45deg);
+    flex-shrink: 0;
+    box-shadow: 0 0 10px rgba(99, 102, 241, 0.4);
+}
+
+code, pre {
+    font-family: var(--cozy-font-mono);
+    font-size: 0.9em;
+}
+
+pre {
+    background: var(--cozy-bg-soft);
+    border: 1px solid var(--cozy-border);
+    border-radius: var(--cozy-radius);
+    padding: var(--cozy-space-lg);
+    overflow-x: auto;
+}
+
+
+/* ==================================================================
+   4. LUCIDE ICONS
+   ================================================================== */
+
+.lucide {
+    width: 18px;
+    height: 18px;
+    stroke-width: 1.75;
+    display: inline-block;
+    vertical-align: middle;
+    flex-shrink: 0;
+}
+
+.cozy-icon--sm .lucide,
+.lucide.cozy-icon--sm {
+    width: 14px;
+    height: 14px;
+}
+
+.cozy-icon--lg .lucide,
+.lucide.cozy-icon--lg {
+    width: 24px;
+    height: 24px;
+}
+
+.cozy-icon--xl .lucide,
+.lucide.cozy-icon--xl {
+    width: 32px;
+    height: 32px;
+}
+
+
+/* ==================================================================
+   5. LAYOUT
+   ================================================================== */
+
+.cozy-container {
+    width: 100%;
+    max-width: var(--cozy-max-width);
+    margin: 0 auto;
+    padding: 0 var(--cozy-space-lg);
+}
+
+.cozy-container--narrow {
+    max-width: var(--cozy-narrow-width);
+}
+
+.cozy-main {
+    flex: 1;
+    padding: var(--cozy-space-2xl) 0;
+}
+
+
+/* ==================================================================
+   6. GRILLE DE POSTS
+   ================================================================== */
+
+.cozy-posts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: var(--cozy-grid-gap);
+}
+
+
+/* ==================================================================
+   7. PAGINATION
+   ================================================================== */
+
+.cozy-pagination .nav-links {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--cozy-space-sm);
+    margin-top: var(--cozy-space-3xl);
+}
+
+.cozy-pagination .page-numbers {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 40px;
+    height: 40px;
+    padding: 0 var(--cozy-space-sm);
+    font-family: var(--cozy-font-mono);
+    font-size: var(--cozy-text-sm);
+    color: var(--cozy-text-secondary);
+    border: 1px solid var(--cozy-border);
+    border-radius: var(--cozy-radius);
+    transition: all var(--cozy-transition);
+}
+
+.cozy-pagination .page-numbers:hover {
+    color: var(--cozy-primary);
+    border-color: var(--cozy-border-hover);
+}
+
+.cozy-pagination .page-numbers.current {
+    background: var(--cozy-gradient-primary);
+    color: var(--cozy-text-on-primary);
+    border-color: transparent;
+    box-shadow: var(--cozy-glow-primary);
+}
+
+
+/* ==================================================================
+   8. ENTRY CONTENT (Article Styling)
+   ================================================================== */
+
+.entry-content > * + * {
+    margin-top: 1.5em;
+}
+
+.entry-content h2 { margin-top: 2.5em; margin-bottom: 0.5em; }
+.entry-content h3 { margin-top: 2em; margin-bottom: 0.5em; }
+.entry-content h4 { margin-top: 1.5em; margin-bottom: 0.5em; }
+
+.entry-content p {
+    color: var(--cozy-text);
+    line-height: 1.8;
+}
+
+.entry-content ul,
+.entry-content ol {
+    padding-left: 1.5em;
+}
+
+.entry-content ul { list-style-type: disc; }
+.entry-content ol { list-style-type: decimal; }
+
+.entry-content li + li {
+    margin-top: 0.5em;
+}
+
+.entry-content li {
+    color: var(--cozy-text);
+}
+
+.entry-content blockquote {
+    border-left: 3px solid transparent;
+    border-image: linear-gradient(180deg, var(--cozy-primary), var(--cozy-success)) 1;
+    padding: var(--cozy-space-lg) var(--cozy-space-lg) var(--cozy-space-lg) var(--cozy-space-xl);
+    background: var(--cozy-gradient-subtle);
+    color: var(--cozy-text-secondary);
+    font-style: italic;
+    border-radius: 0 var(--cozy-radius) var(--cozy-radius) 0;
+    position: relative;
+}
+
+.entry-content blockquote::before {
+    content: '\201C';
+    position: absolute;
+    top: -8px;
+    left: 12px;
+    font-family: Georgia, serif;
+    font-size: 3.5rem;
+    line-height: 1;
+    background: var(--cozy-gradient-accent);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    opacity: 0.3;
+    pointer-events: none;
+}
+
+.entry-content img {
+    border-radius: var(--cozy-radius);
+}
+
+.entry-content a {
+    color: var(--cozy-primary);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 2px;
+}
+
+.entry-content a:hover {
+    text-decoration-thickness: 2px;
+}
+
+.entry-content table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: var(--cozy-text-sm);
+}
+
+.entry-content th,
+.entry-content td {
+    border: 1px solid var(--cozy-border);
+    padding: var(--cozy-space-sm) var(--cozy-space-md);
+    text-align: left;
+}
+
+.entry-content th {
+    background: var(--cozy-bg-soft);
+    font-weight: 600;
+}
+
+.entry-content hr {
+    border: none;
+    height: 2px;
+    background: linear-gradient(
+        90deg,
+        transparent 0%,
+        var(--cozy-success) 20%,
+        var(--cozy-primary) 50%,
+        var(--cozy-success) 80%,
+        transparent 100%
+    );
+    background-size: 200% 100%;
+    animation: cozy-border-dance 4s ease infinite;
+    margin: var(--cozy-space-2xl) 0;
+    position: relative;
+}
+
+.entry-content hr::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 8px;
+    height: 8px;
+    background: var(--cozy-gradient-accent);
+    transform: translate(-50%, -50%) rotate(45deg);
+    box-shadow: 0 0 12px rgba(99, 102, 241, 0.5);
+}
+
+
+/* ==================================================================
+   9. HUD UTILITIES
+   ================================================================== */
+
+/* ── Micro-label (texte technique HUD) ── */
+.cozy-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--cozy-font-mono);
+    font-size: 0.6875rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--cozy-text-muted);
+}
+
+.cozy-label .lucide {
+    width: 12px;
+    height: 12px;
+}
+
+/* ── Séparateur HUD avec ornement ── */
+.cozy-divider {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: var(--cozy-space-xl) 0;
+}
+
+.cozy-divider::before,
+.cozy-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--cozy-border);
+}
+
+.cozy-divider__dot {
+    width: 4px;
+    height: 4px;
+    background: var(--cozy-primary-muted);
+    transform: rotate(45deg);
+}
+
+/* ── Élement avec brackets HUD ── */
+.cozy-hud {
+    position: relative;
+}
+
+.cozy-hud::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: var(--cozy-hud-bracket);
+    height: var(--cozy-hud-bracket);
+    border-top: 1px solid var(--cozy-primary-muted);
+    border-left: 1px solid var(--cozy-primary-muted);
+    pointer-events: none;
+    transition: border-color var(--cozy-transition);
+    z-index: 2;
+}
+
+.cozy-hud::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: var(--cozy-hud-bracket);
+    height: var(--cozy-hud-bracket);
+    border-bottom: 1px solid var(--cozy-primary-muted);
+    border-right: 1px solid var(--cozy-primary-muted);
+    pointer-events: none;
+    transition: border-color var(--cozy-transition);
+    z-index: 2;
+}
+
+/* ── Barre XP (progression) ── */
+.cozy-xp-bar {
+    height: 6px;
+    background: var(--cozy-border);
+    border-radius: 0;
+    overflow: hidden;
+    position: relative;
+}
+
+.cozy-xp-bar__fill {
+    height: 100%;
+    background: var(--cozy-gradient-accent);
+    background-size: 200% 100%;
+    animation: cozy-border-dance 3s ease infinite;
+    transition: width 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+    position: relative;
+}
+
+.cozy-xp-bar__fill::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+    background-size: 200% 100%;
+    animation: cozy-shimmer 2s ease infinite;
+}
+
+/* ── Glass panel ── */
+.cozy-glass {
+    background: var(--cozy-bg-elevated);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--cozy-border);
+    box-shadow: var(--cozy-shadow-sm);
+}
+
+
+/* ==================================================================
+   10. EMPTY / 404 STATES
+   ================================================================== */
+
+.cozy-empty {
+    text-align: center;
+    padding: var(--cozy-space-4xl) var(--cozy-space-xl);
+}
+
+.cozy-empty__icon {
+    color: var(--cozy-primary-muted);
+    margin-bottom: var(--cozy-space-md);
+}
+
+.cozy-empty__icon .lucide {
+    width: 48px;
+    height: 48px;
+    stroke-width: 1.25;
+}
+
+.cozy-empty__title {
+    font-size: var(--cozy-text-2xl);
+    margin-bottom: var(--cozy-space-sm);
+}
+
+.cozy-empty__text {
+    color: var(--cozy-text-muted);
+    max-width: 400px;
+    margin: 0 auto var(--cozy-space-xl);
+}
+
+
+/* ==================================================================
+   11. ACCESSIBILITY
+   ================================================================== */
+
+.screen-reader-text {
+    clip: rect(1px, 1px, 1px, 1px);
+    clip-path: inset(50%);
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    position: absolute;
+    white-space: nowrap;
+}
+
+.screen-reader-text:focus {
+    clip: auto;
+    clip-path: none;
+    width: auto;
+    height: auto;
+    overflow: visible;
+    position: static;
+    background: var(--cozy-bg-card);
+    padding: var(--cozy-space-md);
+    z-index: 100000;
+}
+
+.skip-link {
+    position: fixed;
+    top: -100px;
+    left: var(--cozy-space-md);
+    z-index: 100000;
+    padding: var(--cozy-space-sm) var(--cozy-space-md);
+    background: var(--cozy-primary);
+    color: var(--cozy-text-on-primary);
+    font-size: var(--cozy-text-sm);
+    border-radius: 0 0 var(--cozy-radius) var(--cozy-radius);
+    transition: top var(--cozy-transition);
+}
+
+.skip-link:focus {
+    top: 0;
+}
+
+:focus-visible {
+    outline: 2px solid var(--cozy-primary);
+    outline-offset: 2px;
+}
+
+
+/* ==================================================================
+   12. SEARCH FORM
+   ================================================================== */
+
+.cozy-search-form {
+    position: relative;
+    max-width: 400px;
+}
+
+.cozy-search-form__input {
+    width: 100%;
+    padding: 10px 44px 10px 16px;
+    background: var(--cozy-bg-card);
+    border: 1px solid var(--cozy-border);
+    border-radius: var(--cozy-radius);
+    font-size: var(--cozy-text-sm);
+    color: var(--cozy-text);
+    transition: border-color var(--cozy-transition);
+}
+
+.cozy-search-form__input:focus {
+    outline: none;
+    border-color: var(--cozy-primary);
+    box-shadow: 0 0 0 3px var(--cozy-primary-glow), var(--cozy-glow-primary);
+}
+
+.cozy-search-form__input::placeholder {
+    color: var(--cozy-text-muted);
+}
+
+.cozy-search-form__btn {
+    position: absolute;
+    right: 4px;
+    top: 50%;
+    transform: translateY(-50%);
+    padding: 6px;
+    color: var(--cozy-text-muted);
+    transition: color var(--cozy-transition);
+}
+
+.cozy-search-form__btn:hover {
+    color: var(--cozy-primary);
+}
+
+
+/* ==================================================================
+   13. RESPONSIVE
+   ================================================================== */
+
+@media (max-width: 900px) {
+    :root {
+        --cozy-text-4xl: 1.875rem;
+        --cozy-text-3xl: 1.5rem;
+        --cozy-text-2xl: 1.25rem;
+    }
+
+    .cozy-container {
+        padding: 0 var(--cozy-space-md);
+    }
+
+    .cozy-main {
+        padding: var(--cozy-space-xl) 0;
+    }
+}
+
+@media (max-width: 600px) {
+    .cozy-posts-grid {
+        grid-template-columns: 1fr;
+    }
+}

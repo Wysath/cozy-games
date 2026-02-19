@@ -64,7 +64,8 @@
                     <span class="cozy-header__username"><?php echo esc_html( wp_get_current_user()->display_name ); ?></span>
                 </a>
             <?php else : ?>
-                <a href="<?php echo esc_url( wp_login_url( get_permalink() ) ); ?>" class="cozy-btn cozy-btn--sm">
+                <a href="<?php echo esc_url( wp_login_url( get_permalink() ) ); ?>" class="cozy-header__login">
+                    <i data-lucide="log-in"></i>
                     <?php esc_html_e( 'Connexion', 'cozy-gaming' ); ?>
                 </a>
             <?php endif; ?>

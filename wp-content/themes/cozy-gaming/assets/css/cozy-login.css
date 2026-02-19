@@ -1,101 +1,85 @@
 /**
  * ============================================================================
- * COZY GAMING — Styles Login & Inscription
+ * COZY GROVE — Login Page  (v3.0 — Design System Guilde)
  * ============================================================================
- *
- * Personnalisation visuelle des pages wp-login.php
- * Connexion, inscription, mot de passe oublié, réinitialisation.
+ * Customize wp-login.php to match the Cozy Grove design system.
  */
 
+
 /* -----------------------------------------------
-   1. FOND ET BODY
+   1. BODY
    ----------------------------------------------- */
 
 body.login {
-    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 40%, #0f3460 100%);
-    min-height: 100vh;
+    background:
+        radial-gradient(
+            ellipse at 30% 20%,
+            rgba(200, 129, 58, 0.08) 0%,
+            transparent 50%
+        ),
+        radial-gradient(
+            ellipse at 70% 80%,
+            rgba(74, 102, 73, 0.06) 0%,
+            transparent 50%
+        ),
+        #22201C;
+    font-family: var(--cozy-font-body, 'Nunito', sans-serif);
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, sans-serif;
-}
-
-/* Particules décoratives (pseudo-éléments) */
-body.login::before {
-    content: '';
-    position: fixed;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background:
-        radial-gradient(circle at 20% 80%, rgba(108, 92, 231, 0.08) 0%, transparent 50%),
-        radial-gradient(circle at 80% 20%, rgba(162, 155, 254, 0.06) 0%, transparent 50%),
-        radial-gradient(circle at 50% 50%, rgba(129, 140, 248, 0.04) 0%, transparent 70%);
-    pointer-events: none;
-    z-index: 0;
+    min-height: 100vh;
 }
 
 
 /* -----------------------------------------------
-   2. LOGO / EN-TÊTE
+   2. LOGO
    ----------------------------------------------- */
 
-#login {
-    position: relative;
-    z-index: 1;
-    width: 360px;
-    padding: 0;
-}
-
 #login h1 a {
-    background-image: none !important;
-    width: auto;
-    height: auto;
-    text-indent: 0;
-    font-size: 0;
-    margin: 0 auto 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
-}
-
-#login h1 a::before {
-    content: '🎮';
-    font-size: 3em;
-    display: block;
-    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
-}
-
-#login h1 a::after {
-    content: 'Cozy Gaming';
-    font-size: 1.6rem;
-    font-weight: 700;
-    color: #e2e8f0;
-    letter-spacing: 0.5px;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    width: 200px;
+    height: 70px;
+    background-image: url('../images/logo.png') !important;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    margin-bottom: 16px;
 }
 
 
 /* -----------------------------------------------
-   3. CARTE DU FORMULAIRE
+   3. FORMULAIRE — warm card
    ----------------------------------------------- */
 
 #loginform,
 #registerform,
-#lostpasswordform,
-#resetpassform {
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 16px;
-    box-shadow:
-        0 20px 60px rgba(0, 0, 0, 0.3),
-        0 0 0 1px rgba(255, 255, 255, 0.05) inset;
-    padding: 28px 32px 24px;
-    margin-top: 0;
+#lostpasswordform {
+    position: relative;
+    background: rgba(26, 22, 15, 0.92);
+    backdrop-filter: blur(16px);
+    border: 1px solid var(--cozy-border);
+    border-radius: var(--cozy-radius);
+    padding: 32px 28px 24px;
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(200, 129, 58, 0.08);
+}
+
+/* Left amber stripe */
+#loginform::before,
+#registerform::before,
+#lostpasswordform::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 2px;
+    height: 100%;
+    background: var(--cozy-amber-dim);
+    border-radius: var(--cozy-radius) 0 0 var(--cozy-radius);
+}
+
+#loginform::after,
+#registerform::after,
+#lostpasswordform::after {
+    display: none;
 }
 
 
@@ -105,340 +89,230 @@ body.login::before {
 
 #loginform label,
 #registerform label,
-#lostpasswordform label,
-#resetpassform label {
-    color: #374151;
+#lostpasswordform label {
+    font-family: var(--cozy-font-ui);
+    font-size: 10px;
     font-weight: 600;
-    font-size: 0.9em;
-    letter-spacing: 0.02em;
+    color: var(--cozy-stone);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
 }
 
 
 /* -----------------------------------------------
-   5. CHAMPS INPUT
+   5. INPUTS
    ----------------------------------------------- */
 
-#loginform .input,
-#registerform .input,
-#lostpasswordform .input,
-#resetpassform .input {
-    background: #f8f9fc;
-    border: 2px solid #e5e7eb;
-    border-radius: 10px;
-    padding: 10px 14px;
-    font-size: 1em;
-    color: #1f2937;
-    transition: all 0.2s ease;
+#loginform input[type="text"],
+#loginform input[type="password"],
+#loginform input[type="email"],
+#registerform input[type="text"],
+#registerform input[type="email"],
+#lostpasswordform input[type="text"],
+#lostpasswordform input[type="email"] {
     width: 100%;
-    box-sizing: border-box;
+    padding: 11px 14px;
+    border: 1px solid var(--cozy-border);
+    border-radius: var(--cozy-radius);
+    background: var(--cozy-ink-soft);
+    font-family: var(--cozy-font-body);
+    font-size: var(--cozy-text-sm);
+    color: var(--cozy-cream);
+    box-shadow: none;
+    transition: border-color var(--cozy-transition), box-shadow var(--cozy-transition);
+}
+
+#loginform input[type="text"]:focus,
+#loginform input[type="password"]:focus,
+#loginform input[type="email"]:focus,
+#registerform input[type="text"]:focus,
+#registerform input[type="email"]:focus,
+#lostpasswordform input[type="text"]:focus,
+#lostpasswordform input[type="email"]:focus {
+    border-color: var(--cozy-amber-dim);
+    box-shadow: 0 0 0 3px rgba(200, 129, 58, 0.08);
+    outline: none;
+}
+
+
+/* -----------------------------------------------
+   6. CHECKBOX "Se souvenir"
+   ----------------------------------------------- */
+
+#loginform .forgetmenot {
     margin-top: 4px;
 }
 
-#loginform .input:focus,
-#registerform .input:focus,
-#lostpasswordform .input:focus,
-#resetpassform .input:focus {
-    outline: none;
-    border-color: #6c5ce7;
-    box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.15);
-    background: #fff;
+#loginform .forgetmenot label {
+    font-size: 10px;
 }
 
 
 /* -----------------------------------------------
-   6. BOUTONS
+   7. BOUTON — amber gradient
    ----------------------------------------------- */
 
 #wp-submit {
-    background: linear-gradient(135deg, #6c5ce7 0%, #a29bfe 100%) !important;
-    border: none !important;
-    border-radius: 10px !important;
-    padding: 12px 24px !important;
-    font-size: 1em !important;
-    font-weight: 600 !important;
-    color: #fff !important;
-    cursor: pointer;
-    transition: all 0.2s ease !important;
-    text-shadow: none !important;
-    box-shadow: 0 4px 15px rgba(108, 92, 231, 0.3) !important;
-    width: 100%;
-    margin-top: 8px;
-}
-
-#wp-submit:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(108, 92, 231, 0.4) !important;
-    background: linear-gradient(135deg, #5b4cdb 0%, #918bf7 100%) !important;
-}
-
-#wp-submit:active {
-    transform: translateY(0);
-    box-shadow: 0 2px 10px rgba(108, 92, 231, 0.3) !important;
-}
-
-.submit {
-    padding-top: 4px !important;
-}
-
-
-/* -----------------------------------------------
-   7. CHECKBOX « SE SOUVENIR DE MOI »
-   ----------------------------------------------- */
-
-.forgetmenot {
-    margin-bottom: 8px !important;
-}
-
-.forgetmenot label {
-    font-size: 0.85em !important;
-    color: #6b7280 !important;
-}
-
-.forgetmenot input[type="checkbox"] {
-    border-radius: 4px;
-    border: 2px solid #d1d5db;
-    width: 16px;
-    height: 16px;
-}
-
-.forgetmenot input[type="checkbox"]:checked {
-    background: #6c5ce7;
-    border-color: #6c5ce7;
-}
-
-
-/* -----------------------------------------------
-   8. MESSAGES (info, erreur, succès)
-   ----------------------------------------------- */
-
-.login .message,
-.login .success,
-.login #login_error {
-    border-radius: 10px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 11px 28px;
+    background: var(--cozy-amber);
+    color: var(--cozy-ink);
     border: none;
-    padding: 14px 18px;
-    margin-bottom: 16px;
-    font-size: 0.9em;
-    line-height: 1.5;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    border-radius: var(--cozy-radius);
+    font-family: var(--cozy-font-ui);
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    cursor: pointer;
+    transition: all var(--cozy-transition);
+    box-shadow: 0 1px 0 var(--cozy-amber-dim), 0 4px 14px rgba(200, 129, 58, 0.18);
+    text-shadow: none;
 }
 
-.login .message {
-    background: linear-gradient(135deg, #ede9fe 0%, #e8e4f5 100%);
-    border-left: 4px solid #6c5ce7;
-    color: #4c1d95;
-}
-
-.login .success {
-    background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
-    border-left: 4px solid #10b981;
-    color: #065f46;
-}
-
-.login #login_error {
-    background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
-    border-left: 4px solid #ef4444;
-    color: #991b1b;
-}
-
-/* Message personnalisé inscription */
-.cozy-register-message {
-    text-align: center;
-    font-size: 1em !important;
-}
-
-.cozy-register-message small {
-    color: #6b7280;
-    font-size: 0.85em;
+#wp-submit:hover,
+#wp-submit:focus {
+    background: var(--cozy-amber-glow);
+    box-shadow: 0 1px 0 var(--cozy-amber-dim), 0 6px 20px rgba(200, 129, 58, 0.25);
+    transform: translateY(-1px);
 }
 
 
 /* -----------------------------------------------
-   9. LIENS DE NAVIGATION
+   8. MESSAGES
+   ----------------------------------------------- */
+
+#login_error,
+.message,
+.success {
+    border-radius: var(--cozy-radius);
+    font-family: var(--cozy-font-body);
+    font-size: var(--cozy-text-sm);
+    box-shadow: none;
+    padding: 12px 16px;
+}
+
+#login_error {
+    border-left: 2px solid #9B3A1E;
+    background: rgba(155, 58, 30, 0.05);
+    color: #D4654A;
+}
+
+.message {
+    border-left: 2px solid #C8813A;
+    background: rgba(200, 129, 58, 0.05);
+    color: #C8813A;
+}
+
+.success {
+    border-left: 2px solid #4A6649;
+    background: rgba(74, 102, 73, 0.05);
+    color: #6B8F6A;
+}
+
+
+/* -----------------------------------------------
+   9. LIENS SECONDAIRES
    ----------------------------------------------- */
 
 #login #nav,
 #login #backtoblog {
     text-align: center;
-    padding: 0;
-    margin-top: 16px;
 }
 
 #login #nav a,
 #login #backtoblog a {
-    color: rgba(255, 255, 255, 0.7) !important;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 10px;
+    color: rgba(237, 228, 207, 0.4);
     text-decoration: none;
-    font-size: 0.9em;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
     transition: color 0.2s ease;
 }
 
 #login #nav a:hover,
 #login #backtoblog a:hover {
-    color: #a29bfe !important;
-}
-
-/* Séparateur entre les liens */
-#login #nav {
-    color: rgba(255, 255, 255, 0.3);
+    color: #C8813A;
+    text-shadow: 0 0 10px rgba(200, 129, 58, 0.3);
 }
 
 
 /* -----------------------------------------------
-   10. FORMULAIRE D'INSCRIPTION SPÉCIFIQUE
-   ----------------------------------------------- */
-
-/* Indication pour le mot de passe */
-.cozy-password-hint {
-    font-size: 0.8em !important;
-    color: #9ca3af !important;
-    margin-top: -8px !important;
-    margin-bottom: 4px !important;
-    padding-left: 2px;
-}
-
-/* Espacement entre les champs du formulaire inscription */
-#registerform p {
-    margin-bottom: 14px;
-}
-
-
-/* -----------------------------------------------
-   11. MOT DE PASSE TOGGLE (reset pass)
-   ----------------------------------------------- */
-
-.wp-pwd {
-    position: relative;
-}
-
-.wp-pwd .button.wp-hide-pw {
-    position: absolute;
-    right: 4px;
-    top: 50%;
-    transform: translateY(-50%);
-    background: transparent;
-    border: none;
-    color: #9ca3af;
-    cursor: pointer;
-    padding: 4px 8px;
-}
-
-.wp-pwd .button.wp-hide-pw:hover {
-    color: #6c5ce7;
-}
-
-#pass-strength-result {
-    border-radius: 6px;
-    margin-top: 8px;
-    padding: 6px 12px;
-    font-size: 0.85em;
-    text-align: center;
-}
-
-
-/* -----------------------------------------------
-   12. NOTICES ADMIN (PRIVACY, ETC.)
+   10. PRIVACY POLICY LINK
    ----------------------------------------------- */
 
 .privacy-policy-page-link {
     text-align: center;
-    margin-top: 12px;
 }
 
 .privacy-policy-page-link a {
-    color: rgba(255, 255, 255, 0.5) !important;
-    font-size: 0.8em;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 10px;
+    color: #5A4E3C;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
 }
 
 .privacy-policy-page-link a:hover {
-    color: rgba(255, 255, 255, 0.8) !important;
+    color: #C8813A;
 }
 
 
 /* -----------------------------------------------
-   13. NOTIFICATION LANGUAGE SWITCHER
+   11. LANGUAGE SWITCHER (WP 5.9+)
    ----------------------------------------------- */
 
 .language-switcher {
-    margin-top: 16px;
     text-align: center;
 }
 
-.language-switcher label {
-    color: rgba(255, 255, 255, 0.6) !important;
-    font-size: 0.85em;
+.language-switcher select {
+    padding: 6px 12px;
+    border: 1px solid rgba(200, 129, 58, 0.15);
+    border-radius: 4px;
+    background: rgba(34, 32, 28, 0.6);
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.82rem;
+    color: #EDE4CF;
 }
 
-.language-switcher select {
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    color: #e2e8f0;
-    border-radius: 8px;
-    padding: 6px 10px;
+.language-switcher .button {
+    padding: 6px 16px;
+    background: transparent;
+    border: 1px solid rgba(200, 129, 58, 0.15);
+    border-radius: 4px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 10px;
+    color: #8A7D6B;
+    cursor: pointer;
+    box-shadow: none;
+    text-shadow: none;
+    transition: border-color 0.2s ease;
+}
+
+.language-switcher .button:hover {
+    border-color: #C8813A;
+    color: #C8813A;
 }
 
 
 /* -----------------------------------------------
-   14. RESPONSIVE
+   12. RESPONSIVE
    ----------------------------------------------- */
 
 @media (max-width: 480px) {
     #login {
-        width: 90%;
-        max-width: 360px;
+        width: 92% !important;
+        padding: 20px 0;
     }
 
     #loginform,
     #registerform,
-    #lostpasswordform,
-    #resetpassform {
-        padding: 24px 20px 20px;
-        border-radius: 12px;
+    #lostpasswordform {
+        padding: 20px 16px;
     }
-
-    #login h1 a::before {
-        font-size: 2.5em;
-    }
-
-    #login h1 a::after {
-        font-size: 1.3rem;
-    }
-}
-
-
-/* -----------------------------------------------
-   15. ANIMATIONS
-   ----------------------------------------------- */
-
-@keyframes cozyFadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(12px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-#loginform,
-#registerform,
-#lostpasswordform,
-#resetpassform {
-    animation: cozyFadeIn 0.4s ease-out;
-}
-
-.login .message,
-.login .success,
-.login #login_error {
-    animation: cozyFadeIn 0.3s ease-out;
-}
-
-
-/* -----------------------------------------------
-   16. ÉTAT DE CHARGEMENT DU BOUTON
-   ----------------------------------------------- */
-
-#wp-submit:disabled {
-    opacity: 0.7;
-    cursor: wait;
 }

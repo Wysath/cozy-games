@@ -33,7 +33,7 @@ function cozy_social_profile_fields( $user ) {
     $discord = get_user_meta( $user->ID, 'cozy_discord', true );
     $twitch  = get_user_meta( $user->ID, 'cozy_twitch', true );
     ?>
-    <h3>🎮 Profil Gaming — Cozy Gaming</h3>
+    <h3>🎮 Profil Gaming — Cozy Grove</h3>
     <table class="form-table">
         <tr>
             <th><label for="cozy_discord">Pseudo Discord</label></th>
@@ -190,7 +190,7 @@ function cozy_shortcode_profil_social() {
     ?>
     <div class="cozy-social-profile" id="cozy-social-profile">
         <div class="cozy-social-profile__header">
-            <h3>🎮 Mon Profil Gaming</h3>
+            <h3><i data-lucide="gamepad-2"></i> Mon Profil Gaming</h3>
             <p>Lie tes comptes Discord et Twitch pour que les autres membres puissent te retrouver facilement lors des événements !</p>
         </div>
 
@@ -251,7 +251,7 @@ function cozy_shortcode_profil_social() {
 
             <div class="cozy-social-profile__actions">
                 <button type="submit" class="cozy-social-profile__btn">
-                    💾 Sauvegarder mon profil
+                                        <i data-lucide="save"></i> Sauvegarder mon profil
                 </button>
                 <span class="cozy-social-profile__message" id="cozy-social-message"></span>
             </div>
@@ -370,7 +370,7 @@ function cozy_ajax_save_social_profile() {
 
     // Préparer la réponse avec les statuts mis à jour
     wp_send_json_success( array(
-        'message' => 'Profil gaming sauvegardé avec succès ! 🎮',
+        'message' => 'Profil gaming sauvegardé avec succès !',
         'discord' => $discord,
         'twitch'  => $twitch,
     ) );

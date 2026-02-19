@@ -1,0 +1,767 @@
+/**
+ * ============================================================================
+ * COZY GAMING — Components (components.css)
+ * ============================================================================
+ *
+ * Composants réutilisables : boutons biseautés, cartes HUD avec brackets,
+ * badges, single post, navigation, commentaires, widgets.
+ *
+ * @since 2.0.0
+ */
+
+
+/* ==================================================================
+   1. BOUTONS
+   ================================================================== */
+
+.cozy-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px 22px;
+    font-family: var(--cozy-font-body);
+    font-size: var(--cozy-text-sm);
+    font-weight: 600;
+    line-height: 1.4;
+    border: none;
+    cursor: pointer;
+    transition: all var(--cozy-transition);
+    position: relative;
+    text-decoration: none;
+}
+
+.cozy-btn .lucide {
+    width: 16px;
+    height: 16px;
+}
+
+/* ── Primary : coins biseautés (Cyberpunk / Valorant) ── */
+.cozy-btn--primary {
+    --btn-cut: 8px;
+    background: var(--cozy-gradient-primary);
+    color: var(--cozy-text-on-primary);
+    clip-path: polygon(
+        0 0,
+        calc(100% - var(--btn-cut)) 0,
+        100% var(--btn-cut),
+        100% 100%,
+        var(--btn-cut) 100%,
+        0 calc(100% - var(--btn-cut))
+    );
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(99, 102, 241, 0.2);
+}
+
+.cozy-btn--primary::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 60%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.2),
+        transparent
+    );
+    transition: left 0.5s ease;
+}
+
+.cozy-btn--primary:hover::before {
+    left: 120%;
+}
+
+.cozy-btn--primary:hover {
+    background: var(--cozy-gradient-primary);
+    filter: brightness(1.1);
+    box-shadow: var(--cozy-glow-primary);
+    transform: translateY(-1px);
+}
+
+.cozy-btn--primary:active {
+    background: var(--cozy-primary-active);
+}
+
+/* ── Outline : bordure fine avec brackets ── */
+.cozy-btn--outline {
+    background: rgba(99, 102, 241, 0.06);
+    color: var(--cozy-primary);
+    border: 1px solid var(--cozy-border-hover);
+    border-radius: var(--cozy-radius);
+}
+
+.cozy-btn--outline:hover {
+    border-color: var(--cozy-primary);
+    background: var(--cozy-gradient-subtle);
+    box-shadow: var(--cozy-glow-primary);
+    transform: translateY(-1px);
+}
+
+/* ── Ghost : minimal ── */
+.cozy-btn--ghost {
+    background: transparent;
+    color: var(--cozy-text-secondary);
+    border-radius: var(--cozy-radius);
+}
+
+.cozy-btn--ghost:hover {
+    color: var(--cozy-primary);
+    background: var(--cozy-primary-ghost);
+}
+
+/* ── Tailles ── */
+.cozy-btn--sm {
+    padding: 6px 14px;
+    font-size: var(--cozy-text-xs);
+    --btn-cut: 6px;
+}
+
+.cozy-btn--lg {
+    padding: 14px 28px;
+    font-size: var(--cozy-text-base);
+    --btn-cut: 10px;
+}
+
+.cozy-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+
+/* ==================================================================
+   2. CARTES (HUD Style avec brackets)
+   ================================================================== */
+
+.cozy-card {
+    position: relative;
+    background: var(--cozy-bg-card);
+    border: 1px solid var(--cozy-border);
+    border-radius: var(--cozy-radius);
+    overflow: hidden;
+    transition: all var(--cozy-transition);
+}
+
+/* ── Bracket déco haut-gauche ── */
+.cozy-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: var(--cozy-hud-bracket);
+    height: var(--cozy-hud-bracket);
+    border-top: 1px solid var(--cozy-primary-muted);
+    border-left: 1px solid var(--cozy-primary-muted);
+    z-index: 3;
+    pointer-events: none;
+    transition: all var(--cozy-transition);
+}
+
+/* ── Bracket déco bas-droite ── */
+.cozy-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: var(--cozy-hud-bracket);
+    height: var(--cozy-hud-bracket);
+    border-bottom: 1px solid var(--cozy-primary-muted);
+    border-right: 1px solid var(--cozy-primary-muted);
+    z-index: 3;
+    pointer-events: none;
+    transition: all var(--cozy-transition);
+}
+
+/* ── Hover : brackets s'illuminent + glow subtil + top accent ── */
+.cozy-card:hover {
+    border-color: var(--cozy-border-hover);
+    transform: translateY(-4px);
+    box-shadow:
+        var(--cozy-shadow-lg),
+        0 0 30px var(--cozy-primary-glow),
+        inset 0 2px 0 var(--cozy-primary);
+}
+
+.cozy-card:hover::before,
+.cozy-card:hover::after {
+    border-color: var(--cozy-primary);
+    width: calc(var(--cozy-hud-bracket) + 8px);
+    height: calc(var(--cozy-hud-bracket) + 8px);
+}
+
+/* ── Image ── */
+.cozy-card__thumbnail {
+    display: block;
+    overflow: hidden;
+    aspect-ratio: 16 / 10;
+}
+
+.cozy-card__thumbnail img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--cozy-transition-slow);
+}
+
+.cozy-card:hover .cozy-card__thumbnail img {
+    transform: scale(1.03);
+}
+
+/* ── Corps ── */
+.cozy-card__body {
+    padding: var(--cozy-space-lg);
+    display: flex;
+    flex-direction: column;
+    gap: var(--cozy-space-sm);
+}
+
+/* ── Meta (micro-label style) ── */
+.cozy-card__meta {
+    display: flex;
+    align-items: center;
+    gap: var(--cozy-space-sm);
+    font-family: var(--cozy-font-mono);
+    font-size: 0.6875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--cozy-text-muted);
+}
+
+.cozy-card__meta .lucide {
+    width: 12px;
+    height: 12px;
+}
+
+.cozy-card__meta-separator {
+    width: 3px;
+    height: 3px;
+    background: var(--cozy-primary-muted);
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+/* ── Titre ── */
+.cozy-card__title {
+    font-size: var(--cozy-text-lg);
+    font-weight: 700;
+    line-height: 1.35;
+}
+
+.cozy-card__title a {
+    color: var(--cozy-text);
+    transition: color var(--cozy-transition);
+}
+
+.cozy-card__title a:hover {
+    color: var(--cozy-primary);
+}
+
+/* ── Extrait ── */
+.cozy-card__excerpt {
+    color: var(--cozy-text-secondary);
+    font-size: var(--cozy-text-sm);
+    line-height: 1.6;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* ── Footer (auteur) ── */
+.cozy-card__footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: auto;
+    padding-top: var(--cozy-space-md);
+    border-top: 1px solid var(--cozy-border-subtle);
+}
+
+.cozy-card__author {
+    display: flex;
+    align-items: center;
+    gap: var(--cozy-space-sm);
+    font-size: var(--cozy-text-sm);
+    color: var(--cozy-text-secondary);
+}
+
+.cozy-card__author img {
+    border-radius: var(--cozy-radius-full);
+}
+
+
+/* ==================================================================
+   3. BADGES & TAGS
+   ================================================================== */
+
+.cozy-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 10px;
+    font-family: var(--cozy-font-mono);
+    font-size: 0.6875rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--cozy-primary);
+    background: var(--cozy-primary-ghost);
+    border: 1px solid var(--cozy-border);
+    border-radius: var(--cozy-radius);
+    transition: all var(--cozy-transition);
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.cozy-badge .lucide {
+    width: 12px;
+    height: 12px;
+}
+
+.cozy-badge:hover {
+    border-color: var(--cozy-primary-muted);
+    background: var(--cozy-gradient-subtle);
+    box-shadow: 0 0 12px var(--cozy-primary-glow);
+    transform: translateY(-1px);
+}
+
+.cozy-badge--sm {
+    padding: 2px 7px;
+    font-size: 0.625rem;
+}
+
+.cozy-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 5px 12px;
+    font-size: var(--cozy-text-xs);
+    font-weight: 500;
+    color: var(--cozy-text-secondary);
+    background: var(--cozy-bg-soft);
+    border: 1px solid var(--cozy-border-subtle);
+    border-radius: var(--cozy-radius);
+    transition: all var(--cozy-transition);
+    text-decoration: none;
+}
+
+.cozy-tag .lucide {
+    width: 12px;
+    height: 12px;
+    color: var(--cozy-text-muted);
+}
+
+.cozy-tag:hover {
+    color: var(--cozy-primary);
+    border-color: var(--cozy-border-hover);
+    background: var(--cozy-gradient-subtle);
+    box-shadow: 0 0 16px var(--cozy-primary-glow);
+    transform: translateY(-2px);
+}
+
+
+/* ==================================================================
+   4. SINGLE POST
+   ================================================================== */
+
+.cozy-single__header {
+    margin-bottom: var(--cozy-space-2xl);
+}
+
+.cozy-single__meta-top {
+    display: flex;
+    align-items: center;
+    gap: var(--cozy-space-sm);
+    margin-bottom: var(--cozy-space-md);
+    font-family: var(--cozy-font-mono);
+    font-size: 0.6875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--cozy-text-muted);
+}
+
+.cozy-single__meta-top .lucide {
+    width: 13px;
+    height: 13px;
+}
+
+.cozy-single__title {
+    font-size: var(--cozy-text-4xl);
+    font-weight: 800;
+    line-height: 1.15;
+    margin-bottom: var(--cozy-space-md);
+    position: relative;
+}
+
+.cozy-single__title::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 3px;
+    margin-top: var(--cozy-space-sm);
+    background: var(--cozy-gradient-accent);
+    border-radius: 2px;
+}
+
+.cozy-single__excerpt {
+    font-size: var(--cozy-text-lg);
+    color: var(--cozy-text-secondary);
+    line-height: 1.6;
+    margin-bottom: var(--cozy-space-lg);
+}
+
+/* ── Auteur HUD ── */
+.cozy-single__author {
+    display: flex;
+    align-items: center;
+    gap: var(--cozy-space-md);
+    padding: var(--cozy-space-md) 0;
+    border-top: 1px solid var(--cozy-border-subtle);
+    border-bottom: 1px solid var(--cozy-border-subtle);
+}
+
+.cozy-single__author img {
+    border-radius: var(--cozy-radius-full);
+}
+
+.cozy-single__author-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.cozy-single__author-name {
+    font-weight: 600;
+    font-size: var(--cozy-text-sm);
+    color: var(--cozy-text);
+}
+
+.cozy-single__reading-time {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-family: var(--cozy-font-mono);
+    font-size: 0.6875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--cozy-text-muted);
+}
+
+.cozy-single__reading-time .lucide {
+    width: 12px;
+    height: 12px;
+}
+
+/* ── Thumbnail ── */
+.cozy-single__thumbnail {
+    margin-bottom: var(--cozy-space-2xl);
+    border-radius: var(--cozy-radius);
+    overflow: hidden;
+}
+
+.cozy-single__thumbnail img {
+    width: 100%;
+    display: block;
+}
+
+/* ── Tags ── */
+.cozy-single__tags {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--cozy-space-sm);
+    margin-top: var(--cozy-space-2xl);
+    padding-top: var(--cozy-space-lg);
+    border-top: 1px solid var(--cozy-border-subtle);
+}
+
+.cozy-single__tags-label {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-family: var(--cozy-font-mono);
+    font-size: 0.6875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--cozy-text-muted);
+    margin-right: var(--cozy-space-sm);
+}
+
+
+/* ==================================================================
+   5. NAVIGATION PREV / NEXT
+   ================================================================== */
+
+.cozy-single__nav {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--cozy-space-md);
+    margin-top: var(--cozy-space-3xl);
+    padding-top: var(--cozy-space-xl);
+    border-top: 1px solid var(--cozy-border-subtle);
+}
+
+.cozy-single__nav-link {
+    display: flex;
+    align-items: center;
+    gap: var(--cozy-space-sm);
+    padding: var(--cozy-space-md) var(--cozy-space-lg);
+    border: 1px solid var(--cozy-border);
+    border-radius: var(--cozy-radius);
+    text-decoration: none;
+    transition: all var(--cozy-transition);
+}
+
+.cozy-single__nav-link:hover {
+    border-color: var(--cozy-primary);
+    background: var(--cozy-gradient-subtle);
+    box-shadow: var(--cozy-glow-primary);
+    transform: translateY(-2px);
+}
+
+.cozy-single__nav-label {
+    font-family: var(--cozy-font-mono);
+    font-size: 0.625rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--cozy-text-muted);
+    display: block;
+    margin-bottom: 2px;
+}
+
+.cozy-single__nav-title {
+    font-size: var(--cozy-text-sm);
+    font-weight: 600;
+    color: var(--cozy-text);
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.cozy-single__nav-link .lucide {
+    color: var(--cozy-primary-muted);
+    flex-shrink: 0;
+    transition: color var(--cozy-transition);
+}
+
+.cozy-single__nav-link:hover .lucide {
+    color: var(--cozy-primary);
+}
+
+.cozy-single__nav-link--next {
+    text-align: right;
+    flex-direction: row-reverse;
+    grid-column: 2;
+}
+
+
+/* ==================================================================
+   6. PAGE
+   ================================================================== */
+
+.cozy-page__title {
+    font-size: var(--cozy-text-4xl);
+    margin-bottom: var(--cozy-space-lg);
+}
+
+.cozy-page__thumbnail {
+    margin-bottom: var(--cozy-space-2xl);
+    border-radius: var(--cozy-radius);
+    overflow: hidden;
+}
+
+
+/* ==================================================================
+   7. ARCHIVE HEADER
+   ================================================================== */
+
+.cozy-archive__header {
+    margin-bottom: var(--cozy-space-2xl);
+    padding-bottom: var(--cozy-space-lg);
+    border-bottom: 1px solid var(--cozy-border-subtle);
+    padding-left: var(--cozy-space-lg);
+    border-left: 3px solid transparent;
+    border-image: linear-gradient(180deg, var(--cozy-primary), var(--cozy-success)) 1;
+    border-image-slice: 0 0 0 1;
+    position: relative;
+}
+
+.cozy-archive__header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--cozy-gradient-subtle);
+    border-radius: 0 var(--cozy-radius) var(--cozy-radius) 0;
+    z-index: -1;
+    opacity: 0.5;
+}
+
+.cozy-archive__title {
+    display: flex;
+    align-items: center;
+    gap: var(--cozy-space-sm);
+    font-size: var(--cozy-text-3xl);
+}
+
+.cozy-archive__title .lucide {
+    color: var(--cozy-primary-muted);
+}
+
+.cozy-archive__description {
+    color: var(--cozy-text-secondary);
+    margin-top: var(--cozy-space-sm);
+    font-size: var(--cozy-text-lg);
+}
+
+.cozy-search__count {
+    font-family: var(--cozy-font-mono);
+    font-size: var(--cozy-text-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--cozy-text-muted);
+    margin-bottom: var(--cozy-space-lg);
+}
+
+
+/* ==================================================================
+   8. COMMENTAIRES
+   ================================================================== */
+
+.cozy-comments {
+    margin-top: var(--cozy-space-3xl);
+    padding-top: var(--cozy-space-xl);
+    border-top: 1px solid var(--cozy-border-subtle);
+}
+
+.cozy-comments__title {
+    display: flex;
+    align-items: center;
+    gap: var(--cozy-space-sm);
+    font-size: var(--cozy-text-xl);
+    margin-bottom: var(--cozy-space-xl);
+    padding-left: var(--cozy-space-lg);
+    border-left: 3px solid transparent;
+    border-image: linear-gradient(180deg, var(--cozy-primary), var(--cozy-success)) 1;
+    border-image-slice: 0 0 0 1;
+    position: relative;
+}
+
+.cozy-comments__title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    margin-left: var(--cozy-space-md);
+    background: linear-gradient(90deg, var(--cozy-primary-muted), transparent);
+}
+
+.cozy-comments__title .lucide {
+    color: var(--cozy-primary-muted);
+}
+
+.cozy-comments__list {
+    list-style: none;
+}
+
+.cozy-comments__list .comment {
+    padding: var(--cozy-space-lg) 0;
+    border-bottom: 1px solid var(--cozy-border-subtle);
+}
+
+.cozy-comments__list .comment-author img {
+    border-radius: var(--cozy-radius-full);
+}
+
+.cozy-comments__closed {
+    color: var(--cozy-text-muted);
+    font-style: italic;
+}
+
+/* ── Formulaire ── */
+.cozy-comment-form {
+    margin-top: var(--cozy-space-2xl);
+}
+
+.cozy-comment-form .comment-reply-title {
+    font-size: var(--cozy-text-xl);
+    font-weight: 700;
+    margin-bottom: var(--cozy-space-lg);
+}
+
+.cozy-comment-form label {
+    display: block;
+    font-size: var(--cozy-text-sm);
+    font-weight: 500;
+    margin-bottom: var(--cozy-space-xs);
+    color: var(--cozy-text-secondary);
+}
+
+.cozy-comment-form input[type="text"],
+.cozy-comment-form input[type="email"],
+.cozy-comment-form input[type="url"],
+.cozy-comment-form textarea {
+    width: 100%;
+    padding: 10px 14px;
+    background: var(--cozy-bg-card);
+    border: 1px solid var(--cozy-border);
+    border-radius: var(--cozy-radius);
+    font-size: var(--cozy-text-sm);
+    transition: border-color var(--cozy-transition);
+    margin-bottom: var(--cozy-space-md);
+}
+
+.cozy-comment-form input:focus,
+.cozy-comment-form textarea:focus {
+    outline: none;
+    border-color: var(--cozy-primary);
+    box-shadow: 0 0 0 3px var(--cozy-primary-glow), var(--cozy-glow-primary);
+    background: var(--cozy-bg);
+}
+
+
+/* ==================================================================
+   9. WIDGETS
+   ================================================================== */
+
+.cozy-widget {
+    margin-bottom: var(--cozy-space-xl);
+}
+
+.cozy-widget .widget-title {
+    font-size: var(--cozy-text-sm);
+    font-family: var(--cozy-font-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--cozy-text-muted);
+    margin-bottom: var(--cozy-space-md);
+}
+
+
+/* ==================================================================
+   10. RESPONSIVE COMPOSANTS
+   ================================================================== */
+
+@media (max-width: 900px) {
+    .cozy-single__title {
+        font-size: var(--cozy-text-3xl);
+    }
+
+    .cozy-single__nav {
+        grid-template-columns: 1fr;
+    }
+
+    .cozy-single__nav-link--next {
+        grid-column: 1;
+        text-align: left;
+        flex-direction: row;
+    }
+}
+
+@media (max-width: 600px) {
+    .cozy-card__body {
+        padding: var(--cozy-space-md);
+    }
+}

@@ -1,35 +1,29 @@
 /**
  * ============================================================================
- * COZY GAMING — editor-style.css
+ * COZY GROVE — Editor Style (editor-style.css)
  * ============================================================================
  *
- * Styles appliqués dans l'éditeur Gutenberg pour refléter le rendu front-end.
+ * Typographie et couleurs dans l'éditeur Gutenberg
+ * pour correspondre au rendu front-end.
  *
- * @since 1.0.0
+ * @since 3.0.0
  */
 
 :root {
-    --cozy-primary: #7c3aed;
-    --cozy-text: #1e1b4b;
-    --cozy-text-secondary: #64748b;
-    --cozy-bg: #faf9fe;
-    --cozy-border: #e2e8f0;
-    --cozy-font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-    --cozy-font-heading: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    --cozy-font-heading: 'Nunito', sans-serif;
+    --cozy-font-body: 'Nunito', sans-serif;
+    --cozy-text: #3D3427;
+    --cozy-text-secondary: #6B5E4F;
+    --cozy-primary: #C8813A;
+    --cozy-bg: #F5EDD8;
 }
 
 .editor-styles-wrapper {
-    font-family: var(--cozy-font-body) !important;
-    font-size: 16px !important;
-    line-height: 1.7 !important;
-    color: var(--cozy-text) !important;
-}
-
-.editor-styles-wrapper p {
-    font-size: 16px;
+    font-family: var(--cozy-font-body);
+    font-size: 1rem;
     line-height: 1.7;
-    margin-bottom: 1.5em;
     color: var(--cozy-text);
+    background: var(--cozy-bg);
 }
 
 .editor-styles-wrapper h1,
@@ -42,95 +36,42 @@
     font-weight: 700;
     line-height: 1.2;
     color: var(--cozy-text);
-    margin-top: 1.5em;
-    margin-bottom: 0.5em;
 }
 
-.editor-styles-wrapper h1 {
-    font-size: 2.25rem;
-}
-
-.editor-styles-wrapper h2 {
-    font-size: 1.875rem;
-}
-
-.editor-styles-wrapper h3 {
-    font-size: 1.5rem;
-}
-
-.editor-styles-wrapper h4 {
-    font-size: 1.25rem;
-}
+.editor-styles-wrapper h1 { font-size: 2.25rem; }
+.editor-styles-wrapper h2 { font-size: 1.875rem; }
+.editor-styles-wrapper h3 { font-size: 1.5rem; }
+.editor-styles-wrapper h4 { font-size: 1.25rem; }
 
 .editor-styles-wrapper a {
     color: var(--cozy-primary);
-    text-decoration: underline;
-    text-decoration-thickness: 1px;
-    text-underline-offset: 2px;
-}
-
-.editor-styles-wrapper a:hover {
-    text-decoration-thickness: 2px;
 }
 
 .editor-styles-wrapper blockquote {
-    border-left: 4px solid var(--cozy-primary);
-    padding-left: 1.5em;
+    border-left: 2px solid var(--cozy-primary);
+    padding-left: 1.25em;
     color: var(--cozy-text-secondary);
     font-style: italic;
-    margin: 2em 0;
-}
-
-.editor-styles-wrapper pre {
-    background: var(--cozy-bg);
-    border: 1px solid var(--cozy-border);
-    border-radius: 8px;
-    padding: 1.5em;
-    overflow-x: auto;
-    font-size: 0.875rem;
 }
 
 .editor-styles-wrapper code {
-    background: var(--cozy-bg);
+    font-family: 'Fira Code', 'Courier New', monospace;
+    font-size: 0.875em;
+    background: rgba(200, 129, 58, 0.08);
     padding: 2px 6px;
+    border-radius: 3px;
+}
+
+.editor-styles-wrapper pre {
+    background: #22201C;
+    color: #EDE4CF;
+    padding: 1.25em 1.5em;
     border-radius: 4px;
-    font-size: 0.9em;
+    font-family: 'Fira Code', 'Courier New', monospace;
+    font-size: 0.875rem;
+    overflow-x: auto;
 }
 
 .editor-styles-wrapper img {
-    border-radius: 8px;
-}
-
-.editor-styles-wrapper table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-.editor-styles-wrapper th,
-.editor-styles-wrapper td {
-    border: 1px solid var(--cozy-border);
-    padding: 10px 14px;
-    text-align: left;
-}
-
-.editor-styles-wrapper th {
-    background: var(--cozy-bg);
-    font-weight: 600;
-}
-
-.editor-styles-wrapper hr {
-    border: none;
-    height: 2px;
-    background: var(--cozy-border);
-    margin: 2em 0;
-}
-
-.editor-styles-wrapper ul,
-.editor-styles-wrapper ol {
-    padding-left: 1.5em;
-    margin-bottom: 1.5em;
-}
-
-.editor-styles-wrapper li {
-    margin-bottom: 0.5em;
+    border-radius: 4px;
 }

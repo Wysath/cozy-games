@@ -4,7 +4,7 @@
  * COZY GAMING — functions.php
  * ============================================================================
  *
- * Thème WordPress sur mesure pour l'association Cozy Gaming.
+ * Thème WordPress sur mesure pour la guilde Cozy Grove.
  * Ce fichier configure les supports du thème, enregistre les menus,
  * charge les assets et inclut tous les modules communautaires.
  *
@@ -129,11 +129,29 @@ add_action( 'widgets_init', 'cozy_register_sidebars' );
 // ============================================================================
 
 function cozy_enqueue_assets() {
+
+    // --- Google Fonts (Space Grotesk + DM Serif Display + Nunito) ---
+    wp_enqueue_style(
+        'cozy-google-fonts',
+        'https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Serif+Display:ital@0;1&family=Nunito:wght@400;500;600;700;800&display=swap',
+        [],
+        null
+    );
+
+    // --- Lucide Icons ---
+    wp_enqueue_script(
+        'lucide-icons',
+        'https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js',
+        [],
+        null,
+        true
+    );
+
     // --- CSS ---
     wp_enqueue_style(
         'cozy-main',
         get_template_directory_uri() . '/assets/css/main.css',
-        [],
+        [ 'cozy-google-fonts' ],
         COZY_THEME_VERSION
     );
 
@@ -167,6 +185,21 @@ function cozy_enqueue_assets() {
         true
     );
 }
+
+// Charger les templates du plugin Cozy Events
+add_filter( 'template_include', function( $template ) {
+    if ( is_singular('cozy_event') ) {
+        $plugin_tpl = defined('COZY_EVENTS_PATH') ? COZY_EVENTS_PATH . 'templates/single-event.php' : '';
+        if ( $plugin_tpl && file_exists($plugin_tpl) ) return $plugin_tpl;
+    }
+    if ( is_post_type_archive('cozy_event') ) {
+        $plugin_tpl = defined('COZY_EVENTS_PATH') ? COZY_EVENTS_PATH . 'templates/archive-event.php' : '';
+        if ( $plugin_tpl && file_exists($plugin_tpl) ) return $plugin_tpl;
+    }
+    return $template;
+});
+
+// 3. Tes personnalisations CSS/JS supplémentaires ici
 add_action( 'wp_enqueue_scripts', 'cozy_enqueue_assets' );
 
 
@@ -177,26 +210,11 @@ add_action( 'wp_enqueue_scripts', 'cozy_enqueue_assets' );
 // Module : Profils sociaux (Discord & Twitch)
 require_once get_template_directory() . '/inc/cozy-social-profiles.php';
 
-// Module : Modes de communication (tags visuels événements)
-require_once get_template_directory() . '/inc/cozy-comm-modes.php';
-
 // Module : Codes ami par jeu
 require_once get_template_directory() . '/inc/cozy-friend-codes.php';
 
-// Module : Participants publics (affichage auto sur les single events)
-require_once get_template_directory() . '/inc/cozy-public-attendees.php';
-
 // Module : Personnalisation Login & Inscription
 require_once get_template_directory() . '/inc/cozy-login.php';
-
-// Module : Historique des réservations (shortcode profil)
-require_once get_template_directory() . '/inc/cozy-reservations.php';
-
-// Module : Charte de bienveillance (checkbox RSVP)
-require_once get_template_directory() . '/inc/cozy-charter.php';
-
-// Module : Content Warnings (avertissements de contenu)
-require_once get_template_directory() . '/inc/cozy-content-warnings.php';
 
 // Module : Galerie Setups Gaming (Pinterest masonry)
 require_once get_template_directory() . '/inc/cozy-setups.php';
@@ -204,49 +222,18 @@ require_once get_template_directory() . '/inc/cozy-setups.php';
 // Module : Articles Gaming (fiche jeu, notes, verdict)
 require_once get_template_directory() . '/inc/cozy-articles.php';
 
-// Module : Dashboard personnalisé par rôle (wp-admin)
-require_once get_template_directory() . '/inc/cozy-dashboard.php';
+// Module : Collection de Jeux (shortcode [cozy_game_collection])
+require_once get_template_directory() . '/inc/cozy-game-collection.php';
+
+// Module : Homepage shortcodes (hero, events, articles, stats, CTA)
+require_once get_template_directory() . '/inc/cozy-homepage.php';
+
+// Module : Widgets Dashboard personnalisés par rôle
+require_once get_template_directory() . '/inc/cozy-dashboard-widgets.php';
 
 
 // ============================================================================
-// 5. FIX : Page « Mes Réservations » (/tickets) — TEC Views V2
-// ============================================================================
-
-add_filter( 'the_content', 'cozy_fix_tickets_page_content', 8 );
-function cozy_fix_tickets_page_content( $content ) {
-    $display = get_query_var( 'eventDisplay', false );
-    if ( 'tickets' !== $display ) {
-        return $content;
-    }
-
-    if ( ! is_user_logged_in() ) {
-        return $content;
-    }
-
-    static $already_running = false;
-    if ( $already_running ) {
-        return $content;
-    }
-    $already_running = true;
-
-    if ( ! class_exists( 'Tribe__Tickets__Templates' ) ) {
-        $already_running = false;
-        return $content;
-    }
-
-    tribe_asset_enqueue_group( 'tribe-tickets-page-assets' );
-
-    ob_start();
-    include Tribe__Tickets__Templates::get_template_hierarchy( 'tickets/orders.php' );
-    $content = ob_get_clean();
-
-    $already_running = false;
-    return $content;
-}
-
-
-// ============================================================================
-// 6. RÔLE PERSONNALISÉ : ANIMATEUR COZY
+// 5. RÔLE PERSONNALISÉ : ANIMATEUR COZY
 // ============================================================================
 
 function cozy_add_custom_role() {
@@ -255,16 +242,11 @@ function cozy_add_custom_role() {
             'animateur_cozy',
             'Animateur Cozy',
             [
-                'read'                   => true,
-                'edit_posts'             => false,
-                'delete_posts'           => false,
-                'publish_posts'          => false,
-                'upload_files'           => true,
-                'edit_tribe_events'      => true,
-                'publish_tribe_events'   => true,
-                'delete_tribe_events'    => true,
-                'edit_tribe_venues'      => true,
-                'edit_tribe_organizers'  => true,
+                'read'         => true,
+                'edit_posts'   => false,
+                'delete_posts' => false,
+                'publish_posts'=> false,
+                'upload_files' => true,
             ]
         );
     }
@@ -278,61 +260,7 @@ add_action( 'switch_theme', 'cozy_remove_custom_role' );
 
 
 // ============================================================================
-// 7. RÉSERVATIONS RSVP — 1 PLACE PAR MEMBRE
-// ============================================================================
-
-add_filter( 'tribe_tickets_get_ticket_max_purchase', function( $max_purchase, $ticket_id ) {
-    return 1;
-}, 10, 2 );
-
-add_filter( 'tribe_tickets_rsvp_attendee_data', function( $attendee_data ) {
-    if ( isset( $attendee_data['quantity'] ) && $attendee_data['quantity'] > 1 ) {
-        $attendee_data['quantity'] = 1;
-    }
-    return $attendee_data;
-}, 10, 1 );
-
-add_filter( 'tribe_tickets_rsvp_tickets_to_generate', function( $tickets_data, $ticket_id, $event_id ) {
-    if ( is_array( $tickets_data ) && count( $tickets_data ) > 1 ) {
-        $tickets_data = array_slice( $tickets_data, 0, 1 );
-    }
-    return $tickets_data;
-}, 10, 3 );
-
-// CSS inline pour RSVP
-add_action( 'wp_head', function() {
-    ?>
-    <style>
-        .tribe-tickets__rsvp-ar-quantity-input .tribe-tickets__rsvp-ar-quantity-minus,
-        .tribe-tickets__rsvp-ar-quantity-input .tribe-tickets__rsvp-ar-quantity-plus {
-            display: none !important;
-        }
-        .cozy-single-ticket-info {
-            background: linear-gradient(135deg, #e8f5e9 0%, #f1f8e9 100%);
-            padding: 12px 16px;
-            border-radius: 8px;
-            border-left: 4px solid #4caf50;
-        }
-        .cozy-quantity-fixed {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            background: #f0ecf5;
-            color: #2c3e50;
-            font-weight: 700;
-            font-size: 1.1em;
-            width: 36px;
-            height: 36px;
-            border-radius: 8px;
-            margin-top: 4px;
-        }
-    </style>
-    <?php
-} );
-
-
-// ============================================================================
-// 8. HELPERS DU THÈME
+// 6. HELPERS DU THÈME
 // ============================================================================
 
 /**

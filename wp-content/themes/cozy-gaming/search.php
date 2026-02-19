@@ -12,7 +12,8 @@ get_header(); ?>
 
         <header class="cozy-archive__header">
             <h1 class="cozy-archive__title">
-                🔍 <?php printf( __( 'Résultats pour : « %s »', 'cozy-gaming' ), get_search_query() ); ?>
+                <i data-lucide="search" class="lucide"></i>
+                <?php printf( __( 'Résultats pour : « %s »', 'cozy-gaming' ), get_search_query() ); ?>
             </h1>
         </header>
 
@@ -39,7 +40,7 @@ get_header(); ?>
         <?php else : ?>
 
             <div class="cozy-empty">
-                <p class="cozy-empty__icon">😿</p>
+                <div class="cozy-empty__icon"><i data-lucide="search-x" class="lucide"></i></div>
                 <h2 class="cozy-empty__title"><?php esc_html_e( 'Aucun résultat', 'cozy-gaming' ); ?></h2>
                 <p class="cozy-empty__text">
                     <?php esc_html_e( 'Aucun contenu ne correspond à ta recherche. Essaie avec d\'autres mots-clés !', 'cozy-gaming' ); ?>

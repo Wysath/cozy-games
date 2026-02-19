@@ -91,7 +91,7 @@ function cozy_shortcode_setups( $atts ) {
             <?php echo cozy_render_setup_form(); ?>
         <?php else : ?>
             <div class="cozy-setups__login-prompt">
-                <p>🔒 <a href="<?php echo esc_url( wp_login_url( get_permalink() ) ); ?>">Connecte-toi</a> pour partager ton setup !</p>
+                <p><i data-lucide="lock"></i> <a href="<?php echo esc_url( wp_login_url( get_permalink() ) ); ?>">Connecte-toi</a> pour partager ton setup !</p>
             </div>
         <?php endif; ?>
 
@@ -123,11 +123,11 @@ function cozy_render_setup_form() {
     ?>
     <div class="cozy-setups__form-wrapper" id="cozy-setup-form-wrapper">
         <button class="cozy-setups__add-btn" id="cozy-setup-toggle-form" type="button">
-            📸 Partager mon setup
+                        <i data-lucide="camera"></i> Partager mon setup
         </button>
 
         <form class="cozy-setups__form" id="cozy-setup-form" style="display: none;" enctype="multipart/form-data">
-            <h3 class="cozy-setups__form-title">📸 Partage ton setup gaming</h3>
+            <h3 class="cozy-setups__form-title"><i data-lucide="camera"></i> Partage ton setup gaming</h3>
 
             <div class="cozy-setups__form-field">
                 <label for="cozy-setup-title">Titre</label>
@@ -135,7 +135,7 @@ function cozy_render_setup_form() {
                     type="text"
                     id="cozy-setup-title"
                     name="setup_title"
-                    placeholder="Ex : Mon coin cozy 🎮"
+                    placeholder="Ex : Mon coin cozy gaming"
                     maxlength="100"
                     required
                 >
@@ -163,7 +163,7 @@ function cozy_render_setup_form() {
                         required
                     >
                     <div class="cozy-setups__upload-placeholder" id="cozy-setup-preview-zone">
-                        <span class="cozy-setups__upload-icon">🖼️</span>
+                        <span class="cozy-setups__upload-icon"><i data-lucide="image"></i></span>
                         <span class="cozy-setups__upload-text">Clique ou glisse ta photo ici</span>
                         <small>JPG, PNG ou WebP — 5 Mo max</small>
                     </div>
@@ -172,7 +172,7 @@ function cozy_render_setup_form() {
 
             <div class="cozy-setups__form-actions">
                 <button type="submit" class="cozy-setups__submit-btn" id="cozy-setup-submit">
-                    🚀 Publier mon setup
+                                        <i data-lucide="upload"></i> Publier mon setup
                 </button>
                 <button type="button" class="cozy-setups__cancel-btn" id="cozy-setup-cancel">
                     Annuler
@@ -216,7 +216,7 @@ function cozy_render_setup_gallery( $per_page = 20 ) {
     if ( ! $setups->have_posts() ) {
         ?>
         <div class="cozy-setups__empty">
-            <p>🖥️ Aucun setup partagé pour le moment.</p>
+            <p>Aucun setup partagé pour le moment.</p>
             <p>Sois le premier à montrer ton coin gaming !</p>
         </div>
         <?php
@@ -240,7 +240,7 @@ function cozy_render_setup_gallery( $per_page = 20 ) {
         ?>
             <div class="cozy-setups__card" data-setup-id="<?php echo esc_attr( $setup_id ); ?>"<?php if ( is_user_logged_in() && (int) $author_id === get_current_user_id() ) echo ' data-own="true"'; ?>>
                 <?php if ( is_user_logged_in() && ( (int) $author_id === get_current_user_id() || current_user_can( 'delete_others_posts' ) ) ) : ?>
-                    <button class="cozy-setups__card-delete" title="Supprimer">&times;</button>
+                    <button class="cozy-setups__card-delete" title="Supprimer"><i data-lucide="trash-2"></i></button>
                 <?php endif; ?>
                 <div class="cozy-setups__card-image" data-full="<?php echo esc_url( $full_image ); ?>">
                     <img
@@ -251,7 +251,7 @@ function cozy_render_setup_gallery( $per_page = 20 ) {
                 </div>
 
                 <div class="cozy-setups__card-body">
-                    <h4 class="cozy-setups__card-title"><?php the_title(); ?></h4>
+                    <h4 class="cozy-setups__card-title"><?php echo esc_html( get_the_title() ); ?></h4>
 
                     <?php if ( ! empty( trim( $description ) ) ) : ?>
                         <p class="cozy-setups__card-desc"><?php echo esc_html( wp_trim_words( $description, 20 ) ); ?></p>
@@ -347,7 +347,6 @@ function cozy_ajax_upload_setup() {
     }
 
     // Limiter le nombre de setups par utilisateur (max 5)
-    $existing_count = wp_count_posts( 'cozy_setup' );
     $user_setups = new WP_Query( array(
         'post_type'      => 'cozy_setup',
         'post_status'    => array( 'publish', 'pending' ),
@@ -389,7 +388,7 @@ function cozy_ajax_upload_setup() {
     set_post_thumbnail( $post_id, $attachment_id );
 
     wp_send_json_success( array(
-        'message' => 'Setup partagé avec succès ! 🎉 Il sera visible après validation par un animateur.',
+        'message' => 'Setup partagé avec succès ! Il sera visible après validation par un animateur.',
     ) );
 }
 add_action( 'wp_ajax_cozy_upload_setup', 'cozy_ajax_upload_setup' );
@@ -453,8 +452,8 @@ add_action( 'wp_ajax_cozy_delete_setup', 'cozy_ajax_delete_setup' );
 function cozy_setup_lightbox_markup() {
     // N'ajouter que si le shortcode est potentiellement affiché
     ?>
-    <div class="cozy-lightbox" id="cozy-lightbox" style="display: none;" role="dialog" aria-modal="true">
-        <button class="cozy-lightbox__close" id="cozy-lightbox-close" aria-label="Fermer">&times;</button>
+    <div class="cozy-lightbox" id="cozy-lightbox" role="dialog" aria-modal="true">
+        <button class="cozy-lightbox__close" id="cozy-lightbox-close" aria-label="Fermer"><i data-lucide="x"></i></button>
         <div class="cozy-lightbox__content">
             <img src="" alt="" id="cozy-lightbox-img">
             <div class="cozy-lightbox__info" id="cozy-lightbox-info">
@@ -483,14 +482,14 @@ function cozy_setups_enqueue_assets() {
         'cozy-setups',
         get_template_directory_uri() . '/assets/css/cozy-setups.css',
         array(),
-        '1.6.0'
+        '2.0.0'
     );
 
     wp_enqueue_script(
         'cozy-setups',
         get_template_directory_uri() . '/assets/js/cozy-setups.js',
         array(),
-        '1.6.0',
+        '2.0.0',
         true
     );
 

@@ -1,21 +1,24 @@
 <?php
 /**
  * ============================================================================
- * MODULE : Codes Ami par Jeu
+ * MODULE : Codes Ami par Plateforme / Service
  * ============================================================================
  *
- * Permet aux membres d'enregistrer leurs codes ami pour chaque jeu
- * depuis leur profil. Les codes sont affichés sur les pages d'événements
+ * Permet aux membres d'enregistrer leurs identifiants gaming
+ * pour chaque plateforme ou service de jeu (Switch, PSN, Xbox,
+ * Steam, Riot, EA, Epic, etc.) depuis leur profil.
+ *
+ * Les codes sont affichés sur les pages d'événements
  * pour faciliter la mise en relation entre joueurs.
  *
- * Logique anti-erreur : 
- * - Liste de jeux prédéfinis (pas de saisie libre du nom du jeu)
- * - Placeholder avec le format attendu du code selon la plateforme
+ * Logique anti-erreur :
+ * - Liste de plateformes prédéfinies
+ * - Placeholder avec le format attendu
  * - Validation du format côté serveur
  * - Champ NON obligatoire
  *
  * @package CozyGaming
- * @since 1.1.0
+ * @since 2.0.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -24,82 +27,98 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 /**
  * -----------------------------------------------
- * 1. CONFIGURATION : LISTE DES JEUX ET FORMATS
+ * 1. CONFIGURATION : PLATEFORMES & FORMATS
  * -----------------------------------------------
- * Chaque jeu a un slug, un nom, une plateforme,
- * un placeholder d'exemple et un pattern de validation.
+ * Chaque plateforme a un slug, un nom, une icône Lucide,
+ * une couleur de marque, un placeholder et un pattern.
  */
 
 /**
- * Retourne la liste des jeux supportés avec leurs infos de validation
+ * Retourne la liste des plateformes/services gaming supportés
  *
- * @return array Liste des jeux configurés
+ * @return array Liste des plateformes configurées
  */
-function cozy_get_supported_games() {
-    return apply_filters( 'cozy_supported_games', array(
-        'animal-crossing'   => array(
-            'name'        => 'Animal Crossing: New Horizons',
-            'platform'    => 'Nintendo Switch',
-            'icon'        => '🏝️',
+function cozy_get_supported_platforms() {
+    return apply_filters( 'cozy_supported_platforms', array(
+        'nintendo-switch' => array(
+            'name'        => 'Nintendo Switch',
+            'icon'        => 'gamepad-2',
+            'color'       => '#e60012',
             'placeholder' => 'SW-1234-5678-9012',
             'pattern'     => '/^SW-\d{4}-\d{4}-\d{4}$/',
             'help'        => 'Format : SW-XXXX-XXXX-XXXX',
         ),
-        'pokemon-sv'       => array(
-            'name'        => 'Pokémon Écarlate / Violet',
-            'platform'    => 'Nintendo Switch',
-            'icon'        => '⚡',
-            'placeholder' => 'SW-1234-5678-9012',
-            'pattern'     => '/^SW-\d{4}-\d{4}-\d{4}$/',
-            'help'        => 'Format : SW-XXXX-XXXX-XXXX',
+        'psn'             => array(
+            'name'        => 'PlayStation (PSN)',
+            'icon'        => 'gamepad-2',
+            'color'       => '#003087',
+            'placeholder' => 'MonPseudo_PSN',
+            'pattern'     => '/^[a-zA-Z][a-zA-Z0-9_\-]{2,15}$/',
+            'help'        => 'ID PSN (3-16 caractères, commence par une lettre)',
         ),
-        'mario-kart'       => array(
-            'name'        => 'Mario Kart 8 Deluxe',
-            'platform'    => 'Nintendo Switch',
-            'icon'        => '🏎️',
-            'placeholder' => 'SW-1234-5678-9012',
-            'pattern'     => '/^SW-\d{4}-\d{4}-\d{4}$/',
-            'help'        => 'Format : SW-XXXX-XXXX-XXXX',
+        'xbox'            => array(
+            'name'        => 'Xbox (Gamertag)',
+            'icon'        => 'gamepad-2',
+            'color'       => '#107c10',
+            'placeholder' => 'MonGamertag',
+            'pattern'     => '/^[a-zA-Z][a-zA-Z0-9 ]{0,14}$/',
+            'help'        => 'Gamertag Xbox (1-15 caractères)',
         ),
-        'stardew-valley'   => array(
-            'name'        => 'Stardew Valley',
-            'platform'    => 'Multi (Steam / Switch)',
-            'icon'        => '🌾',
-            'placeholder' => 'Pseudo Steam ou SW-1234-5678-9012',
-            'pattern'     => '/^(SW-\d{4}-\d{4}-\d{4}|[a-zA-Z0-9_\-]{2,32})$/',
-            'help'        => 'Pseudo Steam OU code ami Switch',
+        'steam'           => array(
+            'name'        => 'Steam',
+            'icon'        => 'monitor',
+            'color'       => '#1b2838',
+            'placeholder' => 'MonPseudoSteam ou code ami',
+            'pattern'     => '/^[a-zA-Z0-9_\-]{2,32}$/',
+            'help'        => 'Pseudo Steam ou code ami numérique',
         ),
-        'minecraft'        => array(
-            'name'        => 'Minecraft',
-            'platform'    => 'Multi',
-            'icon'        => '⛏️',
-            'placeholder' => 'MonPseudo',
-            'pattern'     => '/^[a-zA-Z0-9_]{3,16}$/',
-            'help'        => 'Ton pseudo Minecraft (3-16 caractères)',
+        'riot-games'      => array(
+            'name'        => 'Riot Games',
+            'icon'        => 'swords',
+            'color'       => '#d32936',
+            'placeholder' => 'Pseudo#TAG',
+            'pattern'     => '/^.{2,16}#[a-zA-Z0-9]{2,5}$/',
+            'help'        => 'Riot ID : Pseudo#TAG (ex: Player#EUW)',
         ),
-        'sky-cotl'         => array(
-            'name'        => 'Sky: Children of the Light',
-            'platform'    => 'Multi',
-            'icon'        => '🕯️',
-            'placeholder' => 'Lien d\'invitation ou pseudo',
-            'pattern'     => '/^.{2,100}$/',
-            'help'        => 'Lien QR ou pseudo en jeu',
+        'ea'              => array(
+            'name'        => 'EA (Origin)',
+            'icon'        => 'zap',
+            'color'       => '#ff4747',
+            'placeholder' => 'MonPseudoEA',
+            'pattern'     => '/^[a-zA-Z0-9_\-]{4,16}$/',
+            'help'        => 'Pseudo EA / Origin (4-16 caractères)',
         ),
-        'overcooked'       => array(
-            'name'        => 'Overcooked! 2',
-            'platform'    => 'Multi (Steam / Switch)',
-            'icon'        => '🍳',
-            'placeholder' => 'Pseudo Steam ou SW-1234-5678-9012',
-            'pattern'     => '/^(SW-\d{4}-\d{4}-\d{4}|[a-zA-Z0-9_\-]{2,32})$/',
-            'help'        => 'Pseudo Steam OU code ami Switch',
+        'epic-games'      => array(
+            'name'        => 'Epic Games',
+            'icon'        => 'rocket',
+            'color'       => '#2f2d2e',
+            'placeholder' => 'MonPseudoEpic',
+            'pattern'     => '/^[a-zA-Z0-9_\-\s]{3,16}$/',
+            'help'        => 'Pseudo Epic Games (3-16 caractères)',
         ),
-        'it-takes-two'     => array(
-            'name'        => 'It Takes Two',
-            'platform'    => 'Steam / EA',
-            'icon'        => '💕',
-            'placeholder' => 'Pseudo Steam ou EA',
-            'pattern'     => '/^[a-zA-Z0-9_\-\s]{2,32}$/',
-            'help'        => 'Pseudo Steam ou EA (2-32 caractères)',
+        'battle-net'      => array(
+            'name'        => 'Battle.net',
+            'icon'        => 'shield',
+            'color'       => '#00aeff',
+            'placeholder' => 'Pseudo#12345',
+            'pattern'     => '/^.{2,12}#\d{4,6}$/',
+            'help'        => 'Format : Pseudo#12345',
+        ),
+        'ubisoft'         => array(
+            'name'        => 'Ubisoft Connect',
+            'icon'        => 'compass',
+            'color'       => '#0070ff',
+            'placeholder' => 'MonPseudoUbi',
+            'pattern'     => '/^[a-zA-Z0-9_\-\.]{3,16}$/',
+            'help'        => 'Pseudo Ubisoft Connect (3-16 caractères)',
+        ),
+        'discord'         => array(
+            'name'        => 'Discord',
+            'icon'        => 'message-circle',
+            'color'       => '#5865f2',
+            'placeholder' => 'monpseudo',
+            'pattern'     => '/^.{2,32}$/',
+            'help'        => 'Pseudo Discord (nouveau format sans #)',
         ),
     ) );
 }
@@ -111,14 +130,14 @@ function cozy_get_supported_games() {
  * -----------------------------------------------
  * Les codes ami sont stockés en user_meta sous forme
  * de tableau sérialisé : cozy_friend_codes
- * Structure : array( 'slug-jeu' => 'CODE-AMI', ... )
+ * Structure : array( 'slug-plateforme' => 'CODE-AMI', ... )
  */
 
 /**
  * Récupère les codes ami d'un utilisateur
  *
  * @param int $user_id L'ID de l'utilisateur
- * @return array Les codes ami indexés par slug de jeu
+ * @return array Les codes ami indexés par slug de plateforme
  */
 function cozy_get_friend_codes( $user_id ) {
     $codes = get_user_meta( $user_id, 'cozy_friend_codes', true );
@@ -137,25 +156,24 @@ function cozy_save_friend_codes( $user_id, $codes ) {
 }
 
 /**
- * Valide un code ami selon le format attendu du jeu
+ * Valide un code ami selon le format attendu de la plateforme
  *
- * @param string $game_slug Le slug du jeu
- * @param string $code      Le code à valider
+ * @param string $platform_slug Le slug de la plateforme
+ * @param string $code          Le code à valider
  * @return bool True si le code est valide ou vide
  */
-function cozy_validate_friend_code( $game_slug, $code ) {
-    // Un champ vide est valide (non obligatoire)
+function cozy_validate_friend_code( $platform_slug, $code ) {
     if ( empty( $code ) ) {
         return true;
     }
 
-    $games = cozy_get_supported_games();
+    $platforms = cozy_get_supported_platforms();
 
-    if ( ! isset( $games[ $game_slug ] ) ) {
+    if ( ! isset( $platforms[ $platform_slug ] ) ) {
         return false;
     }
 
-    return (bool) preg_match( $games[ $game_slug ]['pattern'], $code );
+    return (bool) preg_match( $platforms[ $platform_slug ]['pattern'], $code );
 }
 
 
@@ -171,29 +189,29 @@ function cozy_validate_friend_code( $game_slug, $code ) {
  * @param WP_User $user L'utilisateur affiché
  */
 function cozy_friend_codes_admin_fields( $user ) {
-    $codes = cozy_get_friend_codes( $user->ID );
-    $games = cozy_get_supported_games();
+    $codes     = cozy_get_friend_codes( $user->ID );
+    $platforms = cozy_get_supported_platforms();
     ?>
-    <h3>🎮 Codes Ami — Cozy Gaming</h3>
-    <p class="description">Codes ami du membre pour chaque jeu. Ces champs sont facultatifs.</p>
+    <h3>🎮 Codes Ami — Cozy Grove</h3>
+    <p class="description">Identifiants gaming du membre par plateforme. Tous les champs sont facultatifs.</p>
     <table class="form-table">
-        <?php foreach ( $games as $slug => $game ) : ?>
+        <?php foreach ( $platforms as $slug => $platform ) : ?>
         <tr>
             <th>
                 <label for="cozy_fc_<?php echo esc_attr( $slug ); ?>">
-                    <?php echo $game['icon']; ?> <?php echo esc_html( $game['name'] ); ?>
+                    <?php echo esc_html( $platform['name'] ); ?>
                 </label>
             </th>
             <td>
-                <input 
-                    type="text" 
-                    name="cozy_friend_codes[<?php echo esc_attr( $slug ); ?>]" 
+                <input
+                    type="text"
+                    name="cozy_friend_codes[<?php echo esc_attr( $slug ); ?>]"
                     id="cozy_fc_<?php echo esc_attr( $slug ); ?>"
-                    value="<?php echo esc_attr( $codes[ $slug ] ?? '' ); ?>" 
+                    value="<?php echo esc_attr( $codes[ $slug ] ?? '' ); ?>"
                     class="regular-text"
-                    placeholder="<?php echo esc_attr( $game['placeholder'] ); ?>"
+                    placeholder="<?php echo esc_attr( $platform['placeholder'] ); ?>"
                 />
-                <p class="description"><?php echo esc_html( $game['help'] ); ?> — <?php echo esc_html( $game['platform'] ); ?></p>
+                <p class="description"><?php echo esc_html( $platform['help'] ); ?></p>
             </td>
         </tr>
         <?php endforeach; ?>
@@ -218,19 +236,18 @@ function cozy_save_friend_codes_admin( $user_id ) {
         return;
     }
 
-    $games     = cozy_get_supported_games();
+    $platforms = cozy_get_supported_platforms();
     $new_codes = array();
 
     foreach ( $_POST['cozy_friend_codes'] as $slug => $code ) {
         $code = sanitize_text_field( $code );
 
-        if ( ! isset( $games[ $slug ] ) ) {
+        if ( ! isset( $platforms[ $slug ] ) ) {
             continue;
         }
 
-        // Valider le format si un code est saisi
         if ( ! empty( $code ) && ! cozy_validate_friend_code( $slug, $code ) ) {
-            continue; 
+            continue;
         }
 
         if ( ! empty( $code ) ) {
@@ -260,59 +277,60 @@ add_action( 'edit_user_profile_update', 'cozy_save_friend_codes_admin' );
 function cozy_shortcode_friend_codes() {
     if ( ! is_user_logged_in() ) {
         return '<div class="cozy-social-login-required">
-            <p>Tu dois être <strong>connecté(e)</strong> pour gérer tes codes ami. 
+            <p>Tu dois être <strong>connecté(e)</strong> pour gérer tes codes ami.
             <a href="' . esc_url( wp_login_url( get_permalink() ) ) . '">Connecte-toi ici</a>.</p>
         </div>';
     }
 
-    $user_id = get_current_user_id();
-    $codes   = cozy_get_friend_codes( $user_id );
-    $games   = cozy_get_supported_games();
+    $user_id   = get_current_user_id();
+    $codes     = cozy_get_friend_codes( $user_id );
+    $platforms = cozy_get_supported_platforms();
 
     ob_start();
     ?>
     <div class="cozy-friend-codes" id="cozy-friend-codes">
         <div class="cozy-friend-codes__header">
-            <h3>🎮 Mes Codes Ami</h3>
-            <p>Ajoute tes codes ami pour que les autres joueurs puissent te retrouver facilement dans chaque jeu. Tous les champs sont <strong>facultatifs</strong>.</p>
+            <h3><i data-lucide="gamepad-2"></i> Mes Codes Ami</h3>
+            <p>Ajoute tes identifiants gaming pour que les autres joueurs puissent te retrouver facilement sur chaque plateforme. Tous les champs sont <strong>facultatifs</strong>.</p>
         </div>
 
         <form id="cozy-friend-codes-form" class="cozy-friend-codes__form" method="post">
             <?php wp_nonce_field( 'cozy_save_friend_codes', 'cozy_fc_nonce' ); ?>
 
-            <?php foreach ( $games as $slug => $game ) : 
+            <?php foreach ( $platforms as $slug => $platform ) :
                 $current_code = $codes[ $slug ] ?? '';
-                $has_code = ! empty( $current_code );
+                $has_code     = ! empty( $current_code );
             ?>
-            <div class="cozy-friend-codes__field" data-game="<?php echo esc_attr( $slug ); ?>">
+            <div class="cozy-friend-codes__field" data-platform="<?php echo esc_attr( $slug ); ?>">
                 <label for="cozy_fc_front_<?php echo esc_attr( $slug ); ?>">
-                    <span class="cozy-friend-codes__game-icon"><?php echo $game['icon']; ?></span>
-                    <span class="cozy-friend-codes__game-info">
-                        <strong><?php echo esc_html( $game['name'] ); ?></strong>
-                        <small><?php echo esc_html( $game['platform'] ); ?></small>
+                    <span class="cozy-friend-codes__platform-icon" style="background: <?php echo esc_attr( $platform['color'] ); ?>;">
+                        <i data-lucide="<?php echo esc_attr( $platform['icon'] ); ?>"></i>
+                    </span>
+                    <span class="cozy-friend-codes__platform-info">
+                        <strong><?php echo esc_html( $platform['name'] ); ?></strong>
+                        <small><?php echo esc_html( $platform['help'] ); ?></small>
                     </span>
                 </label>
                 <div class="cozy-friend-codes__input-wrapper">
-                    <input 
-                        type="text" 
+                    <input
+                        type="text"
                         id="cozy_fc_front_<?php echo esc_attr( $slug ); ?>"
                         name="cozy_friend_codes[<?php echo esc_attr( $slug ); ?>]"
                         value="<?php echo esc_attr( $current_code ); ?>"
-                        placeholder="<?php echo esc_attr( $game['placeholder'] ); ?>"
+                        placeholder="<?php echo esc_attr( $platform['placeholder'] ); ?>"
                         autocomplete="off"
-                        data-pattern="<?php echo esc_attr( $game['pattern'] ); ?>"
+                        data-pattern="<?php echo esc_attr( $platform['pattern'] ); ?>"
                     />
                     <?php if ( $has_code ) : ?>
                         <span class="cozy-friend-codes__status cozy-friend-codes__status--saved">✓</span>
                     <?php endif; ?>
                 </div>
-                <p class="cozy-friend-codes__hint"><?php echo esc_html( $game['help'] ); ?></p>
             </div>
             <?php endforeach; ?>
 
             <div class="cozy-friend-codes__actions">
                 <button type="submit" class="cozy-friend-codes__btn">
-                    💾 Sauvegarder mes codes
+                    <i data-lucide="save"></i> Sauvegarder mes codes
                 </button>
                 <span class="cozy-friend-codes__message" id="cozy-fc-message"></span>
             </div>
@@ -338,14 +356,14 @@ function cozy_friend_codes_enqueue_assets() {
         'cozy-friend-codes',
         get_template_directory_uri() . '/assets/css/cozy-friend-codes.css',
         array(),
-        '1.1.0'
+        '2.0.0'
     );
 
     wp_enqueue_script(
         'cozy-friend-codes',
         get_template_directory_uri() . '/assets/js/cozy-friend-codes.js',
         array(),
-        '1.1.0',
+        '2.0.0',
         true
     );
 
@@ -369,16 +387,15 @@ function cozy_ajax_save_friend_codes() {
         wp_send_json_error( array( 'message' => 'Tu dois être connecté(e).' ) );
     }
 
-    $user_id = get_current_user_id();
-    $games   = cozy_get_supported_games();
-    $errors  = array();
-    $saved   = array();
+    $user_id   = get_current_user_id();
+    $platforms = cozy_get_supported_platforms();
+    $errors    = array();
+    $saved     = array();
 
     if ( ! isset( $_POST['cozy_friend_codes'] ) || ! is_array( $_POST['cozy_friend_codes'] ) ) {
-        // Aucun code envoyé : on vide tout
         cozy_save_friend_codes( $user_id, array() );
         wp_send_json_success( array(
-            'message' => 'Codes ami mis à jour ! 🎮',
+            'message' => 'Codes ami mis à jour !',
             'codes'   => array(),
         ) );
     }
@@ -386,20 +403,19 @@ function cozy_ajax_save_friend_codes() {
     foreach ( $_POST['cozy_friend_codes'] as $slug => $code ) {
         $code = sanitize_text_field( $code );
 
-        if ( ! isset( $games[ $slug ] ) ) {
+        if ( ! isset( $platforms[ $slug ] ) ) {
             continue;
         }
 
         if ( empty( $code ) ) {
-            continue; // Champ vide = pas de code pour ce jeu
+            continue;
         }
 
         if ( ! cozy_validate_friend_code( $slug, $code ) ) {
             $errors[] = sprintf(
-                '<strong>%s %s</strong> : format invalide. %s',
-                $games[ $slug ]['icon'],
-                esc_html( $games[ $slug ]['name'] ),
-                esc_html( $games[ $slug ]['help'] )
+                '<strong>%s</strong> : format invalide. %s',
+                esc_html( $platforms[ $slug ]['name'] ),
+                esc_html( $platforms[ $slug ]['help'] )
             );
             continue;
         }
@@ -407,7 +423,6 @@ function cozy_ajax_save_friend_codes() {
         $saved[ $slug ] = $code;
     }
 
-    // S'il y a des erreurs, on ne sauvegarde pas
     if ( ! empty( $errors ) ) {
         wp_send_json_error( array( 'message' => implode( '<br>', $errors ) ) );
     }
@@ -415,7 +430,7 @@ function cozy_ajax_save_friend_codes() {
     cozy_save_friend_codes( $user_id, $saved );
 
     wp_send_json_success( array(
-        'message' => 'Codes ami sauvegardés avec succès ! 🎮',
+        'message' => 'Codes ami sauvegardés avec succès !',
         'codes'   => $saved,
     ) );
 }
@@ -426,20 +441,19 @@ add_action( 'wp_ajax_cozy_save_friend_codes', 'cozy_ajax_save_friend_codes' );
  * -----------------------------------------------
  * 6. AFFICHAGE DES CODES AMI SUR LES ÉVÉNEMENTS
  * -----------------------------------------------
- * Affiche les codes ami pertinents des participants
- * sur la page de l'événement. On utilise les catégories
- * d'événement ou les tags pour détecter le jeu concerné.
+ * Affiche les identifiants gaming des participants
+ * sur la page de l'événement sous forme de badges.
  */
 
 /**
  * Retourne le HTML des codes ami d'un utilisateur
- * Optionnellement filtré par jeu si un slug de jeu est fourni.
+ * Optionnellement filtré par plateforme si un slug est fourni.
  *
- * @param int         $user_id   L'ID de l'utilisateur
- * @param string|null $game_slug Optionnel : filtrer par jeu
+ * @param int         $user_id       L'ID de l'utilisateur
+ * @param string|null $platform_slug Optionnel : filtrer par plateforme
  * @return string Le HTML des codes ou chaîne vide
  */
-function cozy_get_friend_code_badges( $user_id, $game_slug = null ) {
+function cozy_get_friend_code_badges( $user_id, $platform_slug = null ) {
     if ( empty( $user_id ) ) {
         return '';
     }
@@ -449,25 +463,29 @@ function cozy_get_friend_code_badges( $user_id, $game_slug = null ) {
         return '';
     }
 
-    $games = cozy_get_supported_games();
-    $html  = '';
+    $platforms = cozy_get_supported_platforms();
+    $html      = '';
 
     foreach ( $codes as $slug => $code ) {
-        if ( ! isset( $games[ $slug ] ) ) {
+        if ( ! isset( $platforms[ $slug ] ) ) {
             continue;
         }
 
-        // Si on filtre par jeu, ne montrer que celui-ci
-        if ( $game_slug && $slug !== $game_slug ) {
+        if ( $platform_slug && $slug !== $platform_slug ) {
             continue;
         }
 
-        $game = $games[ $slug ];
+        $platform = $platforms[ $slug ];
         $html .= sprintf(
-            '<span class="cozy-fc-badge" title="%s — %s">%s <code>%s</code></span>',
-            esc_attr( $game['name'] ),
-            esc_attr( $game['platform'] ),
-            $game['icon'],
+            '<span class="cozy-fc-badge" style="--fc-color: %s;" title="%s">
+                <i data-lucide="%s"></i>
+                <span class="cozy-fc-badge__name">%s</span>
+                <code>%s</code>
+            </span>',
+            esc_attr( $platform['color'] ),
+            esc_attr( $platform['name'] ),
+            esc_attr( $platform['icon'] ),
+            esc_html( $platform['name'] ),
             esc_html( $code )
         );
     }

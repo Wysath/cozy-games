@@ -15,7 +15,8 @@ if ( post_password_required() ) {
     <?php if ( have_comments() ) : ?>
 
         <h2 class="cozy-comments__title">
-            💬 <?php
+            <i data-lucide="message-circle" class="lucide"></i>
+            <?php
             $count = get_comments_number();
             printf(
                 _n( '%d commentaire', '%d commentaires', $count, 'cozy-gaming' ),

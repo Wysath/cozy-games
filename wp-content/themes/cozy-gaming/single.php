@@ -24,6 +24,8 @@ get_header(); ?>
                                 <?php echo esc_html( $categories[0]->name ); ?>
                             </a>
                         <?php endif; ?>
+                        <span class="cozy-card__meta-separator"></span>
+                        <i data-lucide="calendar" class="lucide"></i>
                         <time datetime="<?php echo get_the_date( 'c' ); ?>" class="cozy-single__date">
                             <?php echo get_the_date(); ?>
                         </time>
@@ -32,7 +34,7 @@ get_header(); ?>
                     <h1 class="cozy-single__title"><?php the_title(); ?></h1>
 
                     <?php if ( has_excerpt() ) : ?>
-                        <p class="cozy-single__excerpt"><?php echo get_the_excerpt(); ?></p>
+                        <p class="cozy-single__excerpt"><?php echo esc_html( get_the_excerpt() ); ?></p>
                     <?php endif; ?>
 
                     <div class="cozy-single__author">
@@ -40,6 +42,7 @@ get_header(); ?>
                         <div>
                             <span class="cozy-single__author-name"><?php the_author(); ?></span>
                             <span class="cozy-single__reading-time">
+                                <i data-lucide="clock" class="lucide"></i>
                                 <?php
                                 $word_count = str_word_count( strip_tags( get_the_content() ) );
                                 $reading_time = max( 1, ceil( $word_count / 200 ) );
@@ -67,6 +70,9 @@ get_header(); ?>
                 $tags = get_the_tags();
                 if ( ! empty( $tags ) ) : ?>
                     <footer class="cozy-single__tags">
+                        <span class="cozy-single__tags-label">
+                            <i data-lucide="tags" class="lucide"></i> Tags
+                        </span>
                         <?php foreach ( $tags as $tag ) : ?>
                             <a href="<?php echo esc_url( get_tag_link( $tag->term_id ) ); ?>" class="cozy-tag">
                                 #<?php echo esc_html( $tag->name ); ?>
@@ -82,15 +88,21 @@ get_header(); ?>
                     $next = get_next_post();
                     ?>
                     <?php if ( $prev ) : ?>
-                        <a href="<?php echo get_permalink( $prev ); ?>" class="cozy-single__nav-link cozy-single__nav-link--prev">
-                            <span class="cozy-single__nav-label">← <?php esc_html_e( 'Article précédent', 'cozy-gaming' ); ?></span>
-                            <span class="cozy-single__nav-title"><?php echo esc_html( $prev->post_title ); ?></span>
+                        <a href="<?php echo esc_url( get_permalink( $prev ) ); ?>" class="cozy-single__nav-link cozy-single__nav-link--prev">
+                            <i data-lucide="chevron-left" class="lucide"></i>
+                            <div>
+                                <span class="cozy-single__nav-label"><?php esc_html_e( 'Précédent', 'cozy-gaming' ); ?></span>
+                                <span class="cozy-single__nav-title"><?php echo esc_html( $prev->post_title ); ?></span>
+                            </div>
                         </a>
                     <?php endif; ?>
                     <?php if ( $next ) : ?>
-                        <a href="<?php echo get_permalink( $next ); ?>" class="cozy-single__nav-link cozy-single__nav-link--next">
-                            <span class="cozy-single__nav-label"><?php esc_html_e( 'Article suivant', 'cozy-gaming' ); ?> →</span>
-                            <span class="cozy-single__nav-title"><?php echo esc_html( $next->post_title ); ?></span>
+                        <a href="<?php echo esc_url( get_permalink( $next ) ); ?>" class="cozy-single__nav-link cozy-single__nav-link--next">
+                            <div>
+                                <span class="cozy-single__nav-label"><?php esc_html_e( 'Suivant', 'cozy-gaming' ); ?></span>
+                                <span class="cozy-single__nav-title"><?php echo esc_html( $next->post_title ); ?></span>
+                            </div>
+                            <i data-lucide="chevron-right" class="lucide"></i>
                         </a>
                     <?php endif; ?>
                 </nav>

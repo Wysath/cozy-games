@@ -1,0 +1,952 @@
+/**
+ * ============================================================================
+ * COZY EVENTS — Styles  (v2.0 — Design System Guilde)
+ * ============================================================================
+ *
+ * Hérite des tokens CSS du thème Cozy Grove (main.css).
+ * Esthétique : guilde médiévale, left stripe, ambre/braises.
+ */
+
+
+/* ==================================================================
+   1. GRILLE ÉVÉNEMENTS  (shortcode [cozy_events])
+   ================================================================== */
+
+.cozy-events-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: var(--cozy-grid-gap, 1.5rem);
+}
+
+
+/* ==================================================================
+   2. CARTE ÉVÉNEMENT
+   ================================================================== */
+
+.cozy-event-card {
+    background: var(--cozy-bg-card, #1A160F);
+    border: 1px solid var(--cozy-border, rgba(200,129,58,0.1));
+    border-radius: var(--cozy-radius, 4px);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: transform var(--cozy-transition, 0.2s ease),
+                box-shadow var(--cozy-transition, 0.2s ease),
+                border-color var(--cozy-transition, 0.2s ease);
+    position: relative;
+    text-decoration: none;
+    color: inherit;
+}
+
+/* Left amber stripe */
+.cozy-event-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 2px;
+    height: 100%;
+    background: linear-gradient(180deg, var(--cozy-amber, #C8813A), var(--cozy-ember, #9B3A1E));
+    z-index: 2;
+    opacity: 0;
+    transition: opacity var(--cozy-transition, 0.2s ease);
+}
+
+.cozy-event-card::after {
+    display: none;
+}
+
+.cozy-event-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--cozy-shadow-lg, 0 8px 30px rgba(0,0,0,0.4)),
+                0 0 20px rgba(200,129,58,0.15);
+    border-color: rgba(200,129,58,0.2);
+}
+
+.cozy-event-card:hover::before {
+    opacity: 1;
+}
+
+
+/* ── Thumbnail ── */
+
+.cozy-event-card__thumb {
+    overflow: hidden;
+    aspect-ratio: 16 / 9;
+}
+
+.cozy-event-card__thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--cozy-transition-slow, 0.35s ease);
+}
+
+.cozy-event-card:hover .cozy-event-card__thumb img {
+    transform: scale(1.05);
+}
+
+
+/* ── Body ── */
+
+.cozy-event-card__body {
+    padding: var(--cozy-space-lg, 1.5rem);
+    display: flex;
+    flex-direction: column;
+    gap: var(--cozy-space-sm, 0.5rem);
+    flex: 1;
+}
+
+.cozy-event-card__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.cozy-event-card__body h3,
+.cozy-event-card__title {
+    font-family: var(--cozy-font-heading, 'Nunito', sans-serif);
+    font-weight: 700;
+    font-size: var(--cozy-text-lg, 1.125rem);
+    color: var(--cozy-cream, #EDE4CF);
+    margin: 0;
+    line-height: 1.3;
+}
+
+.cozy-event-card__body h3 a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.cozy-event-card__body h3 a:hover {
+    color: var(--cozy-amber, #C8813A);
+}
+
+.cozy-event-card__date,
+.cozy-event-card__games,
+.cozy-event-card__places {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: var(--cozy-text-sm, 0.875rem);
+    color: var(--cozy-muted, #8A7D6B);
+    margin: 0;
+}
+
+.cozy-event-card__date .lucide,
+.cozy-event-card__games .lucide {
+    width: 14px;
+    height: 14px;
+    color: var(--cozy-amber, #C8813A);
+}
+
+
+/* ==================================================================
+   3. BADGES
+   ================================================================== */
+
+.cozy-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 3px 10px;
+    border-radius: var(--cozy-radius, 4px);
+    font-size: 10px;
+    font-weight: 500;
+    font-family: var(--cozy-font-ui, 'Space Grotesk', sans-serif);
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    line-height: 1.4;
+}
+
+.cozy-badge .lucide {
+    width: 12px;
+    height: 12px;
+}
+
+.cozy-badge--type {
+    background: rgba(200,129,58,0.1);
+    color: var(--cozy-amber-glow, #E8A84C);
+    border: 1px solid rgba(200,129,58,0.15);
+}
+
+.cozy-badge--game {
+    background: rgba(74,102,73,0.1);
+    color: var(--cozy-moss-light, #6B8F6A);
+    border: 1px solid rgba(74,102,73,0.15);
+}
+
+.cozy-badge--troc {
+    background: rgba(212,175,55,0.1);
+    color: var(--cozy-gold, #D4AF37);
+    border: 1px solid rgba(212,175,55,0.15);
+}
+
+.cozy-badge--full {
+    background: rgba(155,58,30,0.1);
+    color: var(--cozy-ember-glow, #D4654A);
+    border: 1px solid rgba(155,58,30,0.15);
+}
+
+
+/* ==================================================================
+   4. PAGE SINGLE ÉVÉNEMENT
+   ================================================================== */
+
+.cozy-single-event {
+    padding-bottom: var(--cozy-space-3xl, 4rem);
+}
+
+/* ── Cover image ── */
+.cozy-single-event__cover {
+    border-radius: var(--cozy-radius-lg, 6px);
+    overflow: hidden;
+    margin-bottom: var(--cozy-space-lg, 1.5rem);
+    border: 1px solid var(--cozy-border, rgba(200,129,58,0.1));
+}
+
+.cozy-single-event__cover img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* ── Tags ── */
+.cozy-single-event__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: var(--cozy-space-md, 1rem);
+}
+
+/* ── Title ── */
+.cozy-single-event__title {
+    font-family: var(--cozy-font-heading, 'Nunito', sans-serif);
+    font-size: var(--cozy-text-3xl, 1.875rem);
+    font-weight: 800;
+    color: var(--cozy-cream, #EDE4CF);
+    margin: 0 0 var(--cozy-space-lg, 1.5rem) 0;
+    line-height: 1.2;
+}
+
+/* ── Infos list ── */
+.cozy-single-event__infos {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 var(--cozy-space-xl, 2rem) 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--cozy-space-sm, 0.5rem);
+}
+
+.cozy-single-event__info {
+    display: flex;
+    align-items: center;
+    gap: var(--cozy-space-sm, 0.5rem);
+    font-size: var(--cozy-text-sm, 0.875rem);
+    color: var(--cozy-muted, #8A7D6B);
+    padding: var(--cozy-space-sm, 0.5rem) var(--cozy-space-md, 1rem);
+    background: var(--cozy-bg-soft, #15120C);
+    border-radius: var(--cozy-radius, 4px);
+    border: 1px solid var(--cozy-border, rgba(200,129,58,0.08));
+}
+
+.cozy-single-event__info .lucide {
+    width: 16px;
+    height: 16px;
+    color: var(--cozy-amber, #C8813A);
+    flex-shrink: 0;
+}
+
+.cozy-single-event__info a {
+    color: var(--cozy-amber, #C8813A);
+}
+
+.cozy-single-event__info a:hover {
+    text-decoration: underline;
+}
+
+.cozy-text--error {
+    color: var(--cozy-ember-glow, #D4654A);
+}
+
+
+/* ── Contenu ── */
+.cozy-single-event__content {
+    margin-bottom: var(--cozy-space-xl, 2rem);
+    line-height: 1.7;
+    color: var(--cozy-muted, #8A7D6B);
+}
+
+.cozy-single-event__content p {
+    margin-bottom: var(--cozy-space-md, 1rem);
+}
+
+
+/* ==================================================================
+   5. ZONE D'INSCRIPTION
+   ================================================================== */
+
+.cozy-registration-box {
+    margin-top: var(--cozy-space-xl, 2rem);
+    padding: var(--cozy-space-lg, 1.5rem);
+    background: var(--cozy-bg-card, #1A160F);
+    border: 1px solid var(--cozy-border, rgba(200,129,58,0.1));
+    border-radius: var(--cozy-radius, 4px);
+    position: relative;
+}
+
+/* Left amber stripe */
+.cozy-registration-box::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 2px;
+    height: 100%;
+    background: linear-gradient(180deg, var(--cozy-amber, #C8813A), var(--cozy-ember, #9B3A1E));
+}
+
+.cozy-registration-box::after {
+    display: none;
+}
+
+/* ── Login prompt ── */
+.cozy-registration-box__login {
+    display: flex;
+    align-items: center;
+    gap: var(--cozy-space-md, 1rem);
+    padding: var(--cozy-space-md, 1rem);
+    background: rgba(212,175,55,0.06);
+    border-left: 2px solid var(--cozy-gold, #D4AF37);
+    border-radius: var(--cozy-radius, 4px);
+}
+
+.cozy-registration-box__login .lucide {
+    width: 20px;
+    height: 20px;
+    color: var(--cozy-gold, #D4AF37);
+    flex-shrink: 0;
+}
+
+.cozy-registration-box__login p {
+    margin: 0;
+    font-size: var(--cozy-text-sm, 0.875rem);
+    color: var(--cozy-muted, #8A7D6B);
+}
+
+.cozy-registration-box__login a {
+    color: var(--cozy-amber, #C8813A);
+    font-weight: 600;
+}
+
+.cozy-registration-box__login a:hover {
+    text-decoration: underline;
+}
+
+/* ── Confirmed ── */
+.cozy-registration-box__confirmed {
+    display: flex;
+    flex-direction: column;
+    gap: var(--cozy-space-md, 1rem);
+}
+
+.cozy-registration-box__status {
+    display: flex;
+    align-items: center;
+    gap: var(--cozy-space-sm, 0.5rem);
+    padding: var(--cozy-space-md, 1rem);
+    background: rgba(74,102,73,0.1);
+    border-left: 2px solid var(--cozy-moss, #4A6649);
+    border-radius: var(--cozy-radius, 4px);
+    font-size: var(--cozy-text-sm, 0.875rem);
+    color: var(--cozy-moss-light, #6B8F6A);
+    font-weight: 600;
+}
+
+.cozy-registration-box__status .lucide {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+}
+
+/* ── Full ── */
+.cozy-registration-box__full {
+    display: flex;
+    align-items: center;
+    gap: var(--cozy-space-sm, 0.5rem);
+    padding: var(--cozy-space-md, 1rem);
+    background: rgba(155,58,30,0.1);
+    border-left: 2px solid var(--cozy-ember, #9B3A1E);
+    border-radius: var(--cozy-radius, 4px);
+    font-size: var(--cozy-text-sm, 0.875rem);
+    color: var(--cozy-ember-glow, #D4654A);
+}
+
+.cozy-registration-box__full .lucide {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+}
+
+/* ── Form ── */
+.cozy-registration-box__title {
+    display: flex;
+    align-items: center;
+    gap: var(--cozy-space-sm, 0.5rem);
+    font-family: var(--cozy-font-heading, 'Nunito', sans-serif);
+    font-size: var(--cozy-text-lg, 1.125rem);
+    font-weight: 700;
+    color: var(--cozy-cream, #EDE4CF);
+    margin: 0 0 var(--cozy-space-md, 1rem) 0;
+}
+
+.cozy-registration-box__title .lucide {
+    color: var(--cozy-amber, #C8813A);
+}
+
+/* ── Troc textarea ── */
+.cozy-registration-box__troc {
+    margin-bottom: var(--cozy-space-md, 1rem);
+}
+
+.cozy-registration-box__troc label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: var(--cozy-text-sm, 0.875rem);
+    color: var(--cozy-muted, #8A7D6B);
+    margin-bottom: var(--cozy-space-sm, 0.5rem);
+    font-weight: 500;
+}
+
+.cozy-registration-box__troc label .lucide {
+    width: 14px;
+    height: 14px;
+    color: var(--cozy-gold, #D4AF37);
+}
+
+.cozy-registration-box__troc textarea {
+    width: 100%;
+    padding: var(--cozy-space-sm, 0.5rem) var(--cozy-space-md, 1rem);
+    background: var(--cozy-bg-soft, #15120C);
+    border: 1px solid var(--cozy-border, rgba(200,129,58,0.1));
+    border-radius: var(--cozy-radius, 4px);
+    color: var(--cozy-cream, #EDE4CF);
+    font-family: var(--cozy-font-body, 'Nunito', sans-serif);
+    font-size: var(--cozy-text-sm, 0.875rem);
+    resize: vertical;
+    transition: border-color var(--cozy-transition, 0.2s ease);
+}
+
+.cozy-registration-box__troc textarea:focus {
+    outline: none;
+    border-color: var(--cozy-amber, #C8813A);
+    box-shadow: 0 0 0 3px rgba(200,129,58,0.08);
+}
+
+.cozy-registration-box__troc textarea::placeholder {
+    color: var(--cozy-faint, #5A4E3C);
+}
+
+/* ── Message (success / error) ── */
+.cozy-registration-box__message {
+    margin-top: var(--cozy-space-md, 1rem);
+    padding: var(--cozy-space-sm, 0.5rem) var(--cozy-space-md, 1rem);
+    border-radius: var(--cozy-radius, 4px);
+    font-size: var(--cozy-text-sm, 0.875rem);
+    font-weight: 500;
+}
+
+.cozy-registration-box__message--success {
+    background: rgba(74,102,73,0.1);
+    color: var(--cozy-moss-light, #6B8F6A);
+    border-left: 2px solid var(--cozy-moss, #4A6649);
+}
+
+.cozy-registration-box__message--error {
+    background: rgba(155,58,30,0.1);
+    color: var(--cozy-ember-glow, #D4654A);
+    border-left: 2px solid var(--cozy-ember, #9B3A1E);
+}
+
+
+/* ==================================================================
+   6. BOUTONS
+   ================================================================== */
+
+.cozy-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px 20px;
+    font-family: var(--cozy-font-heading, 'Nunito', sans-serif);
+    font-weight: 700;
+    font-size: var(--cozy-text-sm, 0.875rem);
+    border: none;
+    border-radius: var(--cozy-radius, 4px);
+    cursor: pointer;
+    transition: all var(--cozy-transition, 0.2s ease);
+    text-decoration: none;
+    line-height: 1.4;
+}
+
+.cozy-btn .lucide {
+    width: 16px;
+    height: 16px;
+}
+
+.cozy-btn--primary {
+    background: linear-gradient(135deg, var(--cozy-amber, #C8813A), var(--cozy-ember, #9B3A1E));
+    color: #fff;
+    box-shadow: var(--cozy-shadow-sm, 0 1px 3px rgba(0,0,0,0.3));
+}
+
+.cozy-btn--primary:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--cozy-shadow-md, 0 4px 12px rgba(0,0,0,0.35)),
+                0 0 20px rgba(200,129,58,0.25);
+}
+
+.cozy-btn--outline {
+    background: transparent;
+    color: var(--cozy-cream, #EDE4CF);
+    border: 1px solid var(--cozy-border, rgba(200,129,58,0.1));
+}
+
+.cozy-btn--outline:hover {
+    border-color: var(--cozy-amber, #C8813A);
+    color: var(--cozy-amber, #C8813A);
+    background: rgba(200,129,58,0.04);
+}
+
+.cozy-btn--sm {
+    padding: 6px 14px;
+    font-size: var(--cozy-text-xs, 0.75rem);
+}
+
+.cozy-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none !important;
+    box-shadow: none !important;
+}
+
+
+/* ==================================================================
+   7. CHARTE (dans la zone d'inscription)
+   ================================================================== */
+
+.cozy-charter {
+    padding: var(--cozy-space-lg, 1.5rem);
+    background: linear-gradient(135deg, rgba(74,102,73,0.06), rgba(200,129,58,0.06));
+    border: 1px solid var(--cozy-border, rgba(200,129,58,0.1));
+    border-left: 2px solid var(--cozy-moss, #4A6649);
+    border-radius: var(--cozy-radius, 4px);
+    position: relative;
+    box-shadow: inset 3px 0 16px rgba(74,102,73,0.06);
+}
+
+.cozy-charter::before,
+.cozy-charter::after {
+    display: none;
+}
+
+.cozy-charter__header {
+    margin-bottom: var(--cozy-space-md, 1rem);
+}
+
+.cozy-charter__title {
+    display: flex;
+    align-items: center;
+    gap: var(--cozy-space-sm, 0.5rem);
+    font-family: var(--cozy-font-heading, 'Nunito', sans-serif);
+    font-size: var(--cozy-text-base, 1rem);
+    font-weight: 700;
+    color: var(--cozy-cream, #EDE4CF);
+    margin: 0 0 4px 0;
+}
+
+.cozy-charter__title .lucide {
+    color: var(--cozy-moss-light, #6B8F6A);
+}
+
+.cozy-charter__subtitle {
+    font-size: var(--cozy-text-xs, 0.75rem);
+    color: var(--cozy-faint, #5A4E3C);
+    margin: 0;
+    font-style: italic;
+}
+
+.cozy-charter__rules {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 var(--cozy-space-md, 1rem) 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--cozy-space-sm, 0.5rem);
+}
+
+.cozy-charter__rule {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--cozy-space-sm, 0.5rem);
+    font-size: var(--cozy-text-sm, 0.875rem);
+    color: var(--cozy-muted, #8A7D6B);
+    line-height: 1.5;
+}
+
+.cozy-charter__rule .lucide {
+    color: var(--cozy-moss-light, #6B8F6A);
+    flex-shrink: 0;
+    width: 16px;
+    height: 16px;
+    margin-top: 2px;
+}
+
+.cozy-charter-field {
+    margin-bottom: var(--cozy-space-md, 1rem);
+    padding: var(--cozy-space-md, 1rem);
+    background: var(--cozy-bg-soft, #15120C);
+    border-radius: var(--cozy-radius, 4px);
+    border: 1px solid var(--cozy-border, rgba(200,129,58,0.1));
+}
+
+.cozy-charter-field__summary {
+    display: flex;
+    align-items: center;
+    gap: var(--cozy-space-sm, 0.5rem);
+    margin-bottom: var(--cozy-space-sm, 0.5rem);
+}
+
+.cozy-charter-field__summary .lucide {
+    color: var(--cozy-moss-light, #6B8F6A);
+    width: 16px;
+    height: 16px;
+}
+
+.cozy-charter-field__title {
+    font-family: var(--cozy-font-ui, 'Space Grotesk', sans-serif);
+    font-size: 10px;
+    font-weight: 500;
+    color: var(--cozy-cream, #EDE4CF);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.cozy-charter-field__label {
+    display: flex;
+    align-items: center;
+    gap: var(--cozy-space-sm, 0.5rem);
+    cursor: pointer;
+    padding: var(--cozy-space-sm, 0.5rem) var(--cozy-space-md, 1rem);
+    background: var(--cozy-ink, #22201C);
+    border-radius: var(--cozy-radius, 4px);
+    border: 1px solid var(--cozy-border, rgba(200,129,58,0.1));
+    transition: border-color var(--cozy-transition, 0.2s ease);
+}
+
+.cozy-charter-field__label:hover {
+    border-color: var(--cozy-moss, #4A6649);
+}
+
+.cozy-charter-field__label input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    accent-color: var(--cozy-moss, #4A6649);
+    flex-shrink: 0;
+    cursor: pointer;
+}
+
+.cozy-charter-field__text {
+    font-size: var(--cozy-text-sm, 0.875rem);
+    font-weight: 600;
+    color: var(--cozy-cream, #EDE4CF);
+    line-height: 1.4;
+}
+
+.cozy-charter__accept-btn {
+    margin-top: var(--cozy-space-sm, 0.5rem);
+    width: 100%;
+}
+
+
+/* ==================================================================
+   8. ARCHIVE ÉVÉNEMENTS
+   ================================================================== */
+
+.cozy-events-archive {
+    padding: var(--cozy-space-2xl, 3rem) 0;
+    max-width: var(--cozy-max-width, 1440px);
+    margin: 0 auto;
+    padding-left: var(--cozy-space-lg, 1.5rem);
+    padding-right: var(--cozy-space-lg, 1.5rem);
+}
+
+.cozy-events-archive h1 {
+    font-family: var(--cozy-font-heading, 'Nunito', sans-serif);
+    font-size: var(--cozy-text-3xl, 1.875rem);
+    font-weight: 800;
+    color: var(--cozy-cream, #EDE4CF);
+    margin-bottom: var(--cozy-space-xl, 2rem);
+}
+
+.cozy-no-events {
+    text-align: center;
+    color: var(--cozy-faint, #5A4E3C);
+    font-size: var(--cozy-text-lg, 1.125rem);
+    padding: var(--cozy-space-3xl, 4rem) 0;
+}
+
+
+/* ==================================================================
+   9. RESPONSIVE
+   ================================================================== */
+
+@media (max-width: 768px) {
+    .cozy-events-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .cozy-single-event__title {
+        font-size: var(--cozy-text-2xl, 1.5rem);
+    }
+
+    .cozy-registration-box {
+        padding: var(--cozy-space-md, 1rem);
+    }
+
+    .cozy-charter {
+        padding: var(--cozy-space-md, 1rem);
+    }
+}
+
+
+/* ==================================================================
+   10. MES RÉSERVATIONS  (shortcode [cozy_mes_reservations])
+   ================================================================== */
+
+.cozy-reservations__login {
+    text-align: center;
+    padding: var(--cozy-space-xl, 2rem) 0;
+    color: var(--cozy-faint, #5A4E3C);
+}
+
+.cozy-reservations__login a {
+    color: var(--cozy-amber, #C8813A);
+    text-decoration: underline;
+}
+
+.cozy-reservations__header {
+    margin-bottom: var(--cozy-space-lg, 1.5rem);
+}
+
+.cozy-reservations__title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--cozy-font-heading, 'Nunito', sans-serif);
+    font-size: var(--cozy-text-xl, 1.25rem);
+    font-weight: 800;
+    color: var(--cozy-cream, #EDE4CF);
+}
+
+.cozy-reservations__title .lucide {
+    width: 22px;
+    height: 22px;
+    color: var(--cozy-amber, #C8813A);
+}
+
+.cozy-reservations__section {
+    margin-bottom: var(--cozy-space-xl, 2rem);
+}
+
+.cozy-reservations__section-title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--cozy-font-ui, 'Space Grotesk', sans-serif);
+    font-size: 10px;
+    font-weight: 500;
+    color: var(--cozy-cream, #EDE4CF);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: var(--cozy-space-md, 1rem);
+    padding-bottom: var(--cozy-space-xs, 0.25rem);
+    border-bottom: 1px solid var(--cozy-border, rgba(200,129,58,0.1));
+}
+
+.cozy-reservations__section-title .lucide {
+    width: 16px;
+    height: 16px;
+    color: var(--cozy-amber, #C8813A);
+}
+
+.cozy-reservations__count {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 22px;
+    height: 22px;
+    padding: 0 6px;
+    background: linear-gradient(135deg, var(--cozy-amber, #C8813A), var(--cozy-ember, #9B3A1E));
+    color: #fff;
+    font-size: 0.68rem;
+    font-weight: 700;
+    border-radius: 99px;
+}
+
+.cozy-reservations__empty {
+    padding: var(--cozy-space-lg, 1.5rem);
+    text-align: center;
+    color: var(--cozy-faint, #5A4E3C);
+    background: var(--cozy-bg-card, #1A160F);
+    border: 1px solid var(--cozy-border, rgba(200,129,58,0.1));
+    border-radius: var(--cozy-radius, 4px);
+}
+
+.cozy-reservations__empty p {
+    margin-bottom: var(--cozy-space-sm, 0.5rem);
+}
+
+.cozy-reservations__list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: var(--cozy-space-md, 1rem);
+}
+
+/* --- Carte Réservation --- */
+
+.cozy-reservations__card {
+    position: relative;
+    background: var(--cozy-bg-card, #1A160F);
+    border: 1px solid var(--cozy-border, rgba(200,129,58,0.1));
+    border-radius: var(--cozy-radius, 4px);
+    padding: var(--cozy-space-md, 1rem);
+    display: flex;
+    flex-direction: column;
+    gap: var(--cozy-space-sm, 0.5rem);
+    transition: border-color var(--cozy-transition, 0.2s), box-shadow var(--cozy-transition, 0.2s);
+}
+
+/* Left amber stripe */
+.cozy-reservations__card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 2px;
+    height: 100%;
+    background: linear-gradient(180deg, var(--cozy-amber, #C8813A), var(--cozy-ember, #9B3A1E));
+    opacity: 0;
+    transition: opacity var(--cozy-transition, 0.2s);
+}
+
+.cozy-reservations__card::after {
+    display: none;
+}
+
+.cozy-reservations__card:hover {
+    border-color: rgba(200,129,58,0.2);
+    box-shadow: 0 0 12px rgba(200,129,58,0.12);
+}
+
+.cozy-reservations__card:hover::before {
+    opacity: 1;
+}
+
+.cozy-reservations__card--past {
+    opacity: 0.65;
+}
+
+.cozy-reservations__card--past:hover {
+    opacity: 0.85;
+}
+
+.cozy-reservations__card-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.cozy-reservations__card-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.cozy-reservations__card-title {
+    font-family: var(--cozy-font-heading, 'Nunito', sans-serif);
+    font-size: var(--cozy-text-base, 1rem);
+    font-weight: 700;
+    color: var(--cozy-cream, #EDE4CF);
+    margin: 0;
+}
+
+.cozy-reservations__card-title a {
+    color: inherit;
+    text-decoration: none;
+    transition: color var(--cozy-transition, 0.2s);
+}
+
+.cozy-reservations__card-title a:hover {
+    color: var(--cozy-amber, #C8813A);
+}
+
+.cozy-reservations__card-infos {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.cozy-reservations__card-info {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--cozy-font-ui, 'Space Grotesk', sans-serif);
+    font-size: 10px;
+}
+
+.cozy-reservations__card-info .lucide {
+    width: 14px;
+    height: 14px;
+    color: var(--cozy-amber, #C8813A);
+    flex-shrink: 0;
+}
+
+.cozy-reservations__card-info a {
+    color: var(--cozy-amber, #C8813A);
+    text-decoration: underline;
+}
+
+.cozy-reservations__card-troc {
+    display: flex;
+    align-items: flex-start;
+    gap: 6px;
+    padding: var(--cozy-space-xs, 0.25rem) var(--cozy-space-sm, 0.5rem);
+    background: rgba(200, 129, 58, 0.06);
+    border: 1px solid rgba(200, 129, 58, 0.1);
+    border-radius: var(--cozy-radius, 4px);
+    font-size: 0.75rem;
+    color: var(--cozy-faint, #5A4E3C);
+}
+
+.cozy-reservations__card-troc .lucide {
+    width: 14px;
+    height: 14px;
+    color: var(--cozy-amber, #C8813A);
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.cozy-reservations__card-actions {
+    margin-top: auto;
+    padding-top: var(--cozy-space-xs, 0.25rem);
+}
+
+@media (max-width: 768px) {
+    .cozy-reservations__list {
+        grid-template-columns: 1fr;
+    }
+}

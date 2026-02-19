@@ -24,6 +24,8 @@
                     <?php echo esc_html( $categories[0]->name ); ?>
                 </a>
             <?php endif; ?>
+            <span class="cozy-card__meta-separator"></span>
+            <i data-lucide="calendar" class="lucide"></i>
             <time datetime="<?php echo get_the_date( 'c' ); ?>">
                 <?php echo get_the_date(); ?>
             </time>

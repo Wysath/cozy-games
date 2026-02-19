@@ -5,7 +5,7 @@
  * ============================================================================
  *
  * Personnalise les pages de connexion et d'inscription WordPress
- * avec le branding Cozy Gaming : logo, couleurs, styles, et
+ * avec le branding Cozy Grove : logo, couleurs, styles, et
  * améliorations UX (champ mot de passe à l'inscription, etc.)
  *
  * @package CozyGaming
@@ -122,29 +122,30 @@ add_action( 'login_head', 'cozy_hide_default_password_notice' );
 
 /**
  * Rediriger vers la page d'accueil après inscription réussie
- * au lieu de la page de login avec message "check email"
+ * au lieu de la page de login avec message "check email".
+ *
+ * Note : le filtre `registration_redirect` ne transmet qu'un argument ($redirect_to).
  */
-function cozy_registration_redirect( $redirect_to, $errors ) {
-    if ( ! is_wp_error( $errors ) ) {
-        // Connexion automatique après inscription
-        $user_login = isset( $_POST['user_login'] ) ? sanitize_user( $_POST['user_login'] ) : '';
-        $user       = get_user_by( 'login', $user_login );
+function cozy_registration_redirect( $redirect_to ) {
+    // Connexion automatique après inscription
+    $user_login = isset( $_POST['user_login'] ) ? sanitize_user( $_POST['user_login'] ) : '';
+    $user       = get_user_by( 'login', $user_login );
 
-        if ( $user && ! empty( $_POST['pass1'] ) ) {
-            wp_set_auth_cookie( $user->ID, true );
-            return home_url();
-        }
+    if ( $user && ! empty( $_POST['pass1'] ) ) {
+        wp_set_auth_cookie( $user->ID, true );
+        return home_url();
     }
+
     return $redirect_to;
 }
-add_filter( 'registration_redirect', 'cozy_registration_redirect', 10, 2 );
+add_filter( 'registration_redirect', 'cozy_registration_redirect' );
 
 
 /**
  * -----------------------------------------------
  * 3. BRANDING : LOGO ET LIENS
  * -----------------------------------------------
- * Remplace le logo WordPress par celui de Cozy Gaming
+ * Remplace le logo WordPress par celui de Cozy Grove
  * et modifie les liens/textes associés.
  */
 
@@ -177,7 +178,7 @@ add_filter( 'login_title', 'cozy_login_title', 10, 2 );
  * -----------------------------------------------
  * 4. STYLES PERSONNALISÉS DES FORMULAIRES
  * -----------------------------------------------
- * Injecte les styles Cozy Gaming sur la page wp-login.php
+ * Injecte les styles Cozy Grove sur la page wp-login.php
  */
 function cozy_login_enqueue_styles() {
     wp_enqueue_style(
@@ -210,7 +211,7 @@ add_filter( 'login_body_class', 'cozy_login_body_class' );
 function cozy_login_message( $message ) {
     // Sur la page d'inscription
     if ( isset( $_GET['action'] ) && $_GET['action'] === 'register' ) {
-        $message = '<p class="message cozy-register-message">🎮 Rejoins la communauté Cozy Gaming !<br><small>Crée ton compte pour t\'inscrire aux événements.</small></p>';
+        $message = '<p class="message cozy-register-message"><i data-lucide="gamepad-2"></i> Rejoins la guilde Cozy Grove !<br><small>Crée ton compte pour t\'inscrire aux événements.</small></p>';
     }
     return $message;
 }

@@ -1,0 +1,395 @@
+/**
+ * ============================================================================
+ * COZY GAMING — Codes Ami  (v2.0 — Design System HUD)
+ * ============================================================================
+ */
+
+
+/* -----------------------------------------------
+   1. FORMULAIRE FRONT-END
+   ----------------------------------------------- */
+
+.cozy-friend-codes {
+    max-width: 650px;
+    margin: 0 auto;
+    padding: var(--cozy-space-xl);
+    background: var(--cozy-bg-card);
+    border: 1px solid var(--cozy-border);
+    border-radius: var(--cozy-radius);
+    position: relative;
+    box-shadow: var(--cozy-shadow-sm);
+}
+
+/* Bracket HUD */
+.cozy-friend-codes::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: var(--cozy-hud-bracket);
+    height: var(--cozy-hud-bracket);
+    border-top: 1px solid var(--cozy-primary-muted);
+    border-left: 1px solid var(--cozy-primary-muted);
+    pointer-events: none;
+}
+
+.cozy-friend-codes::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: var(--cozy-hud-bracket);
+    height: var(--cozy-hud-bracket);
+    border-bottom: 1px solid var(--cozy-primary-muted);
+    border-right: 1px solid var(--cozy-primary-muted);
+    pointer-events: none;
+}
+
+.cozy-friend-codes__header {
+    margin-bottom: var(--cozy-space-lg);
+    text-align: center;
+}
+
+.cozy-friend-codes__header h3 {
+    font-family: var(--cozy-font-heading);
+    font-size: var(--cozy-text-xl);
+    margin-bottom: var(--cozy-space-xs);
+    color: var(--cozy-text);
+}
+
+.cozy-friend-codes__header p {
+    color: var(--cozy-text-secondary);
+    font-size: var(--cozy-text-sm);
+    line-height: 1.6;
+}
+
+.cozy-friend-codes__field {
+    padding: var(--cozy-space-md);
+    margin-bottom: var(--cozy-space-xs);
+    border-radius: var(--cozy-radius);
+    background: var(--cozy-bg-soft);
+    border: 1px solid var(--cozy-border-subtle);
+    transition: border-color var(--cozy-transition);
+}
+
+.cozy-friend-codes__field:hover {
+    border-color: var(--cozy-border-hover);
+}
+
+.cozy-friend-codes__field label {
+    display: flex;
+    align-items: center;
+    gap: var(--cozy-space-sm);
+    font-weight: 600;
+    margin-bottom: var(--cozy-space-sm);
+    cursor: pointer;
+}
+
+.cozy-friend-codes__platform-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: var(--cozy-radius);
+    color: #fff;
+    flex-shrink: 0;
+}
+
+.cozy-friend-codes__platform-icon .lucide {
+    width: 16px;
+    height: 16px;
+}
+
+.cozy-friend-codes__platform-info {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+}
+
+.cozy-friend-codes__platform-info strong {
+    font-size: var(--cozy-text-sm);
+    color: var(--cozy-text);
+}
+
+.cozy-friend-codes__platform-info small {
+    font-size: 0.75rem;
+    color: var(--cozy-text-muted);
+    font-weight: 400;
+}
+
+.cozy-friend-codes__input-wrapper {
+    display: flex;
+    align-items: center;
+    gap: var(--cozy-space-sm);
+}
+
+.cozy-friend-codes__input-wrapper input {
+    flex: 1;
+    padding: 8px 12px;
+    border: 1px solid var(--cozy-border);
+    border-radius: var(--cozy-radius);
+    font-family: var(--cozy-font-mono);
+    font-size: var(--cozy-text-sm);
+    letter-spacing: 0.03em;
+    background: var(--cozy-bg);
+    transition: border-color var(--cozy-transition);
+}
+
+.cozy-friend-codes__input-wrapper input:focus {
+    outline: none;
+    border-color: var(--cozy-primary-muted);
+    box-shadow: 0 0 0 3px var(--cozy-primary-glow);
+}
+
+.cozy-friend-codes__input-wrapper input.cozy-fc-invalid {
+    border-color: var(--cozy-error);
+    box-shadow: 0 0 0 3px rgba(244, 63, 94, 0.1);
+}
+
+.cozy-friend-codes__input-wrapper input.cozy-fc-valid {
+    border-color: var(--cozy-success);
+}
+
+.cozy-friend-codes__status {
+    font-size: 0.8rem;
+    font-weight: 600;
+    width: 22px;
+    height: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--cozy-radius);
+    flex-shrink: 0;
+}
+
+.cozy-friend-codes__status--saved {
+    background: rgba(20, 184, 166, 0.1);
+    color: var(--cozy-success);
+}
+
+.cozy-friend-codes__status--error {
+    background: rgba(244, 63, 94, 0.1);
+    color: var(--cozy-error);
+}
+
+.cozy-friend-codes__hint {
+    margin-top: 3px;
+    margin-bottom: 0;
+    font-size: 0.75rem;
+    color: var(--cozy-text-muted);
+    padding-left: 2px;
+}
+
+.cozy-friend-codes__actions {
+    display: flex;
+    align-items: center;
+    gap: var(--cozy-space-md);
+    margin-top: var(--cozy-space-lg);
+    padding-top: var(--cozy-space-lg);
+    border-top: 1px solid var(--cozy-border-subtle);
+}
+
+.cozy-friend-codes__btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 22px;
+    background: var(--cozy-gradient-primary);
+    color: var(--cozy-text-on-primary);
+    border: none;
+    font-size: var(--cozy-text-sm);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--cozy-transition);
+    --btn-cut: 8px;
+    clip-path: polygon(
+        0 0,
+        calc(100% - var(--btn-cut)) 0,
+        100% var(--btn-cut),
+        100% 100%,
+        var(--btn-cut) 100%,
+        0 calc(100% - var(--btn-cut))
+    );
+    box-shadow: 0 2px 10px rgba(99, 102, 241, 0.2);
+}
+
+.cozy-friend-codes__btn:hover {
+    filter: brightness(1.1);
+    box-shadow: var(--cozy-glow-primary);
+    transform: translateY(-1px);
+}
+
+.cozy-friend-codes__btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.cozy-friend-codes__message {
+    font-size: var(--cozy-text-sm);
+    font-weight: 500;
+}
+
+.cozy-friend-codes__message--success {
+    color: var(--cozy-success);
+}
+
+.cozy-friend-codes__message--error {
+    color: var(--cozy-error);
+}
+
+
+/* -----------------------------------------------
+   2. BADGES CODES AMI (événements + attendees)
+   ----------------------------------------------- */
+
+.cozy-fc-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-top: 4px;
+}
+
+.cozy-fc-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 3px 10px;
+    border-radius: var(--cozy-radius);
+    font-size: 0.7rem;
+    background: var(--cozy-bg-soft);
+    border: 1px solid var(--cozy-border-subtle);
+    color: var(--cozy-text-secondary);
+    white-space: nowrap;
+    transition: all var(--cozy-transition);
+}
+
+.cozy-fc-badge:hover {
+    border-color: var(--fc-color, var(--cozy-primary-muted));
+    box-shadow: 0 0 8px color-mix(in srgb, var(--fc-color, var(--cozy-primary)) 20%, transparent);
+}
+
+.cozy-fc-badge .lucide {
+    width: 12px;
+    height: 12px;
+    color: var(--fc-color, var(--cozy-primary));
+}
+
+.cozy-fc-badge__name {
+    font-family: var(--cozy-font-mono);
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    opacity: 0.7;
+}
+
+.cozy-fc-badge code {
+    font-family: var(--cozy-font-mono);
+    font-size: 0.85em;
+    background: transparent;
+    padding: 0;
+    color: var(--cozy-text);
+    font-weight: 600;
+    letter-spacing: 0.03em;
+}
+
+
+/* -----------------------------------------------
+   3. ATTENDEES (avatars + liste)
+   ----------------------------------------------- */
+
+.cozy-attendees__title {
+    font-family: var(--cozy-font-heading);
+    font-size: var(--cozy-text-base);
+    color: var(--cozy-text);
+    margin-bottom: var(--cozy-space-md);
+    padding-bottom: var(--cozy-space-sm);
+    border-bottom: 1px solid var(--cozy-border-subtle);
+}
+
+.cozy-attendees__avatar-stack {
+    display: flex;
+    align-items: center;
+    margin-bottom: var(--cozy-space-lg);
+}
+
+.cozy-attendees__avatar-item {
+    margin-left: -10px;
+    transition: transform var(--cozy-transition);
+    position: relative;
+    z-index: 1;
+}
+
+.cozy-attendees__avatar-item:first-child {
+    margin-left: 0;
+}
+
+.cozy-attendees__avatar-item:hover {
+    transform: translateY(-3px) scale(1.1);
+    z-index: 10;
+}
+
+.cozy-attendees__avatar-item img {
+    border-radius: var(--cozy-radius-full);
+    border: 2px solid var(--cozy-bg);
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    display: block;
+}
+
+.cozy-attendees__avatar-more {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: var(--cozy-radius-full);
+    background: var(--cozy-primary);
+    color: var(--cozy-text-on-primary);
+    font-family: var(--cozy-font-mono);
+    font-size: 0.75rem;
+    font-weight: 700;
+    margin-left: -10px;
+    border: 2px solid var(--cozy-bg);
+}
+
+.cozy-attendees__list {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.cozy-attendees__list-item {
+    padding: var(--cozy-space-sm) var(--cozy-space-md);
+    border-radius: var(--cozy-radius);
+    transition: background var(--cozy-transition);
+}
+
+.cozy-attendees__list-item:hover {
+    background: var(--cozy-primary-ghost);
+}
+
+
+/* -----------------------------------------------
+   4. RESPONSIVE
+   ----------------------------------------------- */
+
+@media (max-width: 600px) {
+    .cozy-friend-codes {
+        padding: var(--cozy-space-lg);
+    }
+
+    .cozy-friend-codes__field label {
+        flex-wrap: wrap;
+    }
+
+    .cozy-friend-codes__actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .cozy-friend-codes__btn {
+        justify-content: center;
+    }
+}

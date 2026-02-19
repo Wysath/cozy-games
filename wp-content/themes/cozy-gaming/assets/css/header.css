@@ -1,72 +1,115 @@
 /**
  * ============================================================================
- * COZY GAMING — header.css
+ * COZY GROVE — Header (header.css)
  * ============================================================================
  *
- * Styles pour l'en-tête : navigation, logo, menu mobile.
+ * En-tête fixe : transparent → verre ambré au scroll.
+ * Navigation principale + menu mobile hamburger.
+ * Esthétique guilde médiévale cozy.
  *
- * @since 1.0.0
+ * @since 3.0.0
  */
 
 
 /* ==================================================================
-   1. HEADER PRINCIPAL
+   1. STRUCTURE
    ================================================================== */
 
 .cozy-header {
-    position: sticky;
+    position: fixed;
     top: 0;
-    z-index: 1000;
+    left: 0;
+    right: 0;
+    z-index: 100;
     height: var(--cozy-header-height);
-    background: rgba(255, 255, 255, 0.92);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border-bottom: 1px solid var(--cozy-border-light);
-    transition: box-shadow var(--cozy-transition);
+    background: transparent;
+    border-bottom: 1px solid transparent;
+    transition:
+        background var(--cozy-transition-slow),
+        border-color var(--cozy-transition-slow),
+        backdrop-filter var(--cozy-transition-slow);
 }
 
+/* ── Scrolled : verre encre + liseré ambre ── */
 .cozy-header--scrolled {
-    box-shadow: var(--cozy-shadow-sm);
+    background: rgba(34, 32, 28, 0.92);
+    backdrop-filter: blur(24px) saturate(1.2);
+    -webkit-backdrop-filter: blur(24px) saturate(1.2);
+    border-bottom-color: var(--cozy-border);
+    box-shadow: var(--cozy-shadow-md);
+}
+
+.cozy-header--scrolled::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(
+        90deg,
+        transparent 0%,
+        var(--cozy-amber-dim) 20%,
+        var(--cozy-amber) 50%,
+        var(--cozy-gold-dim) 80%,
+        transparent 100%
+    );
+    opacity: 0.7;
 }
 
 .cozy-header__inner {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    max-width: var(--cozy-max-width);
+    margin: 0 auto;
+    padding: 0 var(--cozy-space-lg);
     height: 100%;
-    gap: var(--cozy-space-lg);
 }
 
 
 /* ==================================================================
-   2. LOGO / NOM DU SITE
+   2. BRAND / LOGO
    ================================================================== */
 
 .cozy-header__brand {
-    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    gap: var(--cozy-space-sm);
+}
+
+.cozy-header__logo a {
+    display: flex;
+    align-items: center;
+    gap: var(--cozy-space-sm);
+    text-decoration: none;
+    color: var(--cozy-parchment);
+    font-family: var(--cozy-font-display);
+    font-weight: 400;
+    font-size: var(--cozy-text-xl);
+    transition: filter var(--cozy-transition);
+}
+
+.cozy-header__logo a:hover {
+    filter: drop-shadow(0 0 12px rgba(200, 129, 58, 0.4));
+    color: var(--cozy-parchment);
 }
 
 .cozy-header__logo img {
-    height: 40px;
+    height: 36px;
     width: auto;
 }
 
-.cozy-header__logo .custom-logo-link {
-    display: flex;
-    align-items: center;
-}
-
 .cozy-header__site-name {
-    font-family: var(--cozy-font-heading);
+    font-family: var(--cozy-font-display);
     font-size: var(--cozy-text-xl);
-    font-weight: 800;
-    color: var(--cozy-text);
+    color: var(--cozy-parchment);
     text-decoration: none;
-    letter-spacing: -0.02em;
+    transition: color var(--cozy-transition);
 }
 
 .cozy-header__site-name:hover {
-    color: var(--cozy-primary);
+    color: var(--cozy-amber-glow);
 }
 
 
@@ -75,12 +118,105 @@
    ================================================================== */
 
 .cozy-header__nav {
-    flex: 1;
     display: flex;
-    justify-content: center;
+    align-items: center;
+    gap: var(--cozy-space-xs);
 }
 
-.cozy-nav__list {
+.cozy-header__nav a {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 8px 14px;
+    font-family: var(--cozy-font-ui);
+    font-size: 10px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--cozy-muted);
+    text-decoration: none;
+    border-radius: var(--cozy-radius);
+    transition: all var(--cozy-transition);
+    position: relative;
+}
+
+/* Hover underline : ambre → or */
+.cozy-header__nav > ul > li > a::before {
+    content: '';
+    position: absolute;
+    bottom: 2px;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--cozy-amber), var(--cozy-gold));
+    border-radius: 1px;
+    transform: translateX(-50%);
+    transition: width 0.3s ease;
+}
+
+.cozy-header__nav > ul > li > a:hover::before {
+    width: 70%;
+}
+
+.cozy-header__nav a:hover {
+    color: var(--cozy-cream);
+}
+
+.cozy-header__nav .current-menu-item > a,
+.cozy-header__nav .current_page_item > a {
+    color: var(--cozy-amber-glow);
+}
+
+/* ── Active indicator : amber underline ── */
+.cozy-header__nav .current-menu-item > a::after,
+.cozy-header__nav .current_page_item > a::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: var(--cozy-amber);
+    border-radius: 2px;
+}
+
+/* ── Sous-menu (dropdown) ── */
+.cozy-header__nav .sub-menu {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    min-width: 200px;
+    background: var(--cozy-bg-card);
+    border: 1px solid var(--cozy-border);
+    border-radius: var(--cozy-radius);
+    padding: var(--cozy-space-xs) 0;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-6px);
+    transition: all var(--cozy-transition);
+    z-index: 110;
+    list-style: none;
+}
+
+.cozy-header__nav li:hover > .sub-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.cozy-header__nav .sub-menu a {
+    display: block;
+    padding: 8px 18px;
+    font-size: var(--cozy-text-sm);
+    border-radius: 0;
+}
+
+.cozy-header__nav .sub-menu a:hover {
+    background: rgba(200, 129, 58, 0.06);
+}
+
+/* ── Liste du menu : flex row ── */
+.cozy-header__nav ul {
     display: flex;
     align-items: center;
     gap: var(--cozy-space-xs);
@@ -89,156 +225,121 @@
     padding: 0;
 }
 
-.cozy-nav__list li {
+.cozy-header__nav > ul > li {
     position: relative;
-}
-
-.cozy-nav__list li a {
-    display: flex;
-    align-items: center;
-    padding: 8px 14px;
-    font-size: var(--cozy-text-sm);
-    font-weight: 500;
-    color: var(--cozy-text-secondary);
-    text-decoration: none;
-    border-radius: var(--cozy-radius);
-    transition: all var(--cozy-transition);
-}
-
-.cozy-nav__list li a:hover,
-.cozy-nav__list li.current-menu-item > a,
-.cozy-nav__list li.current_page_item > a {
-    color: var(--cozy-primary);
-    background: var(--cozy-primary-light);
-}
-
-/* Sous-menus */
-.cozy-nav__list .sub-menu {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    min-width: 200px;
-    padding: var(--cozy-space-sm) 0;
-    background: var(--cozy-bg-card);
-    border: 1px solid var(--cozy-border);
-    border-radius: var(--cozy-radius);
-    box-shadow: var(--cozy-shadow-lg);
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(8px);
-    transition: all var(--cozy-transition);
-    z-index: 100;
-    list-style: none;
-}
-
-.cozy-nav__list li:hover > .sub-menu {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
-}
-
-.cozy-nav__list .sub-menu a {
-    padding: 8px 16px;
-    border-radius: 0;
-    font-size: var(--cozy-text-sm);
 }
 
 
 /* ==================================================================
-   4. ACTIONS HEADER (Login / Profil)
+   4. ACTIONS (login / user)
    ================================================================== */
 
 .cozy-header__actions {
     display: flex;
     align-items: center;
-    gap: var(--cozy-space-md);
-    flex-shrink: 0;
+    gap: var(--cozy-space-sm);
 }
 
 .cozy-header__user {
     display: flex;
     align-items: center;
     gap: var(--cozy-space-sm);
-    padding: 4px 12px 4px 4px;
-    border-radius: var(--cozy-radius-full);
-    border: 1px solid var(--cozy-border);
+    text-decoration: none;
+    color: var(--cozy-cream);
     font-size: var(--cozy-text-sm);
     font-weight: 500;
-    color: var(--cozy-text);
+    padding: 4px 10px 4px 4px;
+    border-radius: var(--cozy-radius-full);
+    transition: background var(--cozy-transition);
+}
+
+.cozy-header__user:hover {
+    background: rgba(200, 129, 58, 0.08);
+    color: var(--cozy-cream);
+}
+
+.cozy-header__user img {
+    width: 30px;
+    height: 30px;
+    border-radius: var(--cozy-radius-full);
+}
+
+.cozy-header__login {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    font-size: var(--cozy-text-sm);
+    font-weight: 600;
+    color: var(--cozy-amber);
+    border: 1px solid var(--cozy-amber-dim);
+    border-radius: var(--cozy-radius);
     text-decoration: none;
     transition: all var(--cozy-transition);
 }
 
-.cozy-header__user:hover {
-    border-color: var(--cozy-primary);
-    background: var(--cozy-primary-light);
-    color: var(--cozy-primary);
+.cozy-header__login:hover {
+    border-color: var(--cozy-amber);
+    background: rgba(200, 129, 58, 0.08);
+    box-shadow: 0 0 16px var(--cozy-glow-amber);
+    transform: translateY(-1px);
+    color: var(--cozy-amber-glow);
 }
 
-.cozy-header__user img {
-    border-radius: var(--cozy-radius-full);
-}
-
-.cozy-header__username {
-    max-width: 120px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+.cozy-header__login .lucide {
+    width: 15px;
+    height: 15px;
 }
 
 
 /* ==================================================================
-   5. MENU HAMBURGER (MOBILE)
+   5. HAMBURGER (mobile)
    ================================================================== */
 
-.cozy-header__menu-toggle {
-    display: none;
-    padding: var(--cozy-space-sm);
-    border-radius: var(--cozy-radius-sm);
-    transition: background var(--cozy-transition);
-}
-
-.cozy-header__menu-toggle:hover {
-    background: var(--cozy-bg-soft);
-}
-
 .cozy-hamburger {
-    display: flex;
+    display: none;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 0;
     gap: 5px;
-    width: 22px;
 }
 
 .cozy-hamburger span {
     display: block;
-    width: 100%;
+    width: 22px;
     height: 2px;
-    background: var(--cozy-text);
-    border-radius: 2px;
-    transition: all var(--cozy-transition);
+    background: var(--cozy-cream);
+    border-radius: 1px;
+    transition: all 0.25s ease;
     transform-origin: center;
 }
 
-/* État ouvert */
-.cozy-header__menu-toggle[aria-expanded="true"] .cozy-hamburger span:nth-child(1) {
+/* ── Ouvert : croix ── */
+.cozy-hamburger.is-active span:nth-child(1) {
     transform: translateY(7px) rotate(45deg);
 }
 
-.cozy-header__menu-toggle[aria-expanded="true"] .cozy-hamburger span:nth-child(2) {
+.cozy-hamburger.is-active span:nth-child(2) {
     opacity: 0;
 }
 
-.cozy-header__menu-toggle[aria-expanded="true"] .cozy-hamburger span:nth-child(3) {
+.cozy-hamburger.is-active span:nth-child(3) {
     transform: translateY(-7px) rotate(-45deg);
 }
 
 
 /* ==================================================================
-   6. RESPONSIVE
+   6. MOBILE MENU
    ================================================================== */
 
 @media (max-width: 900px) {
-    .cozy-header__menu-toggle {
+    .cozy-hamburger {
         display: flex;
     }
 
@@ -248,53 +349,46 @@
         left: 0;
         right: 0;
         bottom: 0;
-        background: var(--cozy-bg-card);
+        background: var(--cozy-bg);
         padding: var(--cozy-space-lg);
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0;
+        overflow-y: auto;
         transform: translateX(100%);
         transition: transform var(--cozy-transition-slow);
-        overflow-y: auto;
-        z-index: 999;
     }
 
     .cozy-header__nav.is-open {
         transform: translateX(0);
     }
 
-    .cozy-nav__list {
+    .cozy-header__nav ul {
         flex-direction: column;
-        align-items: stretch;
-        gap: var(--cozy-space-xs);
+        gap: 0;
     }
 
-    .cozy-nav__list li a {
+    .cozy-header__nav a {
         padding: 12px 16px;
         font-size: var(--cozy-text-base);
+        width: 100%;
         border-radius: var(--cozy-radius);
     }
 
-    .cozy-nav__list .sub-menu {
+    .cozy-header__nav .sub-menu {
         position: static;
         opacity: 1;
         visibility: visible;
         transform: none;
-        box-shadow: none;
         border: none;
-        padding-left: var(--cozy-space-lg);
         background: transparent;
+        padding-left: var(--cozy-space-md);
+        min-width: 0;
     }
 
-    .cozy-header__username {
-        display: none;
-    }
-}
-
-/* WP Admin bar compensation */
-.admin-bar .cozy-header {
-    top: 32px;
-}
-
-@media (max-width: 782px) {
-    .admin-bar .cozy-header {
-        top: 46px;
+    .cozy-header__actions {
+        margin-top: auto;
+        padding-top: var(--cozy-space-lg);
+        border-top: 1px solid var(--cozy-border);
     }
 }

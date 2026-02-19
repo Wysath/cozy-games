@@ -27,14 +27,18 @@
         toggleBtn.addEventListener('click', function () {
             const isVisible = form.style.display !== 'none';
             form.style.display = isVisible ? 'none' : 'block';
-            toggleBtn.textContent = isVisible ? '📸 Partager mon setup' : '✕ Fermer';
+            toggleBtn.innerHTML = isVisible
+                ? '<i data-lucide="camera"></i> Partager mon setup'
+                : '<i data-lucide="x"></i> Fermer';
+            refreshIcons();
         });
     }
 
     if (cancelBtn && form && toggleBtn) {
         cancelBtn.addEventListener('click', function () {
             form.style.display = 'none';
-            toggleBtn.textContent = '📸 Partager mon setup';
+            toggleBtn.innerHTML = '<i data-lucide="camera"></i> Partager mon setup';
+            refreshIcons();
             resetForm();
         });
     }
@@ -130,7 +134,8 @@
 
             // Désactiver le bouton
             submitBtn.disabled = true;
-            submitBtn.textContent = '⏳ Envoi en cours…';
+            submitBtn.innerHTML = '<i data-lucide="loader"></i> Envoi en cours…';
+            refreshIcons();
             showMessage('', '');
 
             var xhr = new XMLHttpRequest();
@@ -138,7 +143,8 @@
 
             xhr.onload = function () {
                 submitBtn.disabled = false;
-                submitBtn.textContent = '🚀 Publier mon setup';
+                submitBtn.innerHTML = '<i data-lucide="upload"></i> Publier mon setup';
+                refreshIcons();
 
                 try {
                     var response = JSON.parse(xhr.responseText);
@@ -148,7 +154,10 @@
                         // Masquer le formulaire après 2s
                         setTimeout(function () {
                             if (form) form.style.display = 'none';
-                            if (toggleBtn) toggleBtn.textContent = '📸 Partager mon setup';
+                            if (toggleBtn) {
+                                toggleBtn.innerHTML = '<i data-lucide="camera"></i> Partager mon setup';
+                                refreshIcons();
+                            }
                         }, 2500);
                     } else {
                         showMessage(response.data.message || 'Erreur inconnue.', 'error');
@@ -160,7 +169,8 @@
 
             xhr.onerror = function () {
                 submitBtn.disabled = false;
-                submitBtn.textContent = '🚀 Publier mon setup';
+                submitBtn.innerHTML = '<i data-lucide="upload"></i> Publier mon setup';
+                refreshIcons();
                 showMessage('Erreur réseau. Vérifie ta connexion.', 'error');
             };
 
@@ -196,13 +206,13 @@
         if (lbDesc)   lbDesc.textContent = descEl ? descEl.textContent : '';
         if (lbAuthor) lbAuthor.textContent = authorEl ? ('par ' + authorEl.textContent) : '';
 
-        if (lightbox) lightbox.style.display = 'flex';
+        if (lightbox) lightbox.classList.add('cozy-lightbox--open');
         document.body.style.overflow = 'hidden';
     });
 
     // Fermer la lightbox
     function closeLightbox() {
-        if (lightbox) lightbox.style.display = 'none';
+        if (lightbox) lightbox.classList.remove('cozy-lightbox--open');
         document.body.style.overflow = '';
     }
 
@@ -290,11 +300,21 @@
         form.reset();
         if (previewZone) {
             previewZone.innerHTML =
-                '<span class="cozy-setups__upload-icon">🖼️</span>' +
+                '<span class="cozy-setups__upload-icon"><i data-lucide="image"></i></span>' +
                 '<span class="cozy-setups__upload-text">Clique ou glisse ta photo ici</span>' +
                 '<small>JPG, PNG ou WebP — 5 Mo max</small>';
+            refreshIcons();
         }
         showMessage('', '');
+    }
+
+    /**
+     * Réinitialise les icônes Lucide après insertion de HTML
+     */
+    function refreshIcons() {
+        if (window.lucide && typeof lucide.createIcons === 'function') {
+            lucide.createIcons();
+        }
     }
 
 })();

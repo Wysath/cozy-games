@@ -1,60 +1,79 @@
 /**
  * ============================================================================
- * COZY GAMING — Styles Profils Sociaux (Discord & Twitch)
+ * COZY GROVE — Profils Sociaux (Discord & Twitch)  (v3.0 — Design System Guilde)
  * ============================================================================
  */
 
+
 /* -----------------------------------------------
-   1. FORMULAIRE FRONT-END (shortcode)
+   1. FORMULAIRE FRONT-END
    ----------------------------------------------- */
 
 .cozy-social-profile {
     max-width: 600px;
     margin: 0 auto;
-    padding: 30px;
-    background: #fff;
-    border-radius: 12px;
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+    padding: var(--cozy-space-xl);
+    background: var(--cozy-bg-card);
+    border: 1px solid var(--cozy-border);
+    border-radius: var(--cozy-radius);
+    position: relative;
+    box-shadow: var(--cozy-shadow-sm);
+}
+
+/* Left amber stripe */
+.cozy-social-profile::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 2px;
+    height: 100%;
+    background: linear-gradient(180deg, var(--cozy-amber), var(--cozy-ember));
+}
+
+.cozy-social-profile::after {
+    display: none;
 }
 
 .cozy-social-profile__header {
-    margin-bottom: 24px;
+    margin-bottom: var(--cozy-space-lg);
     text-align: center;
 }
 
 .cozy-social-profile__header h3 {
-    font-size: 1.5em;
-    margin-bottom: 8px;
-    color: #2c3e50;
+    font-family: var(--cozy-font-heading);
+    font-size: var(--cozy-text-xl);
+    margin-bottom: var(--cozy-space-xs);
+    color: var(--cozy-cream);
 }
 
 .cozy-social-profile__header p {
-    color: #666;
-    font-size: 0.95em;
-    line-height: 1.5;
+    color: var(--cozy-muted);
+    font-size: var(--cozy-text-sm);
+    line-height: 1.6;
 }
 
 .cozy-social-profile__field {
-    margin-bottom: 20px;
+    margin-bottom: var(--cozy-space-lg);
 }
 
 .cozy-social-profile__field label {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: var(--cozy-space-sm);
     font-weight: 600;
-    font-size: 1em;
-    margin-bottom: 8px;
-    color: #333;
+    font-size: var(--cozy-text-sm);
+    margin-bottom: var(--cozy-space-sm);
+    color: var(--cozy-cream);
 }
 
 .cozy-social-profile__icon {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 28px;
-    height: 28px;
-    border-radius: 6px;
+    width: 26px;
+    height: 26px;
+    border-radius: var(--cozy-radius);
     color: #fff;
 }
 
@@ -66,105 +85,107 @@
     background-color: #9146FF;
 }
 
+.cozy-social-profile__icon .lucide {
+    width: 14px;
+    height: 14px;
+}
+
 .cozy-social-profile__input-wrapper {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: var(--cozy-space-sm);
 }
 
 .cozy-social-profile__input-wrapper input {
     flex: 1;
-    padding: 10px 14px;
-    border: 2px solid #e0e0e0;
-    border-radius: 8px;
-    font-size: 1em;
-    transition: border-color 0.2s ease, box-shadow 0.2s ease;
-    background: #fafafa;
+    padding: 11px 14px;
+    border: 1px solid var(--cozy-border);
+    border-radius: var(--cozy-radius);
+    font-size: var(--cozy-text-sm);
+    background: var(--cozy-ink-soft);
+    color: var(--cozy-cream);
+    transition: border-color var(--cozy-transition), box-shadow var(--cozy-transition);
 }
 
 .cozy-social-profile__input-wrapper input:focus {
     outline: none;
-    border-color: #5865F2;
-    box-shadow: 0 0 0 3px rgba(88, 101, 242, 0.15);
-    background: #fff;
+    border-color: var(--cozy-amber-dim);
+    box-shadow: 0 0 0 3px rgba(200, 129, 58, 0.08);
+    background: var(--cozy-ink-soft);
 }
 
 .cozy-social-profile__status {
-    font-size: 0.85em;
-    font-weight: 600;
-    padding: 4px 10px;
-    border-radius: 20px;
+    font-family: var(--cozy-font-ui);
+    font-size: 10px;
+    font-weight: 500;
+    padding: 3px 10px;
+    border-radius: var(--cozy-radius);
     white-space: nowrap;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
 }
 
 .cozy-social-profile__status--linked {
-    background: #e8f5e9;
-    color: #2e7d32;
+    background: rgba(74, 102, 73, 0.1);
+    color: var(--cozy-moss-light);
+    border: 1px solid rgba(74, 102, 73, 0.2);
 }
 
 .cozy-social-profile__status--unlinked {
-    background: #f5f5f5;
-    color: #999;
+    background: var(--cozy-bg-soft);
+    color: var(--cozy-muted);
+    border: 1px solid var(--cozy-border);
 }
 
 .cozy-social-profile__hint {
     margin-top: 4px;
-    font-size: 0.85em;
-    color: #999;
+    font-size: 0.75rem;
+    color: var(--cozy-muted);
 }
 
 .cozy-social-profile__actions {
     display: flex;
     align-items: center;
-    gap: 16px;
-    margin-top: 24px;
-    padding-top: 20px;
-    border-top: 1px solid #f0f0f0;
+    gap: var(--cozy-space-md);
+    margin-top: var(--cozy-space-lg);
+    padding-top: var(--cozy-space-lg);
+    border-top: 1px solid var(--cozy-border);
 }
 
 .cozy-social-profile__btn {
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    padding: 12px 24px;
-    background: linear-gradient(135deg, #5865F2 0%, #9146FF 100%);
-    color: #fff;
+    padding: 11px 22px;
+    background: var(--cozy-amber);
+    color: var(--cozy-ink);
     border: none;
-    border-radius: 8px;
-    font-size: 1em;
-    font-weight: 600;
+    border-radius: var(--cozy-radius);
+    font-size: var(--cozy-text-sm);
+    font-weight: 700;
     cursor: pointer;
-    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    transition: all var(--cozy-transition);
+    box-shadow: 0 1px 0 var(--cozy-amber-dim), 0 4px 14px rgba(200, 129, 58, 0.18);
 }
 
 .cozy-social-profile__btn:hover {
+    background: var(--cozy-amber-glow);
+    box-shadow: 0 1px 0 var(--cozy-amber-dim), 0 6px 20px rgba(200, 129, 58, 0.25);
     transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(88, 101, 242, 0.35);
-}
-
-.cozy-social-profile__btn:active {
-    transform: translateY(0);
 }
 
 .cozy-social-profile__btn:disabled {
-    opacity: 0.6;
+    opacity: 0.5;
     cursor: not-allowed;
-    transform: none;
 }
 
 .cozy-social-profile__message {
-    font-size: 0.9em;
+    font-size: var(--cozy-text-sm);
     font-weight: 500;
-    transition: opacity 0.3s ease;
 }
 
-.cozy-social-profile__message--success {
-    color: #2e7d32;
-}
-
-.cozy-social-profile__message--error {
-    color: #c62828;
-}
+.cozy-social-profile__message--success { color: var(--cozy-moss-light); }
+.cozy-social-profile__message--error   { color: var(--cozy-ember-glow); }
 
 
 /* -----------------------------------------------
@@ -172,113 +193,115 @@
    ----------------------------------------------- */
 
 .cozy-social-profile__preview {
-    margin-top: 30px;
-    padding-top: 24px;
-    border-top: 2px dashed #e0e0e0;
+    margin-top: var(--cozy-space-xl);
+    padding-top: var(--cozy-space-lg);
+    border-top: 1px dashed var(--cozy-border);
 }
 
 .cozy-social-profile__preview h4 {
-    font-size: 1em;
-    color: #666;
-    margin-bottom: 12px;
+    font-family: var(--cozy-font-ui);
+    font-size: 10px;
+    color: var(--cozy-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: var(--cozy-space-md);
 }
 
 .cozy-social-profile__preview-card {
     display: flex;
     align-items: center;
-    gap: 14px;
-    padding: 16px;
-    background: linear-gradient(135deg, #f8f9ff 0%, #f3f0ff 100%);
-    border-radius: 10px;
-    border: 1px solid #e8e4f0;
+    gap: var(--cozy-space-md);
+    padding: var(--cozy-space-md);
+    background: var(--cozy-bg-soft);
+    border-radius: var(--cozy-radius);
+    border: 1px solid var(--cozy-border);
 }
 
 .cozy-social-profile__preview-avatar img {
-    border-radius: 50%;
-    border: 2px solid #fff;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border-radius: var(--cozy-radius-full);
+    border: 2px solid var(--cozy-ink);
 }
 
 .cozy-social-profile__preview-info strong {
     display: block;
-    margin-bottom: 6px;
-    color: #333;
+    margin-bottom: var(--cozy-space-xs);
+    color: var(--cozy-cream);
 }
 
 .cozy-social-profile__preview-links {
     display: flex;
     flex-wrap: wrap;
-    gap: 8px;
+    gap: 6px;
 }
 
 
 /* -----------------------------------------------
-   3. BADGES SOCIAUX (utilisé partout)
+   3. BADGES SOCIAUX
    ----------------------------------------------- */
 
 .cozy-social-badges {
     display: flex;
     flex-wrap: wrap;
-    gap: 6px;
+    gap: 5px;
     margin-top: 4px;
 }
 
 .cozy-social-badge {
     display: inline-flex;
     align-items: center;
-    gap: 5px;
+    gap: 4px;
     padding: 3px 10px;
-    border-radius: 20px;
-    font-size: 0.8em;
-    font-weight: 600;
+    border-radius: var(--cozy-radius);
+    font-family: var(--cozy-font-ui);
+    font-size: 10px;
+    font-weight: 500;
     text-decoration: none;
-    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    transition: all var(--cozy-transition);
     line-height: 1.4;
+    letter-spacing: 0.02em;
 }
 
 .cozy-social-badge:hover {
     transform: translateY(-1px);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 0 10px var(--cozy-glow-amber);
 }
 
 .cozy-social-badge--discord {
-    background-color: #f0f1fe;
+    background: rgba(88, 101, 242, 0.08);
     color: #5865F2;
-    border: 1px solid #d8dafe;
+    border: 1px solid rgba(88, 101, 242, 0.15);
 }
 
 .cozy-social-badge--twitch {
-    background-color: #f3edff;
+    background: rgba(145, 70, 255, 0.08);
     color: #9146FF;
-    border: 1px solid #ddd0f7;
+    border: 1px solid rgba(145, 70, 255, 0.15);
 }
 
 a.cozy-social-badge--twitch:hover {
     color: #7b2ff0;
-    background-color: #ebe0ff;
+    background: rgba(145, 70, 255, 0.12);
 }
 
 
 /* -----------------------------------------------
-   4. CARTE PARTICIPANT (événements)
+   4. CARTE PARTICIPANT
    ----------------------------------------------- */
 
-.cozy-attendee-card {
-    padding: 0 !important;
-}
+.cozy-attendee-card { padding: 0 !important; }
 
 .cozy-attendee-card__main {
     display: flex;
     align-items: center;
-    gap: 10px;
-    padding: 8px 0;
+    gap: var(--cozy-space-sm);
+    padding: var(--cozy-space-sm) 0;
 }
 
 .cozy-attendee-card__avatar img {
-    border-radius: 50%;
-    border: 2px solid #e8e4f0;
-    width: 36px;
-    height: 36px;
+    border-radius: var(--cozy-radius-full);
+    border: 2px solid var(--cozy-border);
+    width: 34px;
+    height: 34px;
     object-fit: cover;
 }
 
@@ -289,19 +312,20 @@ a.cozy-social-badge--twitch:hover {
 
 
 /* -----------------------------------------------
-   5. MESSAGE LOGIN REQUIS
+   5. LOGIN REQUIS
    ----------------------------------------------- */
 
 .cozy-social-login-required {
     text-align: center;
-    padding: 30px;
-    background: #fff3e0;
-    border-left: 5px solid #ff9800;
-    border-radius: 8px;
+    padding: var(--cozy-space-xl);
+    background: var(--cozy-bg-soft);
+    border: 1px solid var(--cozy-border);
+    border-left: 2px solid var(--cozy-amber);
+    border-radius: var(--cozy-radius);
 }
 
 .cozy-social-login-required a {
-    color: #e65100;
+    color: var(--cozy-amber);
     font-weight: 600;
 }
 
@@ -312,7 +336,7 @@ a.cozy-social-badge--twitch:hover {
 
 @media (max-width: 600px) {
     .cozy-social-profile {
-        padding: 20px 16px;
+        padding: var(--cozy-space-lg);
     }
 
     .cozy-social-profile__input-wrapper {

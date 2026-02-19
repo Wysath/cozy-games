@@ -18,6 +18,7 @@
         name="s"
     >
     <button type="submit" class="cozy-search-form__submit cozy-btn cozy-btn--primary">
+        <i data-lucide="search" class="lucide"></i>
         <?php esc_html_e( 'Rechercher', 'cozy-gaming' ); ?>
     </button>
 </form>

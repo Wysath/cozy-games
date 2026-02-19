@@ -1,10 +1,10 @@
 /**
  * ============================================================================
- * COZY GAMING — Script Codes Ami
+ * COZY GAMING — Script Codes Ami (v2.0 — Plateformes)
  * ============================================================================
  *
  * Gère la sauvegarde AJAX et la validation en temps réel
- * des codes ami dans le formulaire front-end.
+ * des codes ami par plateforme dans le formulaire front-end.
  */
 
 (function () {
@@ -17,17 +17,23 @@
     var submitBtn = form.querySelector('.cozy-friend-codes__btn');
 
     // -----------------------------------------------
+    // Initialiser les icônes Lucide injectées dans le form
+    // -----------------------------------------------
+    if (typeof lucide !== 'undefined') {
+        lucide.createIcons();
+    }
+
+    // -----------------------------------------------
     // Validation en temps réel à la saisie
     // -----------------------------------------------
     var inputs = form.querySelectorAll('.cozy-friend-codes__input-wrapper input[data-pattern]');
-    
+
     inputs.forEach(function (input) {
         input.addEventListener('blur', function () {
             validateInput(input);
         });
 
         input.addEventListener('input', function () {
-            // Retirer l'état d'erreur pendant la saisie
             input.classList.remove('cozy-fc-invalid', 'cozy-fc-valid');
         });
     });
@@ -36,7 +42,6 @@
         var value = input.value.trim();
         var pattern = input.getAttribute('data-pattern');
 
-        // Champ vide = OK (non obligatoire)
         if (!value) {
             input.classList.remove('cozy-fc-invalid', 'cozy-fc-valid');
             return true;
@@ -45,8 +50,6 @@
         if (!pattern) return true;
 
         try {
-            // Convertir le pattern PHP en regex JS
-            // Retirer les délimiteurs PHP (premier et dernier caractère)
             var jsPattern = pattern.slice(1, pattern.lastIndexOf(pattern[0]));
             var regex = new RegExp(jsPattern);
 
@@ -60,37 +63,58 @@
                 return false;
             }
         } catch (e) {
-            return true; // En cas d'erreur de regex, on laisse passer
+            return true;
         }
     }
 
     // -----------------------------------------------
-    // Formatage automatique des codes Switch
+    // Formatage automatique des codes Nintendo Switch
     // -----------------------------------------------
-    inputs.forEach(function (input) {
-        if (input.placeholder && input.placeholder.indexOf('SW-') === 0) {
-            input.addEventListener('input', function () {
-                var val = input.value.toUpperCase().replace(/[^SW0-9\-]/g, '');
-                
-                // Auto-formatage : ajouter SW- et les tirets
-                if (val.length >= 2 && val.substring(0, 2) === 'SW' && val[2] !== '-') {
-                    val = 'SW-' + val.substring(2);
-                }
+    form.querySelectorAll('.cozy-friend-codes__field[data-platform="nintendo-switch"] input').forEach(function (input) {
+        input.addEventListener('input', function () {
+            var val = input.value.toUpperCase().replace(/[^SW0-9\-]/g, '');
 
-                // Ajouter les tirets après les groupes de 4 chiffres
-                var parts = val.replace('SW-', '').replace(/-/g, '');
-                if (parts.length > 0) {
-                    var formatted = 'SW-';
-                    for (var i = 0; i < parts.length && i < 12; i++) {
-                        if (i > 0 && i % 4 === 0) {
-                            formatted += '-';
-                        }
-                        formatted += parts[i];
+            if (val.length >= 2 && val.substring(0, 2) === 'SW' && val[2] !== '-') {
+                val = 'SW-' + val.substring(2);
+            }
+
+            var parts = val.replace('SW-', '').replace(/-/g, '');
+            if (parts.length > 0) {
+                var formatted = 'SW-';
+                for (var i = 0; i < parts.length && i < 12; i++) {
+                    if (i > 0 && i % 4 === 0) {
+                        formatted += '-';
                     }
-                    input.value = formatted;
+                    formatted += parts[i];
                 }
-            });
-        }
+                input.value = formatted;
+            }
+        });
+    });
+
+    // -----------------------------------------------
+    // Formatage Riot ID : ajouter # si oublié
+    // -----------------------------------------------
+    form.querySelectorAll('.cozy-friend-codes__field[data-platform="riot-games"] input').forEach(function (input) {
+        input.addEventListener('blur', function () {
+            var val = input.value.trim();
+            if (val && val.indexOf('#') === -1) {
+                // Ne pas auto-corriger, juste marquer invalide
+                input.classList.add('cozy-fc-invalid');
+            }
+        });
+    });
+
+    // -----------------------------------------------
+    // Formatage Battle.net : ajouter # si oublié
+    // -----------------------------------------------
+    form.querySelectorAll('.cozy-friend-codes__field[data-platform="battle-net"] input').forEach(function (input) {
+        input.addEventListener('blur', function () {
+            var val = input.value.trim();
+            if (val && val.indexOf('#') === -1) {
+                input.classList.add('cozy-fc-invalid');
+            }
+        });
     });
 
     // -----------------------------------------------
@@ -99,7 +123,6 @@
     form.addEventListener('submit', function (e) {
         e.preventDefault();
 
-        // Valider tous les champs avant envoi
         var hasErrors = false;
         inputs.forEach(function (input) {
             if (!validateInput(input)) {
@@ -108,13 +131,14 @@
         });
 
         if (hasErrors) {
-            messageEl.innerHTML = 'Certains codes ont un format invalide. Vérifie les champs en rouge.';
+            messageEl.innerHTML = 'Certains identifiants ont un format invalide. Vérifie les champs en rouge.';
             messageEl.className = 'cozy-friend-codes__message cozy-friend-codes__message--error';
             return;
         }
 
         submitBtn.disabled = true;
-        submitBtn.textContent = '⏳ Sauvegarde…';
+        submitBtn.innerHTML = '<i data-lucide="loader"></i> Sauvegarde…';
+        if (typeof lucide !== 'undefined') lucide.createIcons();
         messageEl.textContent = '';
         messageEl.className = 'cozy-friend-codes__message';
 
@@ -134,8 +158,6 @@
             if (data.success) {
                 messageEl.textContent = data.data.message;
                 messageEl.className = 'cozy-friend-codes__message cozy-friend-codes__message--success';
-
-                // Mettre à jour les indicateurs de statut
                 updateStatuses(data.data.codes);
             } else {
                 messageEl.innerHTML = data.data.message;
@@ -148,7 +170,8 @@
         })
         .finally(function () {
             submitBtn.disabled = false;
-            submitBtn.textContent = '💾 Sauvegarder mes codes';
+            submitBtn.innerHTML = '<i data-lucide="save"></i> Sauvegarder mes codes';
+            if (typeof lucide !== 'undefined') lucide.createIcons();
 
             setTimeout(function () {
                 messageEl.style.opacity = '0';
@@ -165,13 +188,13 @@
      */
     function updateStatuses(savedCodes) {
         var fields = form.querySelectorAll('.cozy-friend-codes__field');
-        
+
         fields.forEach(function (field) {
-            var gameSlug = field.getAttribute('data-game');
+            var platformSlug = field.getAttribute('data-platform');
             var wrapper = field.querySelector('.cozy-friend-codes__input-wrapper');
             var status = wrapper.querySelector('.cozy-friend-codes__status');
 
-            var hasSavedCode = savedCodes && savedCodes[gameSlug];
+            var hasSavedCode = savedCodes && savedCodes[platformSlug];
 
             if (hasSavedCode) {
                 if (!status) {
