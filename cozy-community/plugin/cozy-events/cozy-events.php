@@ -9,7 +9,7 @@
 
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-define( 'COZY_EVENTS_VERSION', '1.2.0' );
+define( 'COZY_EVENTS_VERSION', '1.3.0' );
 define( 'COZY_EVENTS_PATH', plugin_dir_path( __FILE__ ) );
 define( 'COZY_EVENTS_URL',  plugin_dir_url( __FILE__ ) );
 

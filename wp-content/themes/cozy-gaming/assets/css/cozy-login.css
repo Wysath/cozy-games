@@ -1,92 +1,228 @@
 /**
  * ============================================================================
- * COZY GROVE — Login Page  (v3.0 — Design System Guilde)
+ * COZY GROVE — Login Page  (v3.2 — GIF panel + password fix)
  * ============================================================================
- * Customize wp-login.php to match the Cozy Grove design system.
  */
 
+/* -----------------------------------------------
+   0. TOKENS LOCAUX
+   ----------------------------------------------- */
+:root {
+    --cozy-ink:          #22201C;
+    --cozy-ink-soft:     #2B2822;
+    --cozy-ink-elevated: #332F28;
+    --cozy-border:       #383028;
+    --cozy-amber:        #C8813A;
+    --cozy-amber-glow:   #D9934E;
+    --cozy-amber-dim:    #7A4D20;
+    --cozy-ember:        #9B3A1E;
+    --cozy-moss:         #4A6649;
+    --cozy-cream:        #EDE4CF;
+    --cozy-muted:        #9A8E7E;
+    --cozy-faint:        #4A4238;
+    --cozy-stone:        #8A7D6B;
+    --cozy-radius:       8px;
+    --cozy-font-body:    'Nunito', sans-serif;
+    --cozy-font-ui:      'Space Grotesk', sans-serif;
+    --cozy-text-sm:      13px;
+    --cozy-transition:   160ms ease;
+}
+
 
 /* -----------------------------------------------
-   1. BODY
+   1. BODY — layout deux colonnes
    ----------------------------------------------- */
+html, body.login {
+    height: 100%;
+    overflow: hidden; /* bloque le scroll quelle que soit la taille du formulaire */
+}
 
 body.login {
-    background:
-        radial-gradient(
-            ellipse at 30% 20%,
-            rgba(200, 129, 58, 0.08) 0%,
-            transparent 50%
-        ),
-        radial-gradient(
-            ellipse at 70% 80%,
-            rgba(74, 102, 73, 0.06) 0%,
-            transparent 50%
-        ),
-        #22201C;
-    font-family: var(--cozy-font-body, 'Nunito', sans-serif);
+    background: var(--cozy-ink);
+    font-family: var(--cozy-font-body);
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+
+    /* Deux colonnes : panneau GIF | formulaire */
+    display: grid;
+    grid-template-columns: 1fr 480px;
+    grid-template-rows: 1fr;
+    align-items: stretch;
+}
+
+
+/* -----------------------------------------------
+   2. PANNEAU GIF — colonne gauche via ::before
+   ----------------------------------------------- */
+body.login::before {
+    content: '';
+    display: block;
+    grid-column: 1;
+    grid-row: 1;
+
+    /* 
+     * Remplace l'URL ci-dessous par le chemin vers ton GIF.
+     * Ex : url('/wp-content/themes/cozy-child/images/cozy-login.gif')
+     */
+    background-image: url('../image/cozy-home.gif');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    /* Overlay ambre très doux pour garder la cohérence de palette */
+    box-shadow: inset 0 0 0 9999px rgba(34, 32, 28, 0.35);
+
+    /* Séparateur discret côté formulaire */
+    border-right: 1px solid var(--cozy-border);
+
+    position: relative;
+}
+
+/* Titre du site en haut du panneau GIF */
+body.login::after {
+    content: 'Cozy Grove';
+    position: fixed;
+    top: 36px;
+    left: 0;
+
+    /* Largeur calée sur la colonne gauche */
+    width: calc(100% - 480px);
+
+    text-align: center;
+    font-family: 'DM Serif Display', serif;
+    font-size: 36px;
+    font-style: italic;
+    color: rgba(245, 237, 216, 0.82);
+    letter-spacing: -.01em;
+    text-shadow: 0 2px 24px rgba(0, 0, 0, 0.5);
+    pointer-events: none;
+    z-index: 1;
+}
+
+
+/* -----------------------------------------------
+   3. CONTENEUR LOGIN — colonne droite
+   ----------------------------------------------- */
+#login {
+    grid-column: 2;
+    grid-row: 1;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
+    padding: 48px 40px;
+
+    /* Couvre toute la hauteur même si le formulaire est petit */
     min-height: 100vh;
+    box-sizing: border-box;
+
+    background:
+        radial-gradient(ellipse at 80% 10%, rgba(200, 129, 58, 0.05) 0%, transparent 55%),
+        var(--cozy-ink-soft);
+    width: 100% !important;
 }
 
-
-/* -----------------------------------------------
-   2. LOGO
-   ----------------------------------------------- */
-
-#login h1 a {
-    width: 200px;
-    height: 70px;
-    background-image: url('../images/logo.png') !important;
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
-    margin-bottom: 16px;
-}
-
-
-/* -----------------------------------------------
-   3. FORMULAIRE — warm card
-   ----------------------------------------------- */
+/* Titre au-dessus du formulaire */
+#login h1 { width: 100%; }
 
 #loginform,
 #registerform,
 #lostpasswordform {
-    position: relative;
-    background: rgba(26, 22, 15, 0.92);
-    backdrop-filter: blur(16px);
-    border: 1px solid var(--cozy-border);
-    border-radius: var(--cozy-radius);
-    padding: 32px 28px 24px;
-    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(200, 129, 58, 0.08);
-}
-
-/* Left amber stripe */
-#loginform::before,
-#registerform::before,
-#lostpasswordform::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 2px;
-    height: 100%;
-    background: var(--cozy-amber-dim);
-    border-radius: var(--cozy-radius) 0 0 var(--cozy-radius);
+    /* Titre propre au-dessus de chaque form */
 }
 
 #loginform::after,
 #registerform::after,
 #lostpasswordform::after {
-    display: none;
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    display: block;
+    background: linear-gradient(90deg, transparent, var(--cozy-amber-dim), transparent);
+}
+
+/* Titre du formulaire — injecté via attr sur le form ou label WP */
+#loginform > p:first-of-type::before  { content: 'Bon retour parmi nous'; }
+#registerform > p:first-of-type::before { content: 'Rejoindre la guilde'; }
+#lostpasswordform > p:first-of-type::before { content: 'Récupérer l\'accès'; }
+
+#loginform > p:first-of-type::before,
+#registerform > p:first-of-type::before,
+#lostpasswordform > p:first-of-type::before {
+    display: block;
+    font-family: 'DM Serif Display', serif;
+    font-size: 26px;
+    font-style: italic;
+    color: #FFFFFF;
+    letter-spacing: -.01em;
+    margin-bottom: 20px;
+    line-height: 1.2;
 }
 
 
 /* -----------------------------------------------
-   4. LABELS
+   4. LOGO
    ----------------------------------------------- */
+#login h1 a {
+    width: 180px;
+    height: 60px;
+    background-image: url('../images/logo.png') !important;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    margin-bottom: 16px;
+    display: block;
+}
 
+
+/* -----------------------------------------------
+   5. FORMULAIRE — warm card
+   ----------------------------------------------- */
+#loginform,
+#registerform,
+#lostpasswordform {
+    position: relative;
+    background: var(--cozy-ink);
+    border: 1px solid var(--cozy-border);
+    border-radius: var(--cozy-radius);
+    padding: 32px 28px 24px;
+    width: 100%;
+    box-sizing: border-box;
+    box-shadow:
+        0 8px 40px rgba(0, 0, 0, 0.4),
+        0 0 0 1px rgba(200, 129, 58, 0.06);
+    overflow: hidden;
+}
+
+/* Trait ambre gauche */
+#loginform::before,
+#registerform::before,
+#lostpasswordform::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 2px; height: 100%;
+    background: linear-gradient(180deg, var(--cozy-amber) 0%, var(--cozy-ember) 100%);
+}
+
+/* Liseré top */
+#loginform::after,
+#registerform::after,
+#lostpasswordform::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    display: block;
+    background: linear-gradient(90deg, transparent, var(--cozy-amber-dim), transparent);
+}
+
+
+/* -----------------------------------------------
+   6. LABELS
+   ----------------------------------------------- */
 #loginform label,
 #registerform label,
 #lostpasswordform label {
@@ -95,14 +231,13 @@ body.login {
     font-weight: 600;
     color: var(--cozy-stone);
     text-transform: uppercase;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.12em;
 }
 
 
 /* -----------------------------------------------
-   5. INPUTS
+   7. INPUTS — base
    ----------------------------------------------- */
-
 #loginform input[type="text"],
 #loginform input[type="password"],
 #loginform input[type="email"],
@@ -110,16 +245,19 @@ body.login {
 #registerform input[type="email"],
 #lostpasswordform input[type="text"],
 #lostpasswordform input[type="email"] {
-    width: 100%;
+    width: 100% !important;
     padding: 11px 14px;
-    border: 1px solid var(--cozy-border);
-    border-radius: var(--cozy-radius);
-    background: var(--cozy-ink-soft);
+    border: 1px solid var(--cozy-border) !important;
+    border-radius: var(--cozy-radius) !important;
+    background: var(--cozy-ink-elevated) !important;
+    color: var(--cozy-cream) !important;
     font-family: var(--cozy-font-body);
     font-size: var(--cozy-text-sm);
-    color: var(--cozy-cream);
-    box-shadow: none;
+    box-shadow: none !important;
+    outline: none;
     transition: border-color var(--cozy-transition), box-shadow var(--cozy-transition);
+    -webkit-text-fill-color: var(--cozy-cream) !important;
+    caret-color: var(--cozy-amber);
 }
 
 #loginform input[type="text"]:focus,
@@ -129,28 +267,168 @@ body.login {
 #registerform input[type="email"]:focus,
 #lostpasswordform input[type="text"]:focus,
 #lostpasswordform input[type="email"]:focus {
-    border-color: var(--cozy-amber-dim);
-    box-shadow: 0 0 0 3px rgba(200, 129, 58, 0.08);
-    outline: none;
+    border-color: var(--cozy-amber-dim) !important;
+    box-shadow: 0 0 0 3px rgba(200, 129, 58, 0.08) !important;
 }
 
 
 /* -----------------------------------------------
-   6. CHECKBOX "Se souvenir"
+   7b. FIX MOT DE PASSE — wrapper .wp-pwd
    ----------------------------------------------- */
+.wp-pwd {
+    position: relative;
+    background: var(--cozy-ink-elevated) !important;
+    border-radius: var(--cozy-radius);
+    /* Hauteur fixe pour éviter le champ trop grand */
+    height: auto !important;
+    min-height: unset !important;
+}
 
+/* L'input à l'intérieur du wrapper */
+.wp-pwd input[type="password"],
+.wp-pwd input[type="text"] {
+    background: var(--cozy-ink-elevated) !important;
+    color: var(--cozy-cream) !important;
+    -webkit-text-fill-color: var(--cozy-cream) !important;
+    border-color: var(--cozy-border) !important;
+    padding-right: 44px !important;
+    /* Supprime tout padding parasite hérité de WP */
+    margin-bottom: 0 !important;
+}
+
+/* Bouton toggle "afficher/masquer" */
+.wp-pwd .button.wp-hide-pw {
+    position: absolute;
+    right: 8px; top: 50%;
+    transform: translateY(-50%);
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    color: var(--cozy-muted) !important;
+    padding: 4px;
+    min-height: unset;
+    line-height: 1;
+    transition: color var(--cozy-transition);
+}
+.wp-pwd .button.wp-hide-pw:hover {
+    color: var(--cozy-amber) !important;
+    background: transparent !important;
+    box-shadow: none !important;
+}
+.wp-pwd .button.wp-hide-pw .dashicons {
+    font-size: 16px;
+    width: 16px; height: 16px;
+}
+
+/* -----------------------------------------------
+   7c. FIX REGISTER — champs password blancs
+   ----------------------------------------------- */
+#registerform input[type="password"],
+#registerform input[type="text"],
+#registerform input.input {
+    background: var(--cozy-ink-elevated) !important;
+    color: var(--cozy-cream) !important;
+    -webkit-text-fill-color: var(--cozy-cream) !important;
+    border: 1px solid var(--cozy-border) !important;
+    box-shadow: none !important;
+}
+
+/* Barre de force du mot de passe */
+#pass-strength-result {
+    background: var(--cozy-ink-elevated) !important;
+    border: 1px solid var(--cozy-border) !important;
+    border-radius: var(--cozy-radius) !important;
+    color: var(--cozy-muted) !important;
+    font-family: var(--cozy-font-ui);
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    margin-top: 6px !important;
+    padding: 6px 12px !important;
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+}
+#pass-strength-result.short    { border-color: var(--cozy-ember) !important; color: var(--cozy-ember) !important; }
+#pass-strength-result.bad      { border-color: var(--cozy-ember) !important; color: var(--cozy-ember) !important; }
+#pass-strength-result.good     { border-color: var(--cozy-amber) !important; color: var(--cozy-amber) !important; }
+#pass-strength-result.strong   { border-color: var(--cozy-moss)  !important; color: #6B9468             !important; }
+
+/* Hint "min 8 caractères" — collé au champ, pas d'espace */
+.pw-weak-text,
+#registerform .description,
+#registerform p.description {
+    font-family: var(--cozy-font-body);
+    font-size: 11px;
+    color: var(--cozy-muted) !important;
+    margin-top: 4px !important;
+    margin-bottom: 0 !important;
+    display: block;
+}
+
+/* Bulle de message WP au-dessus du form register (fond blanc par défaut) */
+.registration-intro,
+#login .message {
+    background: rgba(200, 129, 58, 0.06) !important;
+    border: 1px solid rgba(200, 129, 58, 0.18) !important;
+    border-radius: var(--cozy-radius) !important;
+    color: var(--cozy-amber) !important;
+    font-family: var(--cozy-font-body);
+    font-size: 13px;
+    padding: 14px 18px !important;
+    box-shadow: none !important;
+    /* Supprime le fond blanc */
+    backdrop-filter: none;
+}
+
+
+/* -----------------------------------------------
+   7c. FIX AUTOFILL — inputs blancs au remplissage auto
+   ----------------------------------------------- */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 1000px #332F28 inset !important;
+    box-shadow:
+        0 0 0 1000px #332F28 inset !important,
+        0 0 0 3px rgba(200, 129, 58, 0.08);
+    -webkit-text-fill-color: #EDE4CF !important;
+    caret-color: #C8813A;
+    border-color: var(--cozy-amber-dim) !important;
+    /* Empêche le flash jaune */
+    transition: background-color 9999s ease-in-out 0s;
+}
+
+
+/* -----------------------------------------------
+   8. CHECKBOX + LAYOUT submit/checkbox
+   ----------------------------------------------- */
 #loginform .forgetmenot {
     margin-top: 4px;
+    margin-bottom: 16px; /* sépare la checkbox du bouton */
 }
+#loginform .forgetmenot label { font-size: 10px; }
+#loginform input[type="checkbox"] { accent-color: var(--cozy-amber); }
 
-#loginform .forgetmenot label {
-    font-size: 10px;
+/* Empêche le submit de flotter à côté de la checkbox */
+#loginform .submit {
+    clear: both;
+    margin-top: 0;
 }
 
 
 /* -----------------------------------------------
-   7. BOUTON — amber gradient
+   9. BOUTON SUBMIT
    ----------------------------------------------- */
+/* Boutons alignés à gauche */
+#loginform .submit,
+#registerform .submit,
+#lostpasswordform .submit {
+    display: flex;
+    justify-content: flex-start;
+}
 
 #wp-submit {
     display: inline-flex;
@@ -163,13 +441,13 @@ body.login {
     border-radius: var(--cozy-radius);
     font-family: var(--cozy-font-ui);
     font-size: 10px;
-    font-weight: 600;
+    font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.12em;
     cursor: pointer;
-    transition: all var(--cozy-transition);
     box-shadow: 0 1px 0 var(--cozy-amber-dim), 0 4px 14px rgba(200, 129, 58, 0.18);
     text-shadow: none;
+    transition: background var(--cozy-transition), box-shadow var(--cozy-transition), transform var(--cozy-transition);
 }
 
 #wp-submit:hover,
@@ -177,142 +455,112 @@ body.login {
     background: var(--cozy-amber-glow);
     box-shadow: 0 1px 0 var(--cozy-amber-dim), 0 6px 20px rgba(200, 129, 58, 0.25);
     transform: translateY(-1px);
+    outline: none;
 }
+
+#wp-submit:active { transform: translateY(0); }
 
 
 /* -----------------------------------------------
-   8. MESSAGES
+   10. MESSAGES D'ÉTAT
    ----------------------------------------------- */
-
-#login_error,
-.message,
-.success {
+#login_error, .message, .success {
     border-radius: var(--cozy-radius);
     font-family: var(--cozy-font-body);
     font-size: var(--cozy-text-sm);
     box-shadow: none;
     padding: 12px 16px;
+    border-top: none; border-right: none; border-bottom: none;
 }
-
-#login_error {
-    border-left: 2px solid #9B3A1E;
-    background: rgba(155, 58, 30, 0.05);
-    color: #D4654A;
-}
-
-.message {
-    border-left: 2px solid #C8813A;
-    background: rgba(200, 129, 58, 0.05);
-    color: #C8813A;
-}
-
-.success {
-    border-left: 2px solid #4A6649;
-    background: rgba(74, 102, 73, 0.05);
-    color: #6B8F6A;
-}
+#login_error { border-left: 2px solid var(--cozy-ember); background: rgba(155, 58, 30, 0.06); color: #D4654A; }
+.message     { border-left: 2px solid var(--cozy-amber); background: rgba(200, 129, 58, 0.06); color: var(--cozy-amber); }
+.success     { border-left: 2px solid var(--cozy-moss);  background: rgba(74, 102, 73, 0.06);  color: #6B8F6A; }
+#login_error a { color: #D4654A; }
+.message a     { color: var(--cozy-amber); }
 
 
 /* -----------------------------------------------
-   9. LIENS SECONDAIRES
+   11. LIENS SECONDAIRES
    ----------------------------------------------- */
-
-#login #nav,
-#login #backtoblog {
-    text-align: center;
-}
+#login #nav, #login #backtoblog { text-align: center; }
 
 #login #nav a,
 #login #backtoblog a {
-    font-family: 'Space Grotesk', sans-serif;
+    font-family: var(--cozy-font-ui);
     font-size: 10px;
-    color: rgba(237, 228, 207, 0.4);
+    color: var(--cozy-faint);
     text-decoration: none;
     text-transform: uppercase;
-    letter-spacing: 0.04em;
-    transition: color 0.2s ease;
+    letter-spacing: 0.08em;
+    transition: color var(--cozy-transition);
 }
-
 #login #nav a:hover,
-#login #backtoblog a:hover {
-    color: #C8813A;
-    text-shadow: 0 0 10px rgba(200, 129, 58, 0.3);
-}
+#login #backtoblog a:hover { color: var(--cozy-amber); }
 
 
 /* -----------------------------------------------
-   10. PRIVACY POLICY LINK
+   12. PRIVACY POLICY & LANGUAGE SWITCHER
    ----------------------------------------------- */
-
-.privacy-policy-page-link {
-    text-align: center;
-}
-
+.privacy-policy-page-link { text-align: center; }
 .privacy-policy-page-link a {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 10px;
-    color: #5A4E3C;
-    text-decoration: none;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
+    font-family: var(--cozy-font-ui); font-size: 10px;
+    color: var(--cozy-faint); text-decoration: none;
+    text-transform: uppercase; letter-spacing: 0.06em;
+    transition: color var(--cozy-transition);
 }
+.privacy-policy-page-link a:hover { color: var(--cozy-amber); }
 
-.privacy-policy-page-link a:hover {
-    color: #C8813A;
-}
-
-
-/* -----------------------------------------------
-   11. LANGUAGE SWITCHER (WP 5.9+)
-   ----------------------------------------------- */
-
-.language-switcher {
-    text-align: center;
-}
-
+.language-switcher { text-align: center; }
 .language-switcher select {
     padding: 6px 12px;
-    border: 1px solid rgba(200, 129, 58, 0.15);
-    border-radius: 4px;
-    background: rgba(34, 32, 28, 0.6);
-    font-family: 'Nunito', sans-serif;
-    font-size: 0.82rem;
-    color: #EDE4CF;
+    border: 1px solid var(--cozy-border); border-radius: var(--cozy-radius);
+    background: var(--cozy-ink-soft); font-family: var(--cozy-font-body);
+    font-size: 12px; color: var(--cozy-cream); outline: none;
+    transition: border-color var(--cozy-transition);
 }
-
+.language-switcher select:focus { border-color: var(--cozy-amber-dim); }
 .language-switcher .button {
-    padding: 6px 16px;
-    background: transparent;
-    border: 1px solid rgba(200, 129, 58, 0.15);
-    border-radius: 4px;
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 10px;
-    color: #8A7D6B;
-    cursor: pointer;
-    box-shadow: none;
-    text-shadow: none;
-    transition: border-color 0.2s ease;
+    padding: 6px 16px; background: transparent;
+    border: 1px solid var(--cozy-border); border-radius: var(--cozy-radius);
+    font-family: var(--cozy-font-ui); font-size: 10px; color: var(--cozy-muted);
+    cursor: pointer; box-shadow: none; text-shadow: none;
+    transition: border-color var(--cozy-transition), color var(--cozy-transition);
 }
-
-.language-switcher .button:hover {
-    border-color: #C8813A;
-    color: #C8813A;
-}
+.language-switcher .button:hover { border-color: var(--cozy-amber); color: var(--cozy-amber); }
 
 
 /* -----------------------------------------------
-   12. RESPONSIVE
+   13. RESPONSIVE
    ----------------------------------------------- */
 
-@media (max-width: 480px) {
-    #login {
-        width: 92% !important;
-        padding: 20px 0;
+/* Tablette : le panneau GIF disparaît */
+@media (max-width: 900px) {
+    body.login {
+        grid-template-columns: 1fr;
+        align-items: center;
+        justify-items: center;
+        background:
+            radial-gradient(ellipse at 30% 20%, rgba(200, 129, 58, 0.06) 0%, transparent 50%),
+            var(--cozy-ink);
     }
+
+    body.login::before,
+    body.login::after { display: none; }
+
+    #login {
+        grid-column: 1;
+        width: 100% !important;
+        max-width: 420px;
+        padding: 40px 24px;
+        background: transparent;
+    }
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+    #login { padding: 24px 16px; }
 
     #loginform,
     #registerform,
-    #lostpasswordform {
-        padding: 20px 16px;
-    }
+    #lostpasswordform { padding: 20px 16px; }
 }

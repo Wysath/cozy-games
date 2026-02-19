@@ -13,3 +13,33 @@ RewriteRule . /cozy-games/index.php [L]
 </IfModule>
 
 # END WordPress
+
+# ============================================================================
+# SÉCURITÉ COZY GROVE
+# ============================================================================
+
+# Protéger wp-config.php
+<Files wp-config.php>
+    Order allow,deny
+    Deny from all
+</Files>
+
+# Masquer les fichiers sensibles
+<Files readme.html>
+    Order allow,deny
+    Deny from all
+</Files>
+
+<Files license.txt>
+    Order allow,deny
+    Deny from all
+</Files>
+
+# Empêcher le listing des répertoires
+Options -Indexes
+
+# Bloquer l'accès aux fichiers .htaccess
+<Files .htaccess>
+    Order allow,deny
+    Deny from all
+</Files>

@@ -1,0 +1,291 @@
+/**
+ * ============================================================================
+ * COZY GROVE — Contact Form  (v2.0 — Design System Guilde)
+ * ============================================================================
+ */
+
+
+/* -----------------------------------------------
+   1. WRAPPER
+   ----------------------------------------------- */
+
+.cozy-contact {
+    max-width: 680px;
+    margin: 0 auto;
+}
+
+
+/* -----------------------------------------------
+   2. FORMULAIRE — warm card
+   ----------------------------------------------- */
+
+.cozy-contact__form {
+    position: relative;
+    background: var(--cozy-ink-soft, #2B2822);
+    border: 1px solid var(--cozy-border, #383028);
+    border-radius: var(--cozy-radius, 8px);
+    padding: 40px 36px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+/* Trait ambre gauche */
+.cozy-contact__form::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 2px; height: 100%;
+    background: linear-gradient(180deg, var(--cozy-amber, #C8813A), var(--cozy-ember, #9B3A1E));
+}
+
+/* Liseré top */
+.cozy-contact__form::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--cozy-amber-dim, #7A4D20), transparent);
+}
+
+
+/* -----------------------------------------------
+   3. LIGNE NOM + EMAIL côte à côte
+   ----------------------------------------------- */
+
+.cozy-contact__row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+@media (max-width: 540px) {
+    .cozy-contact__row {
+        grid-template-columns: 1fr;
+    }
+    .cozy-contact__form {
+        padding: 28px 20px;
+    }
+}
+
+
+/* -----------------------------------------------
+   4. GROUPE label + input
+   ----------------------------------------------- */
+
+.cozy-contact__group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.cozy-contact__label {
+    font-family: var(--cozy-font-ui, 'Space Grotesk', sans-serif);
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--cozy-stone, #8A7D6B);
+    text-transform: uppercase;
+    letter-spacing: .12em;
+}
+
+.cozy-contact__required {
+    color: var(--cozy-amber, #C8813A);
+    margin-left: 2px;
+}
+
+.cozy-contact__optional {
+    font-family: var(--cozy-font-body, 'Nunito', sans-serif);
+    font-size: 10px;
+    font-weight: 400;
+    color: var(--cozy-muted, #9A8E7E);
+    text-transform: none;
+    letter-spacing: 0;
+    margin-left: 4px;
+}
+
+.cozy-contact__hint {
+    font-size: 11px;
+    color: var(--cozy-muted, #9A8E7E);
+    margin-top: 2px;
+}
+
+
+/* -----------------------------------------------
+   5. INPUTS — fix fond blanc + autofill
+   ----------------------------------------------- */
+
+.cozy-contact__input,
+.cozy-contact__textarea {
+    width: 100%;
+    padding: 11px 14px;
+    border: 1px solid var(--cozy-border, #383028) !important;
+    border-radius: var(--cozy-radius, 8px) !important;
+    background: var(--cozy-ink-elevated, #332F28) !important;
+    color: var(--cozy-cream, #EDE4CF) !important;
+    -webkit-text-fill-color: var(--cozy-cream, #EDE4CF) !important;
+    caret-color: var(--cozy-amber, #C8813A);
+    font-family: var(--cozy-font-body, 'Nunito', sans-serif);
+    font-size: 14px;
+    box-shadow: none !important;
+    outline: none;
+    transition: border-color 160ms ease, box-shadow 160ms ease;
+    box-sizing: border-box;
+}
+
+.cozy-contact__input::placeholder,
+.cozy-contact__textarea::placeholder {
+    color: var(--cozy-faint, #4A4238) !important;
+    -webkit-text-fill-color: var(--cozy-faint, #4A4238) !important;
+}
+
+.cozy-contact__input:focus,
+.cozy-contact__textarea:focus {
+    border-color: var(--cozy-amber-dim, #7A4D20) !important;
+    box-shadow: 0 0 0 3px rgba(200, 129, 58, .08) !important;
+}
+
+.cozy-contact__textarea {
+    resize: vertical;
+    min-height: 140px;
+    line-height: 1.6;
+}
+
+/* Fix autofill navigateur */
+.cozy-contact__input:-webkit-autofill,
+.cozy-contact__input:-webkit-autofill:hover,
+.cozy-contact__input:-webkit-autofill:focus {
+    -webkit-box-shadow: 0 0 0 1000px #332F28 inset !important;
+    -webkit-text-fill-color: #EDE4CF !important;
+    transition: background-color 9999s ease-in-out 0s;
+}
+
+
+/* -----------------------------------------------
+   6. HONEYPOT — totalement caché
+   ----------------------------------------------- */
+
+.cozy-contact__honeypot {
+    position: absolute;
+    left: -9999px;
+    top: -9999px;
+    opacity: 0;
+    height: 0;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+
+/* -----------------------------------------------
+   7. FOOTER — bouton + note
+   ----------------------------------------------- */
+
+.cozy-contact__footer {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    padding-top: 8px;
+    border-top: 1px solid var(--cozy-border, #383028);
+}
+
+.cozy-contact__submit {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    background: var(--cozy-amber, #C8813A);
+    color: var(--cozy-ink, #22201C);
+    border: none;
+    border-radius: var(--cozy-radius, 8px);
+    font-family: var(--cozy-font-ui, 'Space Grotesk', sans-serif);
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .12em;
+    cursor: pointer;
+    box-shadow: 0 1px 0 var(--cozy-amber-dim, #7A4D20), 0 4px 14px rgba(200, 129, 58, .18);
+    transition: background 160ms ease, box-shadow 160ms ease, transform 160ms ease;
+}
+
+.cozy-contact__submit i {
+    width: 15px; height: 15px;
+}
+
+.cozy-contact__submit:hover {
+    background: var(--cozy-amber-glow, #D9934E);
+    box-shadow: 0 1px 0 var(--cozy-amber-dim, #7A4D20), 0 6px 20px rgba(200, 129, 58, .28);
+    transform: translateY(-1px);
+}
+
+.cozy-contact__submit:active {
+    transform: translateY(0);
+}
+
+.cozy-contact__note {
+    font-size: 11px;
+    color: var(--cozy-muted, #9A8E7E);
+}
+
+
+/* -----------------------------------------------
+   8. MESSAGES D'ÉTAT
+   ----------------------------------------------- */
+
+/* Succès */
+.cozy-contact__success {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 24px 28px;
+    background: rgba(74, 102, 73, .08);
+    border: 1px solid rgba(74, 102, 73, .25);
+    border-radius: var(--cozy-radius, 8px);
+    border-left: 2px solid var(--cozy-moss, #4A6649);
+}
+
+.cozy-contact__success-icon {
+    color: #6B9468;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.cozy-contact__success-icon i {
+    width: 22px; height: 22px;
+}
+
+.cozy-contact__success-title {
+    font-family: var(--cozy-font-ui, 'Space Grotesk', sans-serif);
+    font-size: 13px;
+    font-weight: 700;
+    color: #7BBE7E;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    margin-bottom: 4px;
+}
+
+.cozy-contact__success-text {
+    font-size: 14px;
+    color: var(--cozy-muted, #9A8E7E);
+    line-height: 1.6;
+}
+
+/* Erreur */
+.cozy-contact__error {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 18px;
+    background: rgba(155, 58, 30, .06);
+    border: 1px solid rgba(155, 58, 30, .25);
+    border-left: 2px solid var(--cozy-ember, #9B3A1E);
+    border-radius: var(--cozy-radius, 8px);
+    font-size: 13px;
+    color: #D4654A;
+    font-family: var(--cozy-font-body, 'Nunito', sans-serif);
+}
+
+.cozy-contact__error i {
+    width: 16px; height: 16px;
+    flex-shrink: 0;
+}

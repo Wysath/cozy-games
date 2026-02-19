@@ -22,58 +22,128 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 /**
  * -----------------------------------------------
- * 1. HERO SECTION
+ * 1. HERO SECTION  (v2.0)
  * -----------------------------------------------
+ * Stats dynamiques : Aventuriers, Quêtes, Grimoire, Setups.
  */
-function cozy_shortcode_hero( $atts ) {
+
+/**
+ * Récupère les stats dynamiques pour la barre hero.
+ */
+function cozy_get_hero_stats() {
+    // Aventuriers
+    $users       = count_users();
+    $aventuriers = $users['total_users'];
+
+    // Quêtes à venir
+    $quetes = new WP_Query( array(
+        'post_type'      => 'cozy_event',
+        'post_status'    => 'publish',
+        'posts_per_page' => -1,
+        'fields'         => 'ids',
+        'meta_query'     => array( array(
+            'key'     => '_cozy_event_date',
+            'value'   => date( 'Y-m-d' ),
+            'compare' => '>=',
+            'type'    => 'DATE',
+        ) ),
+    ) );
+    $nb_quetes = $quetes->found_posts;
+    wp_reset_postdata();
+
+    // Grimoire (posts du blog)
+    $grimoire    = wp_count_posts( 'post' );
+    $nb_grimoire = (int) $grimoire->publish;
+
+    // Setups
+    $setups    = wp_count_posts( 'cozy_setup' );
+    $nb_setups = (int) $setups->publish;
+
+    return array(
+        array( 'icon' => 'users',     'value' => $aventuriers, 'label' => 'Aventuriers' ),
+        array( 'icon' => 'calendar',  'value' => $nb_quetes,   'label' => 'Quêtes à venir' ),
+        array( 'icon' => 'book-open', 'value' => $nb_grimoire, 'label' => 'Grimoire' ),
+        array( 'icon' => 'monitor',   'value' => $nb_setups,   'label' => 'Setups' ),
+    );
+}
+
+/**
+ * Shortcode principal [cozy_hero]
+ */
+function cozy_hero_shortcode( $atts ) {
     $atts = shortcode_atts( array(
-        'title'    => 'Bienvenue à <em>Cozy Games</em>',
+        'title'    => 'Bienvenue à',
+        'title_em' => 'Cozy Games',
         'subtitle' => 'La guilde des jeux cozy où chaque aventurier·ère trouve sa place.',
         'cta_text' => 'Découvrir les quêtes',
-        'cta_url'  => '',
+        'cta_url'  => '/evenements',
+        'bg_image' => '',
     ), $atts, 'cozy_hero' );
 
-    // URL par défaut : page événements (fallback générique)
-    if ( empty( $atts['cta_url'] ) ) {
-        $atts['cta_url'] = home_url( '/events/' );
-    }
+    $stats = cozy_get_hero_stats();
 
     ob_start();
     ?>
-    <section class="cozy-hero">
-        <div class="cozy-hero__bg">
-            <div class="cozy-hero__scanlines"></div>
-            <div class="cozy-hero__grid-dots"></div>
-        </div>
-        <div class="cozy-hero__content">
-            <span class="cozy-hero__badge">
+    <section class="cozy-hero" <?php if ( $atts['bg_image'] ) : ?>style="--hero-bg: url('<?php echo esc_url( $atts['bg_image'] ); ?>')"<?php endif; ?>>
+
+        <!-- Coins décoratifs -->
+        <span class="cozy-hero__corner cozy-hero__corner--tl"></span>
+        <span class="cozy-hero__corner cozy-hero__corner--tr"></span>
+        <span class="cozy-hero__corner cozy-hero__corner--bl"></span>
+        <span class="cozy-hero__corner cozy-hero__corner--br"></span>
+
+        <!-- Lueurs d'ambiance -->
+        <div class="cozy-hero__glow cozy-hero__glow--left"  aria-hidden="true"></div>
+        <div class="cozy-hero__glow cozy-hero__glow--right" aria-hidden="true"></div>
+
+        <div class="cozy-hero__inner">
+
+            <!-- Badge statut -->
+            <div class="cozy-hero__badge">
                 <span class="cozy-hero__badge-dot"></span>
-                guilde ouverte
-            </span>
-            <h1 class="cozy-hero__title"><?php echo wp_kses_post( $atts['title'] ); ?></h1>
+                Guilde ouverte
+            </div>
+
+            <!-- Titre -->
+            <h1 class="cozy-hero__title">
+                <?php echo esc_html( $atts['title'] ); ?>
+                <em><?php echo esc_html( $atts['title_em'] ); ?></em>
+            </h1>
+
+            <!-- Sous-titre -->
             <p class="cozy-hero__subtitle"><?php echo esc_html( $atts['subtitle'] ); ?></p>
+
+            <!-- CTAs -->
             <div class="cozy-hero__actions">
-                <?php if ( ! empty( $atts['cta_url'] ) ) : ?>
-                    <a href="<?php echo esc_url( $atts['cta_url'] ); ?>" class="cozy-btn cozy-btn--primary cozy-btn--lg">
-                        <i data-lucide="calendar"></i>
-                        <?php echo esc_html( $atts['cta_text'] ); ?>
-                    </a>
-                <?php endif; ?>
+                <a href="<?php echo esc_url( $atts['cta_url'] ); ?>" class="cozy-hero__cta cozy-hero__cta--primary">
+                    <i data-lucide="calendar"></i>
+                    <?php echo esc_html( $atts['cta_text'] ); ?>
+                </a>
                 <?php if ( ! is_user_logged_in() ) : ?>
-                    <a href="<?php echo esc_url( wp_registration_url() ); ?>" class="cozy-btn cozy-btn--outline cozy-btn--lg">
+                    <a href="<?php echo esc_url( wp_registration_url() ); ?>" class="cozy-hero__cta cozy-hero__cta--secondary">
                         <i data-lucide="user-plus"></i>
                         Rejoindre la guilde
                     </a>
+                <?php else : ?>
+                    <a href="<?php echo esc_url( get_permalink( get_option( 'woocommerce_myaccount_page_id' ) ?: wp_login_url() ) ); ?>" class="cozy-hero__cta cozy-hero__cta--secondary">
+                        <i data-lucide="shield"></i>
+                        Mon profil
+                    </a>
                 <?php endif; ?>
             </div>
-        </div>
-        <div class="cozy-hero__bracket cozy-hero__bracket--tl"></div>
-        <div class="cozy-hero__bracket cozy-hero__bracket--br"></div>
+
+            <!-- Ligne décorative -->
+            <div class="cozy-hero__divider" aria-hidden="true">
+                <span></span>
+                <i data-lucide="leaf"></i>
+                <span></span>
+            </div>
+        </div><!-- /.cozy-hero__inner -->
     </section>
     <?php
     return ob_get_clean();
 }
-add_shortcode( 'cozy_hero', 'cozy_shortcode_hero' );
+add_shortcode( 'cozy_hero', 'cozy_hero_shortcode' );
 
 
 /**
@@ -155,7 +225,7 @@ function cozy_shortcode_upcoming_events( $atts ) {
         <?php endif; ?>
 
         <div class="cozy-home-events__more">
-            <a href="<?php echo esc_url( home_url( '/events/' ) ); ?>" class="cozy-btn cozy-btn--outline">
+            <a href="<?php echo esc_url( get_post_type_archive_link( 'cozy_event' ) ); ?>" class="cozy-btn cozy-btn--outline">
                 <i data-lucide="arrow-right"></i>
                 Voir toutes les quêtes
             </a>
@@ -323,7 +393,7 @@ function cozy_shortcode_latest_posts( $atts ) {
         </div>
 
         <div class="cozy-home-posts__more">
-            <a href="<?php echo get_permalink( get_option( 'page_for_posts' ) ); ?>" class="cozy-btn cozy-btn--outline">
+            <a href="<?php echo esc_url( home_url( '/tous-nos-articles/' ) ); ?>" class="cozy-btn cozy-btn--outline">
                 <i data-lucide="arrow-right"></i>
                 Voir tous les articles
             </a>
@@ -581,9 +651,16 @@ function cozy_homepage_setups_preview() {
  */
 function cozy_homepage_enqueue_assets() {
     wp_enqueue_style(
+        'cozy-hero',
+        get_template_directory_uri() . '/assets/css/cozy-hero.css',
+        array( 'cozy-main' ),
+        '2.0.0'
+    );
+
+    wp_enqueue_style(
         'cozy-homepage',
         get_template_directory_uri() . '/assets/css/cozy-homepage.css',
-        array( 'cozy-main' ),
+        array( 'cozy-main', 'cozy-hero' ),
         '2.2.0'
     );
 

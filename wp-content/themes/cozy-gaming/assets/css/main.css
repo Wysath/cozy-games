@@ -274,8 +274,7 @@ pre {
    ================================================================== */
 
 .cozy-container { width:100%; max-width:var(--cozy-max-width); margin:0 auto; padding:0 var(--cozy-space-lg); }
-.cozy-container--narrow { max-width:var(--cozy-narrow-width); }
-.cozy-main { flex:1; padding:var(--cozy-space-2xl) 0; }
+.cozy-main { flex:1; padding:calc(var(--cozy-header-height) * 1.5) 0 var(--cozy-space-2xl); }
 
 
 /* ==================================================================

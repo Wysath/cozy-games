@@ -231,6 +231,12 @@ require_once get_template_directory() . '/inc/cozy-homepage.php';
 // Module : Widgets Dashboard personnalisés par rôle
 require_once get_template_directory() . '/inc/cozy-dashboard-widgets.php';
 
+// Module : Archive Articles avec filtres (shortcode [cozy_articles_archive])
+require_once get_template_directory() . '/inc/cozy-articles-archive.php';
+
+// Module : Page contact 
+require_once get_template_directory() . '/inc/cozy-contact.php';
+
 
 // ============================================================================
 // 5. RÔLE PERSONNALISÉ : ANIMATEUR COZY
@@ -298,3 +304,64 @@ function cozy_pagination() {
         'class'     => 'cozy-pagination',
     ] );
 }
+
+
+// ============================================================================
+// 7. SÉCURITÉ — DURCISSEMENT DU THÈME
+// ============================================================================
+
+/**
+ * Désactive l'énumération des utilisateurs.
+ * Empêche /?author=1 de révéler les logins.
+ */
+add_action( 'template_redirect', function() {
+    if ( is_author() && ! is_user_logged_in() ) {
+        wp_redirect( home_url(), 301 );
+        exit;
+    }
+});
+
+/**
+ * Bloque l'accès aux utilisateurs via l'API REST pour les non-connectés.
+ */
+add_filter( 'rest_endpoints', function( $endpoints ) {
+    if ( ! is_user_logged_in() ) {
+        if ( isset( $endpoints['/wp/v2/users'] ) ) {
+            unset( $endpoints['/wp/v2/users'] );
+        }
+        if ( isset( $endpoints['/wp/v2/users/(?P<id>[\d]+)'] ) ) {
+            unset( $endpoints['/wp/v2/users/(?P<id>[\d]+)'] );
+        }
+    }
+    return $endpoints;
+});
+
+/**
+ * Masque la version de WordPress dans le <head>.
+ */
+remove_action( 'wp_head', 'wp_generator' );
+
+/**
+ * En-têtes HTTP de sécurité.
+ */
+add_action( 'send_headers', function() {
+    header( 'X-Content-Type-Options: nosniff' );
+    header( 'X-Frame-Options: SAMEORIGIN' );
+    header( 'X-XSS-Protection: 1; mode=block' );
+    header( 'Referrer-Policy: strict-origin-when-cross-origin' );
+});
+
+/**
+ * Limite les types de fichiers uploadables (supprime les dangereux).
+ */
+add_filter( 'upload_mimes', function( $mimes ) {
+    unset( $mimes['exe'] );
+    unset( $mimes['swf'] );
+    unset( $mimes['php'] );
+    unset( $mimes['phtml'] );
+    unset( $mimes['php3'] );
+    unset( $mimes['php4'] );
+    unset( $mimes['php5'] );
+    unset( $mimes['phps'] );
+    return $mimes;
+});

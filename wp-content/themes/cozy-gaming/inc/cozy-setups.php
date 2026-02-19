@@ -105,81 +105,103 @@ function cozy_shortcode_setups( $atts ) {
 add_shortcode( 'cozy_setups', 'cozy_shortcode_setups' );
 
 
-/**
- * -----------------------------------------------
- * 3. FORMULAIRE D'UPLOAD FRONT-END
- * -----------------------------------------------
- */
 
 /**
- * Génère le HTML du formulaire d'upload de setup
- *
- * @return string HTML du formulaire
+ * -----------------------------------------------
+ * 3. FORMULAIRE D'UPLOAD — classes alignées sur le CSS
+ * -----------------------------------------------
  */
 function cozy_render_setup_form() {
-    $user = wp_get_current_user();
-
     ob_start();
     ?>
     <div class="cozy-setups__form-wrapper" id="cozy-setup-form-wrapper">
+
         <button class="cozy-setups__add-btn" id="cozy-setup-toggle-form" type="button">
-                        <i data-lucide="camera"></i> Partager mon setup
+            <i data-lucide="camera"></i> Partager mon setup
         </button>
 
-        <form class="cozy-setups__form" id="cozy-setup-form" style="display: none;" enctype="multipart/form-data">
-            <h3 class="cozy-setups__form-title"><i data-lucide="camera"></i> Partage ton setup gaming</h3>
+        <form class="cozy-setups__form" id="cozy-setup-form" style="display:none;" enctype="multipart/form-data" novalidate>
 
-            <div class="cozy-setups__form-field">
-                <label for="cozy-setup-title">Titre</label>
-                <input
-                    type="text"
-                    id="cozy-setup-title"
-                    name="setup_title"
-                    placeholder="Ex : Mon coin cozy gaming"
-                    maxlength="100"
-                    required
-                >
+            <!-- En-tête -->
+            <div class="cozy-setups__form-header">
+                <i data-lucide="camera"></i>
+                <h3 class="cozy-setups__form-title">Partage ton setup gaming</h3>
             </div>
 
-            <div class="cozy-setups__form-field">
-                <label for="cozy-setup-description">Description <small>(optionnel)</small></label>
-                <textarea
-                    id="cozy-setup-description"
-                    name="setup_description"
-                    placeholder="Décris ton setup, ton matériel préféré, ton ambiance…"
-                    rows="3"
-                    maxlength="500"
-                ></textarea>
-            </div>
+            <!-- Layout deux colonnes : champs | upload -->
+            <div class="cozy-setups__form-body">
 
-            <div class="cozy-setups__form-field">
-                <label for="cozy-setup-photo">Photo de ton setup</label>
-                <div class="cozy-setups__upload-zone" id="cozy-setup-dropzone">
+                <!-- Colonne gauche : champs texte -->
+                <div class="cozy-setups__form-fields">
+
+                    <div class="cozy-setups__form-group">
+                        <label class="cozy-setups__form-label" for="cozy-setup-title">Titre</label>
+                        <input
+                            class="cozy-setups__form-input"
+                            type="text"
+                            id="cozy-setup-title"
+                            name="setup_title"
+                            placeholder="Ex : Mon coin cozy gaming"
+                            maxlength="100"
+                            required
+                        >
+                    </div>
+
+                    <div class="cozy-setups__form-group">
+                        <label class="cozy-setups__form-label" for="cozy-setup-description">
+                            Description <small style="text-transform:none;font-weight:400;color:var(--cozy-muted)">(optionnel)</small>
+                        </label>
+                        <textarea
+                            class="cozy-setups__form-textarea"
+                            id="cozy-setup-description"
+                            name="setup_description"
+                            placeholder="Décris ton setup, ton matériel préféré, ton ambiance…"
+                            maxlength="500"
+                        ></textarea>
+                    </div>
+
+                </div>
+
+                <!-- Colonne droite : upload -->
+                <div class="cozy-setups__form-upload-col">
+                    <span class="cozy-setups__form-upload-label">Photo de ton setup</span>
+
+                    <!-- Input natif masqué — déclenché via JS -->
                     <input
+                        class="cozy-setups__upload-input"
                         type="file"
                         id="cozy-setup-photo"
                         name="setup_photo"
                         accept="image/jpeg,image/png,image/webp"
                         required
                     >
-                    <div class="cozy-setups__upload-placeholder" id="cozy-setup-preview-zone">
+
+                    <!-- Zone de drop visible -->
+                    <div class="cozy-setups__upload-zone" id="cozy-setup-dropzone">
                         <span class="cozy-setups__upload-icon"><i data-lucide="image"></i></span>
                         <span class="cozy-setups__upload-text">Clique ou glisse ta photo ici</span>
-                        <small>JPG, PNG ou WebP — 5 Mo max</small>
+                        <small class="cozy-setups__upload-hint">JPG, PNG ou WebP — 5 Mo max</small>
                     </div>
-                </div>
-            </div>
 
+                    <!-- Prévisualisation après sélection -->
+                    <img class="cozy-setups__upload-preview" id="cozy-setup-preview" src="" alt="Aperçu">
+                </div>
+
+            </div><!-- /.cozy-setups__form-body -->
+
+            <!-- Actions -->
             <div class="cozy-setups__form-actions">
                 <button type="submit" class="cozy-setups__submit-btn" id="cozy-setup-submit">
-                                        <i data-lucide="upload"></i> Publier mon setup
+                    <i data-lucide="upload"></i> Publier mon setup
                 </button>
                 <button type="button" class="cozy-setups__cancel-btn" id="cozy-setup-cancel">
                     Annuler
                 </button>
             </div>
 
-            <div class="cozy-setups__form-message" id="cozy-setup-message"></div>
+            <!-- Message de retour AJAX -->
+            <div class="cozy-setups__form-message" id="cozy-setup-message" style="display:none;"></div>
+
         </form>
     </div>
     <?php
@@ -468,35 +490,37 @@ function cozy_setup_lightbox_markup() {
 add_action( 'wp_footer', 'cozy_setup_lightbox_markup' );
 
 
-/**
- * -----------------------------------------------
- * 8. ENQUEUE DES ASSETS
- * -----------------------------------------------
- */
 
 /**
- * Enqueue les styles et scripts du module setups
+ * -----------------------------------------------
+ * 8. ENQUEUE — corrigé pour thème enfant
+ * -----------------------------------------------
  */
 function cozy_setups_enqueue_assets() {
+    /*
+     * get_stylesheet_directory_uri() pointe vers le thème ACTIF (enfant).
+     * get_template_directory_uri()   pointe vers le thème PARENT.
+     * Si tes assets sont dans le thème enfant, utilise get_stylesheet_directory_uri().
+     */
     wp_enqueue_style(
         'cozy-setups',
-        get_template_directory_uri() . '/assets/css/cozy-setups.css',
+        get_stylesheet_directory_uri() . '/assets/css/cozy-setups.css',
         array(),
-        '2.0.0'
+        '3.1.0'
     );
 
     wp_enqueue_script(
         'cozy-setups',
-        get_template_directory_uri() . '/assets/js/cozy-setups.js',
+        get_stylesheet_directory_uri() . '/assets/js/cozy-setups.js',
         array(),
-        '2.0.0',
+        '3.1.0',
         true
     );
 
     wp_localize_script( 'cozy-setups', 'cozySetups', array(
-        'ajaxUrl'   => admin_url( 'admin-ajax.php' ),
-        'nonce'     => wp_create_nonce( 'cozy_upload_setup' ),
-        'userId'    => get_current_user_id(),
+        'ajaxUrl' => admin_url( 'admin-ajax.php' ),
+        'nonce'   => wp_create_nonce( 'cozy_upload_setup' ),
+        'userId'  => get_current_user_id(),
     ) );
 }
 add_action( 'wp_enqueue_scripts', 'cozy_setups_enqueue_assets' );

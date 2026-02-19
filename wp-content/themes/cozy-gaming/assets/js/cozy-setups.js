@@ -16,7 +16,7 @@
     const submitBtn  = document.getElementById('cozy-setup-submit');
     const fileInput  = document.getElementById('cozy-setup-photo');
     const dropzone   = document.getElementById('cozy-setup-dropzone');
-    const previewZone = document.getElementById('cozy-setup-preview-zone');
+    const previewZone = document.getElementById('cozy-setup-preview');
     const messageEl  = document.getElementById('cozy-setup-message');
     const lightbox   = document.getElementById('cozy-lightbox');
 
@@ -44,8 +44,23 @@
     }
 
     /* ------------------------------------------------------------------
-       2. DRAG & DROP + PREVIEW
+       2. DRAG & DROP + CLICK-TO-UPLOAD + PREVIEW
        ------------------------------------------------------------------ */
+
+    // Clic sur la dropzone → ouvre le sélecteur de fichier
+    if (dropzone && fileInput) {
+        dropzone.addEventListener('click', function () {
+            fileInput.click();
+        });
+    }
+
+    // Clic sur la preview → permet de changer la photo
+    if (previewZone && fileInput) {
+        previewZone.addEventListener('click', function () {
+            fileInput.click();
+        });
+    }
+
     if (dropzone) {
         ['dragenter', 'dragover'].forEach(function (evt) {
             dropzone.addEventListener(evt, function (e) {
@@ -81,7 +96,7 @@
      * Affiche l'aperçu de l'image sélectionnée
      */
     function showPreview(file) {
-        if (!previewZone) return;
+        if (!previewZone || !dropzone) return;
 
         var allowedTypes = ['image/jpeg', 'image/png', 'image/webp'];
         if (allowedTypes.indexOf(file.type) === -1) {
@@ -96,9 +111,13 @@
 
         var reader = new FileReader();
         reader.onload = function (e) {
-            previewZone.innerHTML = '<img src="' + e.target.result + '" class="cozy-setup-preview" alt="Aperçu">';
+            previewZone.src = e.target.result;
+            previewZone.style.display = 'block';
+            previewZone.style.cursor = 'pointer';
+            dropzone.style.display = 'none';
         };
         reader.readAsDataURL(file);
+        clearUploadError();
         showMessage('', '');
     }
 
@@ -111,14 +130,24 @@
 
             if (!window.cozySetups) return;
 
+            // Effacer les erreurs précédentes
+            clearAllErrors();
+
             var title = document.getElementById('cozy-setup-title');
+            var hasErrors = false;
+
             if (!title || !title.value.trim()) {
-                showMessage('Le titre est obligatoire.', 'error');
-                return;
+                setFieldError(title, 'Le titre est obligatoire.');
+                hasErrors = true;
             }
 
             if (!fileInput || !fileInput.files.length) {
-                showMessage('Choisis une photo.', 'error');
+                setUploadError('Choisis une photo de ton setup.');
+                hasErrors = true;
+            }
+
+            if (hasErrors) {
+                showMessage('Corrige les champs en rouge pour continuer.', 'error');
                 return;
             }
 
@@ -291,19 +320,100 @@
        ------------------------------------------------------------------ */
     function showMessage(text, type) {
         if (!messageEl) return;
+        if (!text) {
+            messageEl.style.display = 'none';
+            messageEl.textContent = '';
+            messageEl.className = 'cozy-setups__form-message';
+            return;
+        }
         messageEl.textContent = text;
-        messageEl.className = 'cozy-setups__form-message' + (type ? ' ' + type : '');
+        messageEl.className = 'cozy-setups__form-message cozy-setups__form-message--' + type;
+        messageEl.style.display = 'block';
+        messageEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     }
+
+    /* ------------------------------------------------------------------
+       VALIDATION — erreurs inline par champ
+       ------------------------------------------------------------------ */
+    function setFieldError(input, message) {
+        if (!input) return;
+        var group = input.closest('.cozy-setups__form-group');
+        if (group) {
+            group.classList.add('cozy-setups__form-group--error');
+            if (!group.querySelector('.cozy-setups__field-error')) {
+                var err = document.createElement('span');
+                err.className = 'cozy-setups__field-error';
+                err.textContent = message;
+                group.appendChild(err);
+            }
+        }
+        input.classList.add('cozy-setups__form-input--error');
+    }
+
+    function setUploadError(message) {
+        if (dropzone) dropzone.classList.add('cozy-setups__upload-zone--error');
+        var col = document.querySelector('.cozy-setups__form-upload-col');
+        if (col && !col.querySelector('.cozy-setups__field-error')) {
+            var err = document.createElement('span');
+            err.className = 'cozy-setups__field-error';
+            err.textContent = message;
+            col.appendChild(err);
+        }
+    }
+
+    function clearFieldError(input) {
+        if (!input) return;
+        var group = input.closest('.cozy-setups__form-group');
+        if (group) {
+            group.classList.remove('cozy-setups__form-group--error');
+            var err = group.querySelector('.cozy-setups__field-error');
+            if (err) err.remove();
+        }
+        input.classList.remove('cozy-setups__form-input--error');
+    }
+
+    function clearUploadError() {
+        if (dropzone) dropzone.classList.remove('cozy-setups__upload-zone--error');
+        var col = document.querySelector('.cozy-setups__form-upload-col');
+        if (col) {
+            var err = col.querySelector('.cozy-setups__field-error');
+            if (err) err.remove();
+        }
+    }
+
+    function clearAllErrors() {
+        document.querySelectorAll('.cozy-setups__form-group--error').forEach(function (g) {
+            g.classList.remove('cozy-setups__form-group--error');
+        });
+        document.querySelectorAll('.cozy-setups__field-error').forEach(function (e) {
+            e.remove();
+        });
+        document.querySelectorAll('.cozy-setups__form-input--error').forEach(function (i) {
+            i.classList.remove('cozy-setups__form-input--error');
+        });
+        clearUploadError();
+    }
+
+    // Effacer l'erreur du titre dès la saisie
+    (function () {
+        var titleInput = document.getElementById('cozy-setup-title');
+        if (titleInput) {
+            titleInput.addEventListener('input', function () {
+                clearFieldError(titleInput);
+            });
+        }
+    })();
 
     function resetForm() {
         if (!form) return;
         form.reset();
+        // Masquer la preview et réafficher la dropzone
         if (previewZone) {
-            previewZone.innerHTML =
-                '<span class="cozy-setups__upload-icon"><i data-lucide="image"></i></span>' +
-                '<span class="cozy-setups__upload-text">Clique ou glisse ta photo ici</span>' +
-                '<small>JPG, PNG ou WebP — 5 Mo max</small>';
-            refreshIcons();
+            previewZone.src = '';
+            previewZone.style.display = 'none';
+        }
+        if (dropzone) {
+            dropzone.style.display = '';
         }
         showMessage('', '');
     }

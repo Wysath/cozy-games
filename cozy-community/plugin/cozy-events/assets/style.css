@@ -673,23 +673,265 @@
 
 
 /* ==================================================================
-   8. ARCHIVE ÉVÉNEMENTS
+   8. ARCHIVE ÉVÉNEMENTS — EN-TÊTE
    ================================================================== */
 
 .cozy-events-archive {
     padding: var(--cozy-space-2xl, 3rem) 0;
     max-width: var(--cozy-max-width, 1440px);
     margin: 0 auto;
-    padding-left: var(--cozy-space-lg, 1.5rem);
-    padding-right: var(--cozy-space-lg, 1.5rem);
 }
 
-.cozy-events-archive h1 {
+.cozy-events-archive__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: var(--cozy-space-md, 1rem);
+    margin-bottom: var(--cozy-space-xl, 2rem);
+}
+
+.cozy-events-archive__title-row {
+    display: flex;
+    align-items: center;
+    gap: var(--cozy-space-md, 1rem);
+}
+
+.cozy-events-archive__title {
+    display: flex;
+    align-items: center;
+    gap: var(--cozy-space-sm, 0.5rem);
     font-family: var(--cozy-font-heading, 'Nunito', sans-serif);
     font-size: var(--cozy-text-3xl, 1.875rem);
     font-weight: 800;
     color: var(--cozy-cream, #EDE4CF);
-    margin-bottom: var(--cozy-space-xl, 2rem);
+    margin: 0;
+}
+
+.cozy-events-archive__title .lucide {
+    width: 28px;
+    height: 28px;
+    color: var(--cozy-amber, #C8813A);
+}
+
+.cozy-events-archive__count {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 12px;
+    background: rgba(200, 129, 58, 0.1);
+    border: 1px solid rgba(200, 129, 58, 0.15);
+    border-radius: var(--cozy-radius, 4px);
+    font-family: var(--cozy-font-ui, 'Space Grotesk', sans-serif);
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--cozy-amber-glow, #E8A84C);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+
+/* ── Boutons bascule vue ── */
+.cozy-events-archive__views {
+    display: flex;
+    gap: 4px;
+    background: var(--cozy-bg-card, #1A160F);
+    border: 1px solid var(--cozy-border, rgba(200,129,58,0.1));
+    border-radius: var(--cozy-radius, 4px);
+    padding: 3px;
+}
+
+.cozy-events-view-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    background: transparent;
+    border: none;
+    border-radius: calc(var(--cozy-radius, 4px) - 1px);
+    font-family: var(--cozy-font-ui, 'Space Grotesk', sans-serif);
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--cozy-muted, #8A7D6B);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.cozy-events-view-btn .lucide {
+    width: 14px;
+    height: 14px;
+}
+
+.cozy-events-view-btn:hover {
+    color: var(--cozy-cream, #EDE4CF);
+}
+
+.cozy-events-view-btn--active {
+    background: var(--cozy-amber, #C8813A);
+    color: var(--cozy-ink, #22201C);
+    font-weight: 600;
+}
+
+.cozy-events-view-btn--active .lucide {
+    color: var(--cozy-ink, #22201C);
+}
+
+
+/* ==================================================================
+   8b. CALENDRIER MENSUEL
+   ================================================================== */
+
+.cozy-calendar {
+    background: var(--cozy-bg-card, #1A160F);
+    border: 1px solid var(--cozy-border, rgba(200,129,58,0.1));
+    border-radius: var(--cozy-radius, 4px);
+    overflow: hidden;
+}
+
+.cozy-calendar__nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--cozy-space-md, 1rem) var(--cozy-space-lg, 1.5rem);
+    border-bottom: 1px solid var(--cozy-border, rgba(200,129,58,0.1));
+}
+
+.cozy-calendar__nav-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    background: transparent;
+    border: 1px solid var(--cozy-border, rgba(200,129,58,0.1));
+    border-radius: var(--cozy-radius, 4px);
+    color: var(--cozy-muted, #8A7D6B);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.cozy-calendar__nav-btn:hover {
+    border-color: var(--cozy-amber, #C8813A);
+    color: var(--cozy-amber, #C8813A);
+}
+
+.cozy-calendar__nav-btn .lucide {
+    width: 16px;
+    height: 16px;
+}
+
+.cozy-calendar__month {
+    font-family: var(--cozy-font-heading, 'Nunito', sans-serif);
+    font-size: var(--cozy-text-lg, 1.125rem);
+    font-weight: 700;
+    color: var(--cozy-cream, #EDE4CF);
+    margin: 0;
+    text-transform: capitalize;
+}
+
+.cozy-calendar__grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+}
+
+.cozy-calendar__day-name {
+    padding: var(--cozy-space-sm, 0.5rem);
+    font-family: var(--cozy-font-ui, 'Space Grotesk', sans-serif);
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--cozy-muted, #8A7D6B);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    text-align: center;
+    border-bottom: 1px solid var(--cozy-border, rgba(200,129,58,0.1));
+    background: var(--cozy-bg-soft, #15120C);
+}
+
+.cozy-calendar__day {
+    min-height: 90px;
+    padding: 6px;
+    border-bottom: 1px solid var(--cozy-border, rgba(200,129,58,0.06));
+    border-right: 1px solid var(--cozy-border, rgba(200,129,58,0.06));
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    transition: background 0.15s ease;
+}
+
+.cozy-calendar__day:nth-child(7n+14) {
+    border-right: none;
+}
+
+.cozy-calendar__day--empty {
+    background: var(--cozy-bg-soft, #15120C);
+    opacity: 0.4;
+}
+
+.cozy-calendar__day--today {
+    background: rgba(200, 129, 58, 0.04);
+}
+
+.cozy-calendar__day--today .cozy-calendar__day-number {
+    background: var(--cozy-amber, #C8813A);
+    color: var(--cozy-ink, #22201C);
+}
+
+.cozy-calendar__day--has-events:hover {
+    background: rgba(200, 129, 58, 0.03);
+}
+
+.cozy-calendar__day--past {
+    opacity: 0.5;
+}
+
+.cozy-calendar__day-number {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    font-family: var(--cozy-font-ui, 'Space Grotesk', sans-serif);
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--cozy-muted, #8A7D6B);
+    border-radius: 50%;
+    margin-bottom: 2px;
+}
+
+.cozy-calendar__event {
+    display: block;
+    padding: 3px 6px;
+    background: rgba(200, 129, 58, 0.1);
+    border-left: 2px solid var(--cozy-amber, #C8813A);
+    border-radius: 2px;
+    font-family: var(--cozy-font-ui, 'Space Grotesk', sans-serif);
+    font-size: 10px;
+    font-weight: 500;
+    color: var(--cozy-amber-glow, #E8A84C);
+    text-decoration: none;
+    line-height: 1.3;
+    transition: all 0.15s ease;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.cozy-calendar__event:hover {
+    background: rgba(200, 129, 58, 0.18);
+    color: var(--cozy-cream, #EDE4CF);
+}
+
+.cozy-calendar__event--troc {
+    background: rgba(212, 175, 55, 0.1);
+    border-left-color: var(--cozy-gold, #D4AF37);
+    color: var(--cozy-gold, #D4AF37);
+}
+
+.cozy-calendar__event--troc:hover {
+    background: rgba(212, 175, 55, 0.18);
+    color: var(--cozy-cream, #EDE4CF);
+}
+
+.cozy-calendar__event--full {
+    opacity: 0.5;
 }
 
 .cozy-no-events {
@@ -719,6 +961,25 @@
 
     .cozy-charter {
         padding: var(--cozy-space-md, 1rem);
+    }
+
+    .cozy-events-archive__header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .cozy-calendar__day {
+        min-height: 60px;
+        padding: 4px;
+    }
+
+    .cozy-calendar__event {
+        font-size: 9px;
+        padding: 2px 4px;
+    }
+
+    .cozy-events-view-btn span {
+        display: none;
     }
 }
 

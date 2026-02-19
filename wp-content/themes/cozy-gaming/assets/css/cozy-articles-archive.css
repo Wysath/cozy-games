@@ -1,0 +1,741 @@
+/**
+ * ============================================================================
+ * COZY GROVE — Articles Archive  (v1.0 — Design System Guilde)
+ * ============================================================================
+ *
+ * Grille d'articles du Grimoire avec filtres par type, jeu, catégorie.
+ * Pills interactives, cartes enrichies, pagination.
+ */
+
+
+/* ==================================================================
+   1. CONTAINER
+   ================================================================== */
+
+.cozy-articles-archive {
+    max-width: var(--cozy-max-width);
+    margin: 0 auto;
+    padding: var(--cozy-space-xl) var(--cozy-space-lg);
+}
+
+
+/* ==================================================================
+   2. HEADER
+   ================================================================== */
+
+.cozy-articles-archive__header {
+    margin-bottom: var(--cozy-space-2xl);
+}
+
+.cozy-articles-archive__title-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--cozy-space-lg);
+    padding-bottom: var(--cozy-space-md);
+    border-bottom: 1px solid var(--cozy-border);
+    position: relative;
+}
+
+.cozy-articles-archive__title-row::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 100px;
+    height: 1px;
+    background: linear-gradient(90deg, var(--cozy-amber), var(--cozy-gold), transparent);
+}
+
+.cozy-articles-archive__title {
+    display: flex;
+    align-items: center;
+    gap: var(--cozy-space-sm);
+    font-family: var(--cozy-font-display);
+    font-size: var(--cozy-text-3xl);
+    color: var(--cozy-parchment);
+    margin: 0;
+}
+
+.cozy-articles-archive__title .lucide {
+    width: 28px;
+    height: 28px;
+    color: var(--cozy-amber);
+}
+
+.cozy-articles-archive__count {
+    font-family: var(--cozy-font-ui);
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--cozy-muted);
+    padding: 4px 14px;
+    border: 1px solid var(--cozy-border);
+    border-radius: var(--cozy-radius);
+    background: var(--cozy-bg-card);
+}
+
+.cozy-articles-archive__count-total {
+    color: var(--cozy-faint);
+}
+
+
+/* ==================================================================
+   3. SEARCH
+   ================================================================== */
+
+.cozy-articles-archive__search {
+    margin-bottom: var(--cozy-space-md);
+}
+
+.cozy-articles-archive__search .cozy-form__input-icon > .lucide,
+.cozy-articles-archive__search .cozy-form__input-icon > i[data-lucide] {
+    color: var(--cozy-amber-dim);
+}
+
+.cozy-articles-archive__search .cozy-form__input {
+    max-width: 400px;
+}
+
+
+/* ==================================================================
+   4. FILTRES
+   ================================================================== */
+
+.cozy-articles-archive__filters {
+    display: flex;
+    flex-direction: column;
+    gap: var(--cozy-space-md);
+}
+
+.cozy-articles-archive__filter-group {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--cozy-space-md);
+}
+
+.cozy-articles-archive__filter-label {
+    font-family: var(--cozy-font-ui);
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--cozy-faint);
+    min-width: 90px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding-top: 6px;
+}
+
+.cozy-articles-archive__filter-label .lucide {
+    width: 12px;
+    height: 12px;
+    color: var(--cozy-amber-dim);
+}
+
+.cozy-articles-archive__filter-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.cozy-articles-archive__filter-pills--scrollable {
+    max-height: 80px;
+    overflow-y: auto;
+    padding-right: var(--cozy-space-xs);
+}
+
+.cozy-articles-archive__filter-pills--scrollable::-webkit-scrollbar {
+    width: 3px;
+}
+
+.cozy-articles-archive__filter-pills--scrollable::-webkit-scrollbar-thumb {
+    background: var(--cozy-border);
+    border-radius: 3px;
+}
+
+.cozy-articles-archive__pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 5px 12px;
+    font-family: var(--cozy-font-ui);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    color: var(--cozy-muted);
+    background: var(--cozy-bg-card);
+    border: 1px solid var(--cozy-border);
+    border-radius: var(--cozy-radius);
+    cursor: pointer;
+    transition: all var(--cozy-transition);
+    white-space: nowrap;
+}
+
+.cozy-articles-archive__pill .lucide {
+    width: 12px;
+    height: 12px;
+}
+
+.cozy-articles-archive__pill:hover {
+    color: var(--cozy-cream);
+    border-color: var(--cozy-faint);
+    background: var(--cozy-ink-soft);
+}
+
+.cozy-articles-archive__pill.is-active {
+    color: var(--cozy-ink);
+    background: var(--cozy-amber);
+    border-color: var(--cozy-amber);
+    font-weight: 600;
+    box-shadow: 0 1px 0 var(--cozy-amber-dim),
+                0 4px 12px rgba(200, 129, 58, 0.18);
+}
+
+.cozy-articles-archive__pill.is-active .lucide {
+    color: var(--cozy-ink);
+}
+
+.cozy-articles-archive__pill-count {
+    font-size: 9px;
+    opacity: 0.6;
+    margin-left: 2px;
+}
+
+.cozy-articles-archive__pill.is-active .cozy-articles-archive__pill-count {
+    opacity: 0.8;
+}
+
+
+/* ==================================================================
+   5. FILTRES ACTIFS
+   ================================================================== */
+
+.cozy-articles-archive__active-filters {
+    display: flex;
+    align-items: center;
+    gap: var(--cozy-space-sm);
+    flex-wrap: wrap;
+    margin-top: var(--cozy-space-lg);
+    padding: var(--cozy-space-sm) var(--cozy-space-md);
+    background: var(--cozy-bg-soft);
+    border: 1px solid var(--cozy-border);
+    border-radius: var(--cozy-radius);
+}
+
+.cozy-articles-archive__active-label {
+    font-family: var(--cozy-font-ui);
+    font-size: 10px;
+    font-weight: 500;
+    color: var(--cozy-faint);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+
+.cozy-articles-archive__active-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 3px 10px;
+    background: var(--cozy-bg-card);
+    border: 1px solid var(--cozy-amber-dim);
+    border-radius: var(--cozy-radius);
+    font-family: var(--cozy-font-ui);
+    font-size: 10px;
+    font-weight: 500;
+    color: var(--cozy-amber);
+    cursor: pointer;
+    transition: all var(--cozy-transition);
+}
+
+.cozy-articles-archive__active-tag .lucide {
+    width: 10px;
+    height: 10px;
+    opacity: 0.6;
+    transition: opacity var(--cozy-transition);
+}
+
+.cozy-articles-archive__active-tag:hover {
+    border-color: var(--cozy-ember);
+    color: var(--cozy-ember-glow);
+    background: rgba(155, 58, 30, 0.08);
+}
+
+.cozy-articles-archive__active-tag:hover .lucide {
+    opacity: 1;
+}
+
+.cozy-articles-archive__clear-filters {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 3px 10px;
+    background: none;
+    border: 1px solid var(--cozy-border);
+    border-radius: var(--cozy-radius);
+    font-family: var(--cozy-font-ui);
+    font-size: 10px;
+    font-weight: 500;
+    color: var(--cozy-muted);
+    cursor: pointer;
+    transition: all var(--cozy-transition);
+    margin-left: auto;
+}
+
+.cozy-articles-archive__clear-filters .lucide {
+    width: 12px;
+    height: 12px;
+}
+
+.cozy-articles-archive__clear-filters:hover {
+    color: var(--cozy-cream);
+    border-color: var(--cozy-faint);
+}
+
+
+/* ==================================================================
+   6. GRILLE
+   ================================================================== */
+
+.cozy-articles-archive__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--cozy-space-lg);
+}
+
+.cozy-articles-archive[data-columns="2"] .cozy-articles-archive__grid {
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.cozy-articles-archive[data-columns="4"] .cozy-articles-archive__grid {
+    grid-template-columns: repeat(4, 1fr);
+}
+
+
+/* ==================================================================
+   7. CARTE ARTICLE
+   ================================================================== */
+
+.cozy-articles-archive__card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    background: var(--cozy-bg-card);
+    border: 1px solid var(--cozy-border);
+    border-radius: var(--cozy-radius);
+    overflow: hidden;
+    transition: all var(--cozy-transition);
+}
+
+/* Left accent stripe */
+.cozy-articles-archive__card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 2px;
+    height: 100%;
+    background: linear-gradient(180deg, var(--cozy-amber), var(--cozy-ember));
+    z-index: 3;
+    opacity: 0;
+    transition: opacity var(--cozy-transition);
+}
+
+.cozy-articles-archive__card:hover {
+    border-color: var(--cozy-amber-dim);
+    transform: translateY(-4px);
+    box-shadow:
+        0 0 24px var(--cozy-glow-amber),
+        var(--cozy-shadow-lg);
+}
+
+.cozy-articles-archive__card:hover::before {
+    opacity: 1;
+}
+
+/* Stagger animation */
+.cozy-articles-archive__card:nth-child(3n+2) { animation-delay: 0.06s; }
+.cozy-articles-archive__card:nth-child(3n+3) { animation-delay: 0.12s; }
+
+
+/* ── Thumbnail ── */
+
+.cozy-articles-archive__card-thumb {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    display: block;
+    text-decoration: none;
+}
+
+.cozy-articles-archive__card-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.cozy-articles-archive__card:hover .cozy-articles-archive__card-thumb img {
+    transform: scale(1.05);
+}
+
+.cozy-articles-archive__card-type {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    padding: 3px 10px;
+    border-radius: var(--cozy-radius);
+    font-family: var(--cozy-font-ui);
+    font-size: 10px;
+    font-weight: 600;
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+}
+
+.cozy-articles-archive__card-score {
+    position: absolute;
+    bottom: 8px;
+    right: 8px;
+    display: flex;
+    align-items: baseline;
+    gap: 1px;
+    padding: 4px 10px;
+    background: rgba(34, 32, 28, 0.92);
+    backdrop-filter: blur(8px);
+    border: 1px solid var(--cozy-amber);
+    border-radius: var(--cozy-radius);
+    font-family: var(--cozy-font-ui);
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--cozy-amber-glow);
+    box-shadow: 0 0 16px rgba(200, 129, 58, 0.3);
+}
+
+.cozy-articles-archive__card-score small {
+    font-size: 10px;
+    font-weight: 500;
+    opacity: 0.7;
+}
+
+
+/* ── Body ── */
+
+.cozy-articles-archive__card-body {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    padding: var(--cozy-space-md);
+}
+
+.cozy-articles-archive__card-meta {
+    display: flex;
+    align-items: center;
+    gap: var(--cozy-space-sm);
+    flex-wrap: wrap;
+    margin-bottom: var(--cozy-space-xs);
+}
+
+.cozy-articles-archive__card-game {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    font-family: var(--cozy-font-ui);
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--cozy-amber);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.cozy-articles-archive__card-game .lucide {
+    width: 11px;
+    height: 11px;
+}
+
+.cozy-articles-archive__card-date {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    font-family: var(--cozy-font-ui);
+    font-size: 10px;
+    color: var(--cozy-faint);
+    margin-left: auto;
+}
+
+.cozy-articles-archive__card-date .lucide {
+    width: 11px;
+    height: 11px;
+}
+
+.cozy-articles-archive__card-title {
+    font-family: var(--cozy-font-heading);
+    font-weight: 800;
+    font-size: 1.05rem;
+    color: var(--cozy-cream);
+    line-height: 1.3;
+    margin: 0 0 var(--cozy-space-xs);
+}
+
+.cozy-articles-archive__card-title a {
+    color: inherit;
+    text-decoration: none;
+    transition: color var(--cozy-transition);
+}
+
+.cozy-articles-archive__card-title a:hover {
+    color: var(--cozy-amber);
+}
+
+.cozy-articles-archive__card-excerpt {
+    font-size: var(--cozy-text-sm);
+    color: var(--cozy-muted);
+    line-height: 1.55;
+    margin: 0 0 var(--cozy-space-sm);
+    flex: 1;
+}
+
+
+/* ── Plateformes ── */
+
+.cozy-articles-archive__card-platforms {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-bottom: var(--cozy-space-sm);
+}
+
+.cozy-articles-archive__platform-tag {
+    display: inline-block;
+    padding: 2px 8px;
+    border: 1px solid var(--cozy-border);
+    border-radius: var(--cozy-radius);
+    font-family: var(--cozy-font-ui);
+    font-size: 9px;
+    font-weight: 500;
+    color: var(--cozy-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.cozy-articles-archive__platform-tag--more {
+    color: var(--cozy-faint);
+    border-style: dashed;
+}
+
+
+/* ── Footer ── */
+
+.cozy-articles-archive__card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: auto;
+    padding-top: var(--cozy-space-sm);
+    border-top: 1px solid var(--cozy-border);
+}
+
+.cozy-articles-archive__card-author {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-family: var(--cozy-font-ui);
+    font-size: 10px;
+    color: var(--cozy-muted);
+}
+
+.cozy-articles-archive__card-author img {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    border: 1px solid var(--cozy-border);
+}
+
+.cozy-articles-archive__card-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-family: var(--cozy-font-ui);
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--cozy-amber);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    text-decoration: none;
+    transition: all var(--cozy-transition);
+}
+
+.cozy-articles-archive__card-link .lucide {
+    width: 12px;
+    height: 12px;
+    transition: transform var(--cozy-transition);
+}
+
+.cozy-articles-archive__card-link:hover {
+    color: var(--cozy-amber-glow);
+}
+
+.cozy-articles-archive__card-link:hover .lucide {
+    transform: translateX(3px);
+}
+
+
+/* ==================================================================
+   8. ÉTAT VIDE
+   ================================================================== */
+
+.cozy-articles-archive__empty {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: var(--cozy-space-4xl) var(--cozy-space-xl);
+}
+
+.cozy-articles-archive__empty-icon {
+    margin-bottom: var(--cozy-space-lg);
+}
+
+.cozy-articles-archive__empty-icon .lucide {
+    width: 48px;
+    height: 48px;
+    color: var(--cozy-faint);
+}
+
+.cozy-articles-archive__empty h3 {
+    font-family: var(--cozy-font-display);
+    font-size: var(--cozy-text-xl);
+    color: var(--cozy-cream);
+    margin-bottom: var(--cozy-space-sm);
+}
+
+.cozy-articles-archive__empty p {
+    font-size: var(--cozy-text-sm);
+    color: var(--cozy-muted);
+    max-width: 400px;
+    margin: 0 auto var(--cozy-space-lg);
+    line-height: 1.6;
+}
+
+
+/* ==================================================================
+   9. PAGINATION
+   ================================================================== */
+
+.cozy-articles-archive__pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: var(--cozy-space-xs);
+    margin-top: var(--cozy-space-2xl);
+    flex-wrap: wrap;
+}
+
+.cozy-articles-archive__pagination .page-numbers {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 36px;
+    height: 36px;
+    padding: 0 8px;
+    font-family: var(--cozy-font-ui);
+    font-size: var(--cozy-text-sm);
+    font-weight: 500;
+    color: var(--cozy-muted);
+    background: var(--cozy-bg-card);
+    border: 1px solid var(--cozy-border);
+    border-radius: var(--cozy-radius);
+    text-decoration: none;
+    transition: all var(--cozy-transition);
+}
+
+.cozy-articles-archive__pagination .page-numbers:hover {
+    color: var(--cozy-cream);
+    border-color: var(--cozy-amber-dim);
+    box-shadow: 0 0 12px var(--cozy-glow-amber);
+}
+
+.cozy-articles-archive__pagination .page-numbers.current {
+    color: var(--cozy-ink);
+    background: var(--cozy-amber);
+    border-color: var(--cozy-amber);
+    font-weight: 700;
+}
+
+.cozy-articles-archive__pagination .page-numbers .lucide {
+    width: 14px;
+    height: 14px;
+}
+
+.cozy-articles-archive__pagination .prev,
+.cozy-articles-archive__pagination .next {
+    gap: 4px;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+
+
+/* ==================================================================
+   10. RESPONSIVE
+   ================================================================== */
+
+@media (max-width: 900px) {
+    .cozy-articles-archive__grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .cozy-articles-archive[data-columns="4"] .cozy-articles-archive__grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 640px) {
+    .cozy-articles-archive {
+        padding: var(--cozy-space-lg) var(--cozy-space-md);
+    }
+
+    .cozy-articles-archive__title {
+        font-size: var(--cozy-text-2xl);
+    }
+
+    .cozy-articles-archive__title-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--cozy-space-sm);
+    }
+
+    .cozy-articles-archive__search .cozy-form__input {
+        max-width: 100%;
+    }
+
+    .cozy-articles-archive__filter-group {
+        flex-direction: column;
+        gap: var(--cozy-space-xs);
+    }
+
+    .cozy-articles-archive__filter-label {
+        min-width: auto;
+        padding-top: 0;
+    }
+
+    .cozy-articles-archive__grid {
+        grid-template-columns: 1fr;
+    }
+
+    .cozy-articles-archive[data-columns="2"] .cozy-articles-archive__grid,
+    .cozy-articles-archive[data-columns="4"] .cozy-articles-archive__grid {
+        grid-template-columns: 1fr;
+    }
+
+    .cozy-articles-archive__active-filters {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .cozy-articles-archive__clear-filters {
+        margin-left: 0;
+    }
+}

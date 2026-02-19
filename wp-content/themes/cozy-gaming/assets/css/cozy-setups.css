@@ -1,6 +1,6 @@
 /**
  * ============================================================================
- * COZY GROVE — Setups Gallery  (v3.0 — Design System Guilde)
+ * COZY GROVE — Setups Gallery  (v3.1 — Layout fix + inputs blancs)
  * ============================================================================
  */
 
@@ -42,7 +42,7 @@
 
 
 /* -----------------------------------------------
-   3. CARTE SETUP — Left stripe
+   3. CARTE SETUP
    ----------------------------------------------- */
 
 .cozy-setups__card {
@@ -56,23 +56,18 @@
     transition: all var(--cozy-transition);
 }
 
-/* Left amber stripe */
 .cozy-setups__card::before {
     content: '';
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 2px;
-    height: 100%;
+    top: 0; left: 0;
+    width: 2px; height: 100%;
     background: linear-gradient(180deg, var(--cozy-amber), var(--cozy-ember));
     z-index: 2;
     opacity: 0;
     transition: opacity var(--cozy-transition);
 }
 
-.cozy-setups__card::after {
-    display: none;
-}
+.cozy-setups__card::after { display: none; }
 
 .cozy-setups__card:hover {
     border-color: var(--cozy-amber-dim);
@@ -80,9 +75,7 @@
     transform: translateY(-2px);
 }
 
-.cozy-setups__card:hover::before {
-    opacity: 1;
-}
+.cozy-setups__card:hover::before { opacity: 1; }
 
 
 /* -----------------------------------------------
@@ -151,8 +144,7 @@
 }
 
 .cozy-setups__card-author img {
-    width: 24px;
-    height: 24px;
+    width: 24px; height: 24px;
     border-radius: 50%;
     border: 1px solid var(--cozy-border);
 }
@@ -175,14 +167,12 @@
 
 .cozy-setups__card-delete {
     position: absolute;
-    top: 8px;
-    right: 8px;
+    top: 8px; right: 8px;
     z-index: 3;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 30px;
-    height: 30px;
+    width: 30px; height: 30px;
     background: rgba(0, 0, 0, 0.6);
     border: 1px solid rgba(255, 255, 255, 0.12);
     border-radius: var(--cozy-radius);
@@ -192,15 +182,8 @@
     transition: opacity var(--cozy-transition), background var(--cozy-transition), color var(--cozy-transition);
 }
 
-.cozy-setups__card:hover .cozy-setups__card-delete {
-    opacity: 1;
-}
-
-.cozy-setups__card-delete .lucide {
-    width: 14px;
-    height: 14px;
-}
-
+.cozy-setups__card:hover .cozy-setups__card-delete { opacity: 1; }
+.cozy-setups__card-delete .lucide { width: 14px; height: 14px; }
 .cozy-setups__card-delete:hover {
     background: var(--cozy-ember);
     border-color: var(--cozy-ember);
@@ -209,10 +192,12 @@
 
 
 /* -----------------------------------------------
-   4c. TOGGLE / SUBMIT / CANCEL BUTTONS
+   4c. BOUTONS TOGGLE / SUBMIT / CANCEL
    ----------------------------------------------- */
 
-.cozy-setups__add-btn {
+.cozy-setups__add-btn,
+.cozy-setups__submit-btn,
+.cozy-setups__form-submit {
     display: inline-flex;
     align-items: center;
     gap: 8px;
@@ -223,59 +208,34 @@
     border-radius: var(--cozy-radius);
     font-family: var(--cozy-font-ui);
     font-size: 10px;
-    font-weight: 600;
+    font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.1em;
-    cursor: pointer;
-    transition: all var(--cozy-transition);
-    margin-bottom: var(--cozy-space-md);
-    box-shadow: 0 1px 0 var(--cozy-amber-dim), 0 4px 14px rgba(200, 129, 58, 0.18);
-}
-
-.cozy-setups__add-btn:hover {
-    background: var(--cozy-amber-glow);
-    box-shadow: 0 1px 0 var(--cozy-amber-dim), 0 6px 20px rgba(200, 129, 58, 0.25);
-    transform: translateY(-1px);
-}
-
-.cozy-setups__add-btn .lucide {
-    width: 16px;
-    height: 16px;
-}
-
-.cozy-setups__submit-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 11px 22px;
-    background: var(--cozy-amber);
-    color: var(--cozy-ink);
-    border: none;
-    border-radius: var(--cozy-radius);
-    font-family: var(--cozy-font-ui);
-    font-size: 10px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.12em;
     cursor: pointer;
     transition: all var(--cozy-transition);
     box-shadow: 0 1px 0 var(--cozy-amber-dim), 0 4px 14px rgba(200, 129, 58, 0.18);
 }
 
-.cozy-setups__submit-btn:hover {
+.cozy-setups__add-btn { margin-bottom: var(--cozy-space-md); }
+
+.cozy-setups__add-btn:hover,
+.cozy-setups__submit-btn:hover,
+.cozy-setups__form-submit:hover {
     background: var(--cozy-amber-glow);
     box-shadow: 0 1px 0 var(--cozy-amber-dim), 0 6px 20px rgba(200, 129, 58, 0.25);
     transform: translateY(-1px);
 }
 
 .cozy-setups__submit-btn:disabled {
-    opacity: 0.6;
+    opacity: 0.5;
     cursor: not-allowed;
+    transform: none;
 }
 
-.cozy-setups__submit-btn .lucide {
-    width: 16px;
-    height: 16px;
+.cozy-setups__add-btn .lucide,
+.cozy-setups__submit-btn .lucide,
+.cozy-setups__form-submit .lucide {
+    width: 15px; height: 15px;
 }
 
 .cozy-setups__cancel-btn {
@@ -304,6 +264,9 @@
     align-items: center;
     gap: var(--cozy-space-md);
     flex-wrap: wrap;
+    margin-top: var(--cozy-space-lg);
+    padding-top: var(--cozy-space-md);
+    border-top: 1px solid var(--cozy-border);
 }
 
 
@@ -327,8 +290,7 @@
 }
 
 .cozy-setups__avatar {
-    width: 26px;
-    height: 26px;
+    width: 26px; height: 26px;
     border-radius: 50%;
     border: 1px solid var(--cozy-border);
 }
@@ -383,83 +345,14 @@
     transition: all var(--cozy-transition);
 }
 
-.cozy-setups__action-btn .lucide {
-    width: 13px;
-    height: 13px;
-}
-
-.cozy-setups__action-btn:hover {
-    border-color: var(--cozy-amber);
-    color: var(--cozy-amber);
-}
-
-.cozy-setups__action-btn--liked {
-    color: var(--cozy-ember);
-    border-color: var(--cozy-ember);
-}
-
-.cozy-setups__action-btn--delete:hover {
-    border-color: var(--cozy-ember);
-    color: var(--cozy-ember);
-}
+.cozy-setups__action-btn .lucide { width: 13px; height: 13px; }
+.cozy-setups__action-btn:hover   { border-color: var(--cozy-amber); color: var(--cozy-amber); }
+.cozy-setups__action-btn--liked  { color: var(--cozy-ember); border-color: var(--cozy-ember); }
+.cozy-setups__action-btn--delete:hover { border-color: var(--cozy-ember); color: var(--cozy-ember); }
 
 
 /* -----------------------------------------------
-   7. UPLOAD ZONE
-   ----------------------------------------------- */
-
-.cozy-setups__upload-zone {
-    margin-bottom: var(--cozy-space-lg);
-    padding: var(--cozy-space-xl) var(--cozy-space-lg);
-    border: 2px dashed var(--cozy-border);
-    border-radius: var(--cozy-radius);
-    text-align: center;
-    transition: all var(--cozy-transition);
-    cursor: pointer;
-}
-
-.cozy-setups__upload-zone:hover,
-.cozy-setups__upload-zone--dragover {
-    border-color: var(--cozy-amber);
-    background: rgba(200, 129, 58, 0.03);
-}
-
-.cozy-setups__upload-icon {
-    margin-bottom: var(--cozy-space-xs);
-}
-
-.cozy-setups__upload-icon .lucide {
-    width: 36px;
-    height: 36px;
-    color: var(--cozy-muted);
-    transition: color var(--cozy-transition);
-}
-
-.cozy-setups__upload-zone:hover .cozy-setups__upload-icon .lucide {
-    color: var(--cozy-amber);
-}
-
-.cozy-setups__upload-text {
-    font-family: var(--cozy-font-ui);
-    font-size: 10px;
-    color: var(--cozy-muted);
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-}
-
-.cozy-setups__upload-hint {
-    font-size: var(--cozy-text-xs);
-    color: var(--cozy-muted);
-    margin-top: 2px;
-}
-
-.cozy-setups__upload-input {
-    display: none;
-}
-
-
-/* -----------------------------------------------
-   8. FORMULAIRE
+   7. FORMULAIRE — layout revu
    ----------------------------------------------- */
 
 .cozy-setups__form {
@@ -469,35 +362,87 @@
     border: 1px solid var(--cozy-border);
     border-radius: var(--cozy-radius);
     position: relative;
+    overflow: hidden;
 }
 
-/* Left amber stripe */
+/* Trait ambre gauche */
 .cozy-setups__form::before {
     content: '';
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 2px;
-    height: 100%;
+    top: 0; left: 0;
+    width: 2px; height: 100%;
     background: linear-gradient(180deg, var(--cozy-amber), var(--cozy-ember));
 }
+.cozy-setups__form::after { display: none; }
 
-.cozy-setups__form::after {
-    display: none;
+/* En-tête du formulaire */
+.cozy-setups__form-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: var(--cozy-space-lg);
+    padding-bottom: var(--cozy-space-md);
+    border-bottom: 1px solid var(--cozy-border);
+}
+
+.cozy-setups__form-header .lucide {
+    width: 18px; height: 18px;
+    color: var(--cozy-amber);
+    flex-shrink: 0;
 }
 
 .cozy-setups__form-title {
     font-family: var(--cozy-font-ui);
-    font-size: 10px;
-    font-weight: 500;
+    font-size: 11px;
+    font-weight: 600;
     color: var(--cozy-cream);
     text-transform: uppercase;
-    letter-spacing: 0.1em;
-    margin-bottom: var(--cozy-space-md);
+    letter-spacing: 0.12em;
+    margin: 0;
 }
 
+/* Layout 2 colonnes : champs texte | upload */
+.cozy-setups__form-body {
+    display: grid;
+    grid-template-columns: 1fr 280px;
+    gap: var(--cozy-space-lg);
+    align-items: start;
+}
+
+@media (max-width: 700px) {
+    .cozy-setups__form-body {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Colonne gauche — champs texte */
+.cozy-setups__form-fields {
+    display: flex;
+    flex-direction: column;
+    gap: var(--cozy-space-md);
+}
+
+/* Colonne droite — upload */
+.cozy-setups__form-upload-col {
+    display: flex;
+    flex-direction: column;
+    gap: var(--cozy-space-sm);
+}
+
+.cozy-setups__form-upload-label {
+    font-family: var(--cozy-font-ui);
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--cozy-stone);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+}
+
+/* Groupe label + input */
 .cozy-setups__form-group {
-    margin-bottom: var(--cozy-space-md);
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
 }
 
 .cozy-setups__form-label {
@@ -507,65 +452,191 @@
     font-weight: 600;
     color: var(--cozy-stone);
     text-transform: uppercase;
-    letter-spacing: 0.1em;
-    margin-bottom: 6px;
+    letter-spacing: 0.12em;
 }
+
+/* -----------------------------------------------
+   7b. INPUTS — FIX FOND BLANC
+   
+   Même technique que le login : on force le fond
+   sur tous les états possibles, y compris autofill.
+   ----------------------------------------------- */
 
 .cozy-setups__form-input,
 .cozy-setups__form-textarea {
     width: 100%;
     padding: 11px 14px;
-    border: 1px solid var(--cozy-border);
-    border-radius: var(--cozy-radius);
-    background: var(--cozy-ink-soft);
+    border: 1px solid var(--cozy-border) !important;
+    border-radius: var(--cozy-radius) !important;
+    background: var(--cozy-ink-soft) !important;
+    color: var(--cozy-cream) !important;
+    -webkit-text-fill-color: var(--cozy-cream) !important;
+    caret-color: var(--cozy-amber);
     font-family: var(--cozy-font-body);
     font-size: var(--cozy-text-sm);
-    color: var(--cozy-cream);
+    box-shadow: none !important;
+    outline: none;
     transition: border-color var(--cozy-transition), box-shadow var(--cozy-transition);
+    box-sizing: border-box;
+}
+
+.cozy-setups__form-input::placeholder,
+.cozy-setups__form-textarea::placeholder {
+    color: var(--cozy-faint) !important;
+    -webkit-text-fill-color: var(--cozy-faint) !important;
 }
 
 .cozy-setups__form-input:focus,
 .cozy-setups__form-textarea:focus {
-    outline: none;
-    border-color: var(--cozy-amber-dim);
-    box-shadow: 0 0 0 3px rgba(200, 129, 58, 0.08);
+    border-color: var(--cozy-amber-dim) !important;
+    box-shadow: 0 0 0 3px rgba(200, 129, 58, 0.08) !important;
+}
+
+/* Fix autofill */
+.cozy-setups__form-input:-webkit-autofill,
+.cozy-setups__form-input:-webkit-autofill:hover,
+.cozy-setups__form-input:-webkit-autofill:focus {
+    -webkit-box-shadow: 0 0 0 1000px var(--cozy-ink-soft, #2B2822) inset !important;
+    -webkit-text-fill-color: var(--cozy-cream, #EDE4CF) !important;
+    transition: background-color 9999s ease-in-out 0s;
 }
 
 .cozy-setups__form-textarea {
-    min-height: 80px;
+    min-height: 100px;
     resize: vertical;
 }
 
 .cozy-setups__form-preview {
-    margin-bottom: var(--cozy-space-md);
-    max-width: 200px;
+    margin-top: 8px;
+    max-width: 100%;
     border-radius: var(--cozy-radius);
     border: 1px solid var(--cozy-border);
+    display: block;
 }
 
-.cozy-setups__form-submit {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 11px 22px;
-    background: var(--cozy-amber);
-    color: var(--cozy-ink);
-    border: none;
+
+/* -----------------------------------------------
+   7c. MESSAGES & VALIDATION
+   ----------------------------------------------- */
+
+.cozy-setups__form-message {
+    display: none;
+    margin-top: var(--cozy-space-md);
+    padding: 10px 14px;
     border-radius: var(--cozy-radius);
+    font-family: var(--cozy-font-ui);
+    font-size: var(--cozy-text-sm);
+    font-weight: 500;
+    line-height: 1.4;
+}
+
+.cozy-setups__form-message--error {
+    background: rgba(155, 58, 30, 0.1);
+    color: var(--cozy-ember-glow, #D4654A);
+    border: 1px solid rgba(155, 58, 30, 0.2);
+    border-left: 3px solid var(--cozy-ember, #9B3A1E);
+}
+
+.cozy-setups__form-message--success {
+    background: rgba(74, 102, 73, 0.1);
+    color: var(--cozy-moss-light, #6B8F6A);
+    border: 1px solid rgba(74, 102, 73, 0.2);
+    border-left: 3px solid var(--cozy-moss, #4A6649);
+}
+
+/* Champ en erreur */
+.cozy-setups__form-group--error .cozy-setups__form-input,
+.cozy-setups__form-group--error .cozy-setups__form-textarea,
+.cozy-setups__form-input--error {
+    border-color: var(--cozy-ember, #9B3A1E) !important;
+    box-shadow: 0 0 0 3px rgba(155, 58, 30, 0.1) !important;
+}
+
+.cozy-setups__upload-zone--error {
+    border-color: var(--cozy-ember, #9B3A1E) !important;
+    background: rgba(155, 58, 30, 0.04) !important;
+}
+
+.cozy-setups__field-error {
+    display: block;
+    font-family: var(--cozy-font-ui);
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--cozy-ember-glow, #D4654A);
+    margin-top: 4px;
+}
+
+
+/* -----------------------------------------------
+   8. UPLOAD ZONE — masque le input natif
+   ----------------------------------------------- */
+
+/* L'input[type=file] natif est caché — la zone
+   entière agit comme déclencheur via JS (click) */
+.cozy-setups__upload-input {
+    display: none !important;
+    visibility: hidden;
+    position: absolute;
+}
+
+.cozy-setups__upload-zone {
+    padding: var(--cozy-space-lg) var(--cozy-space-md);
+    border: 2px dashed var(--cozy-border);
+    border-radius: var(--cozy-radius);
+    text-align: center;
+    transition: all var(--cozy-transition);
+    cursor: pointer;
+    background: transparent;
+    /* Hauteur fixe pour la colonne upload */
+    min-height: 160px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.cozy-setups__upload-zone:hover,
+.cozy-setups__upload-zone--dragover {
+    border-color: var(--cozy-amber);
+    background: rgba(200, 129, 58, 0.04);
+}
+
+.cozy-setups__upload-icon .lucide {
+    width: 32px; height: 32px;
+    color: var(--cozy-muted);
+    transition: color var(--cozy-transition);
+    display: block;
+}
+
+.cozy-setups__upload-zone:hover .cozy-setups__upload-icon .lucide {
+    color: var(--cozy-amber);
+}
+
+.cozy-setups__upload-text {
     font-family: var(--cozy-font-ui);
     font-size: 10px;
     font-weight: 600;
+    color: var(--cozy-muted);
     text-transform: uppercase;
-    letter-spacing: 0.1em;
-    cursor: pointer;
-    transition: all var(--cozy-transition);
-    box-shadow: 0 1px 0 var(--cozy-amber-dim), 0 4px 14px rgba(200, 129, 58, 0.18);
+    letter-spacing: 0.08em;
+    line-height: 1.5;
 }
 
-.cozy-setups__form-submit:hover {
-    background: var(--cozy-amber-glow);
-    box-shadow: 0 1px 0 var(--cozy-amber-dim), 0 6px 20px rgba(200, 129, 58, 0.25);
-    transform: translateY(-1px);
+.cozy-setups__upload-hint {
+    font-size: var(--cozy-text-xs);
+    color: var(--cozy-faint);
+    margin-top: 0;
+}
+
+/* Prévisualisation dans la colonne upload */
+.cozy-setups__upload-preview {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    border-radius: var(--cozy-radius);
+    border: 1px solid var(--cozy-border);
+    display: none; /* affiché via JS quand une image est sélectionnée */
 }
 
 
@@ -608,14 +679,10 @@
     max-height: 80vh;
     object-fit: contain;
     border-radius: var(--cozy-radius);
-    border: 2px solid rgba(200, 129, 58, 0.2);
+    border: 1px solid rgba(200, 129, 58, 0.18);
 }
 
-.cozy-lightbox__info {
-    text-align: center;
-    color: rgba(255, 255, 255, 0.85);
-}
-
+.cozy-lightbox__info { text-align: center; }
 .cozy-lightbox__info h4 {
     font-family: var(--cozy-font-heading);
     font-size: var(--cozy-text-lg);
@@ -623,68 +690,39 @@
     color: #fff;
     margin-bottom: 4px;
 }
-
-.cozy-lightbox__info p {
-    font-size: var(--cozy-text-sm);
-    color: rgba(255, 255, 255, 0.6);
-    margin-bottom: 2px;
-}
-
-.cozy-lightbox__author {
-    font-family: var(--cozy-font-ui);
-    font-size: 10px;
-    color: rgba(255, 255, 255, 0.45);
-}
+.cozy-lightbox__info p   { font-size: var(--cozy-text-sm); color: rgba(255,255,255,.6); margin-bottom: 2px; }
+.cozy-lightbox__author   { font-family: var(--cozy-font-ui); font-size: 10px; color: rgba(255,255,255,.4); }
 
 .cozy-lightbox__close {
     position: absolute;
-    top: 24px;
-    right: 24px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 40px;
-    height: 40px;
-    background: rgba(255, 255, 255, 0.08);
-    border: 1px solid rgba(255, 255, 255, 0.15);
+    top: 24px; right: 24px;
+    display: flex; align-items: center; justify-content: center;
+    width: 40px; height: 40px;
+    background: rgba(255,255,255,.08);
+    border: 1px solid rgba(255,255,255,.15);
     border-radius: var(--cozy-radius);
     color: #fff;
     cursor: pointer;
     transition: background var(--cozy-transition);
 }
-
-.cozy-lightbox__close:hover {
-    background: rgba(255, 255, 255, 0.15);
-}
-
-.cozy-lightbox__close .lucide {
-    width: 20px;
-    height: 20px;
-}
+.cozy-lightbox__close:hover { background: rgba(255,255,255,.15); }
+.cozy-lightbox__close .lucide { width: 20px; height: 20px; }
 
 .cozy-lightbox__nav {
     position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 44px;
-    height: 44px;
-    background: rgba(255, 255, 255, 0.06);
-    border: 1px solid rgba(255, 255, 255, 0.12);
+    top: 50%; transform: translateY(-50%);
+    display: flex; align-items: center; justify-content: center;
+    width: 44px; height: 44px;
+    background: rgba(255,255,255,.06);
+    border: 1px solid rgba(255,255,255,.12);
     border-radius: var(--cozy-radius);
     color: #fff;
     cursor: pointer;
     transition: background var(--cozy-transition);
 }
-
-.cozy-lightbox__nav:hover {
-    background: rgba(255, 255, 255, 0.14);
-}
-
-.cozy-lightbox__nav--prev { left: 20px; }
-.cozy-lightbox__nav--next { right: 20px; }
+.cozy-lightbox__nav:hover    { background: rgba(255,255,255,.14); }
+.cozy-lightbox__nav--prev    { left: 20px; }
+.cozy-lightbox__nav--next    { right: 20px; }
 
 
 /* -----------------------------------------------
@@ -704,8 +742,7 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    min-width: 34px;
-    height: 34px;
+    min-width: 34px; height: 34px;
     padding: 0 10px;
     border: 1px solid var(--cozy-border);
     border-radius: var(--cozy-radius);
@@ -714,17 +751,8 @@
     color: var(--cozy-muted);
     transition: all var(--cozy-transition);
 }
-
-.cozy-setups__pagination a:hover {
-    border-color: var(--cozy-amber);
-    color: var(--cozy-amber);
-}
-
-.cozy-setups__pagination .current {
-    background: var(--cozy-amber);
-    border-color: var(--cozy-amber);
-    color: var(--cozy-ink);
-}
+.cozy-setups__pagination a:hover  { border-color: var(--cozy-amber); color: var(--cozy-amber); }
+.cozy-setups__pagination .current { background: var(--cozy-amber); border-color: var(--cozy-amber); color: var(--cozy-ink); }
 
 
 /* -----------------------------------------------
@@ -736,17 +764,8 @@
     text-align: center;
     color: var(--cozy-muted);
 }
-
-.cozy-setups__empty .lucide {
-    width: 48px;
-    height: 48px;
-    margin-bottom: var(--cozy-space-sm);
-    opacity: 0.4;
-}
-
-.cozy-setups__empty p {
-    font-size: var(--cozy-text-sm);
-}
+.cozy-setups__empty .lucide { width: 48px; height: 48px; margin-bottom: var(--cozy-space-sm); opacity: 0.35; }
+.cozy-setups__empty p { font-size: var(--cozy-text-sm); }
 
 
 /* -----------------------------------------------
@@ -754,22 +773,8 @@
    ----------------------------------------------- */
 
 @media (max-width: 600px) {
-    .cozy-setups {
-        padding: var(--cozy-space-md) 0;
-    }
-
-    .cozy-setups__form {
-        padding: var(--cozy-space-md);
-    }
-
-    .cozy-setups__upload-zone {
-        padding: var(--cozy-space-lg) var(--cozy-space-md);
-    }
-
-    .cozy-lightbox__close {
-        top: 12px;
-        right: 12px;
-    }
-
-    .cozy-lightbox__nav { display: none; }
+    .cozy-setups         { padding: var(--cozy-space-md) 0; }
+    .cozy-setups__form   { padding: var(--cozy-space-md); }
+    .cozy-lightbox__close { top: 12px; right: 12px; }
+    .cozy-lightbox__nav  { display: none; }
 }

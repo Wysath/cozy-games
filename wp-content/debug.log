@@ -18,3 +18,17 @@
 [19-Feb-2026 10:19:18 UTC] Automatic updates starting...
 [19-Feb-2026 10:19:19 UTC] Automatic updates complete.
 [19-Feb-2026 10:44:44 UTC] PHP Warning:  mysqli_real_connect(): (HY000/2002): No such file or directory in /Applications/MAMP/htdocs/cozy-games/wp-includes/class-wpdb.php on line 1994
+[19-Feb-2026 17:29:05 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function cozy_get_friend_codes() in /Applications/MAMP/htdocs/cozy-games/wp-content/themes/cozy-gaming/inc/cozy-friend-codes.php:47
+Stack trace:
+#0 /Applications/MAMP/htdocs/cozy-games/wp-includes/shortcodes.php(434): cozy_shortcode_friend_codes(Array, '', 'cozy_codes_ami')
+#1 [internal function]: do_shortcode_tag(Array)
+#2 /Applications/MAMP/htdocs/cozy-games/wp-includes/shortcodes.php(273): preg_replace_callback('/\\[(\\[?)(cozy_m...', 'do_shortcode_ta...', '\n<div class="wp...')
+#3 /Applications/MAMP/htdocs/cozy-games/wp-includes/class-wp-hook.php(341): do_shortcode('\n<div class="wp...')
+#4 /Applications/MAMP/htdocs/cozy-games/wp-includes/plugin.php(205): WP_Hook->apply_filters('\n<div class="wp...', Array)
+#5 /Applications/MAMP/htdocs/cozy-games/wp-includes/post-template.php(256): apply_filters('the_content', '<!-- wp:columns...')
+#6 /Applications/MAMP/htdocs/cozy-games/wp-content/themes/cozy-gaming/page.php(28): the_content()
+#7 /Applications/MAMP/htdocs/cozy-games/wp-includes/template-loader.php(125): include('/Applications/M...')
+#8 /Applications/MAMP/htdocs/cozy-games/wp-blog-header.php(19): require_once('/Applications/M...')
+#9 /Applications/MAMP/htdocs/cozy-games/index.php(17): require('/Applications/M...')
+#10 {main}
+  thrown in /Applications/MAMP/htdocs/cozy-games/wp-content/themes/cozy-gaming/inc/cozy-friend-codes.php on line 47
