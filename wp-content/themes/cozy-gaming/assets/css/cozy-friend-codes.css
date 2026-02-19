@@ -1,10 +1,10 @@
 /**
  * ============================================================================
- * COZY GROVE — Codes Ami  (v4.0 — Accordeon + Design System)
+ * COZY GROVE — Codes Ami  (v4.0 — Accordéon + Système de design)
  * ============================================================================
  *
  * Utilise les tokens CSS du design system (main.css :root).
- * Layout : wrapper card > header > accordeons par categorie > actions.
+ * Mise en page : carte englobante > en-tête > accordéons par catégorie > actions.
  */
 
 
@@ -109,7 +109,7 @@
     box-shadow: 0 0 0 1px var(--cozy-glow-amber);
 }
 
-/* -- Summary (en-tete cliquable) -- */
+/* -- Résumé (en-tête cliquable) -- */
 
 .cozy-friend-codes__category-label {
     display: flex;
@@ -321,7 +321,7 @@
     border-color: var(--cozy-moss) !important;
 }
 
-/* Fix autofill */
+/* Correctif remplissage auto */
 .cozy-friend-codes__input-wrapper input:-webkit-autofill,
 .cozy-friend-codes__input-wrapper input:-webkit-autofill:focus {
     -webkit-box-shadow: 0 0 0 1000px var(--cozy-bg-card) inset !important;

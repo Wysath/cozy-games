@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Cozy Events
  * Description: Gestion d'événements pour la guilde Cozy Grove — inscriptions, charte de bienveillance, taxonomies jeux & types.
- * Version: 1.1.0
+ * Version: 1.3.0
  * Author: Cozy Grove
  * Text Domain: cozy-events
  */

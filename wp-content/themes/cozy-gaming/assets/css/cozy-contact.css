@@ -1,6 +1,6 @@
 /**
  * ============================================================================
- * COZY GROVE — Contact Form  (v2.0 — Design System Guilde)
+ * COZY GROVE — Formulaire de contact  (v2.0 — Système de design Guilde)
  * ============================================================================
  */
 
@@ -16,7 +16,7 @@
 
 
 /* -----------------------------------------------
-   2. FORMULAIRE — warm card
+   2. FORMULAIRE — carte chaude
    ----------------------------------------------- */
 
 .cozy-contact__form {
@@ -151,7 +151,7 @@
     line-height: 1.6;
 }
 
-/* Fix autofill navigateur */
+/* Correctif remplissage auto navigateur */
 .cozy-contact__input:-webkit-autofill,
 .cozy-contact__input:-webkit-autofill:hover,
 .cozy-contact__input:-webkit-autofill:focus {
@@ -162,7 +162,7 @@
 
 
 /* -----------------------------------------------
-   6. HONEYPOT — totalement caché
+   6. PIÈGE ANTI-SPAM — totalement caché
    ----------------------------------------------- */
 
 .cozy-contact__honeypot {
@@ -177,7 +177,7 @@
 
 
 /* -----------------------------------------------
-   7. FOOTER — bouton + note
+   7. PIED — bouton + note
    ----------------------------------------------- */
 
 .cozy-contact__footer {

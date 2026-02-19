@@ -69,7 +69,7 @@
 
 
 /* ==================================================================
-   2. BRAND / LOGO
+   2. MARQUE / LOGO
    ================================================================== */
 
 .cozy-header__brand {
@@ -140,7 +140,7 @@
     position: relative;
 }
 
-/* Hover underline : ambre → or */
+/* Soulignement au survol : ambre → or */
 .cozy-header__nav > ul > li > a::before {
     content: '';
     position: absolute;
@@ -167,7 +167,7 @@
     color: var(--cozy-amber-glow);
 }
 
-/* ── Active indicator : amber underline ── */
+/* ── Indicateur actif : soulignement ambre ── */
 .cozy-header__nav .current-menu-item > a::after,
 .cozy-header__nav .current_page_item > a::after {
     content: '';
@@ -231,7 +231,7 @@
 
 
 /* ==================================================================
-   4. ACTIONS (login / user)
+   4. ACTIONS (connexion / utilisateur)
    ================================================================== */
 
 .cozy-header__actions {
@@ -335,7 +335,7 @@
 
 
 /* ==================================================================
-   6. MOBILE MENU
+   6. MENU MOBILE
    ================================================================== */
 
 @media (max-width: 900px) {

@@ -92,7 +92,7 @@
 
 
     /* ──────────────────────────────────────────────────────────────
-       3. HERO SUBTLE PARALLAX  – léger mouvement des brackets au scroll
+       3. PARALLAX HERO — mouvement subtil des coins et lueurs au scroll
        ────────────────────────────────────────────────────────────── */
     function initHeroParallax() {
         const hero = document.querySelector('.cozy-hero');
@@ -100,8 +100,9 @@
 
         if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-        const brackets = hero.querySelectorAll('.cozy-hero__bracket');
-        const gridDots = hero.querySelector('.cozy-hero__grid-dots');
+        const corners = hero.querySelectorAll('.cozy-hero__corner');
+        const glowLeft = hero.querySelector('.cozy-hero__glow--left');
+        const glowRight = hero.querySelector('.cozy-hero__glow--right');
 
         let ticking = false;
 
@@ -114,12 +115,17 @@
                     if (scrollY < heroH) {
                         const progress = scrollY / heroH;
 
-                        brackets.forEach(function (b) {
-                            b.style.transform = 'translate(' + (progress * 8) + 'px, ' + (progress * 12) + 'px)';
+                        // Léger déplacement des coins décoratifs
+                        corners.forEach(function (c) {
+                            c.style.transform = 'translate(' + (progress * 6) + 'px, ' + (progress * 10) + 'px)';
                         });
 
-                        if (gridDots) {
-                            gridDots.style.transform = 'translateY(' + (progress * 20) + 'px)';
+                        // Mouvement subtil des lueurs d'ambiance
+                        if (glowLeft) {
+                            glowLeft.style.transform = 'translateY(' + (progress * 15) + 'px)';
+                        }
+                        if (glowRight) {
+                            glowRight.style.transform = 'translateY(' + (progress * -10) + 'px)';
                         }
                     }
 

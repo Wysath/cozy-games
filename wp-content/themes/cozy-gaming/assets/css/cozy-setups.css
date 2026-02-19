@@ -1,6 +1,6 @@
 /**
  * ============================================================================
- * COZY GROVE — Setups Gallery  (v3.1 — Layout fix + inputs blancs)
+ * COZY GROVE — Galerie de setups  (v3.1 — Correctif mise en page + inputs blancs)
  * ============================================================================
  */
 
@@ -102,7 +102,7 @@
 
 
 /* -----------------------------------------------
-   4b. CARD BODY / FOOTER / DELETE
+   4b. CORPS DE CARTE / PIED / SUPPRESSION
    ----------------------------------------------- */
 
 .cozy-setups__card-body {
@@ -192,7 +192,7 @@
 
 
 /* -----------------------------------------------
-   4c. BOUTONS TOGGLE / SUBMIT / CANCEL
+   4c. BOUTONS BASCULE / ENVOI / ANNULATION
    ----------------------------------------------- */
 
 .cozy-setups__add-btn,
@@ -320,7 +320,7 @@
 
 
 /* -----------------------------------------------
-   6. ACTIONS (like/delete)
+   6. ACTIONS (j'aime / suppression)
    ----------------------------------------------- */
 
 .cozy-setups__actions {
@@ -492,7 +492,7 @@
     box-shadow: 0 0 0 3px rgba(200, 129, 58, 0.08) !important;
 }
 
-/* Fix autofill */
+/* Correctif remplissage auto */
 .cozy-setups__form-input:-webkit-autofill,
 .cozy-setups__form-input:-webkit-autofill:hover,
 .cozy-setups__form-input:-webkit-autofill:focus {
@@ -756,7 +756,7 @@
 
 
 /* -----------------------------------------------
-   11. EMPTY STATE
+   11. ÉTAT VIDE
    ----------------------------------------------- */
 
 .cozy-setups__empty {

@@ -1,6 +1,6 @@
 /**
  * ============================================================================
- * COZY GROVE — Articles / Grimoire  (v3.0 — Design System Guilde)
+ * COZY GROVE — Articles / Grimoire  (v3.0 — Système de design Guilde)
  * ============================================================================
  *
  * Cartes de jeux, verdict, barres XP, pros/cons, étoiles, tags, filtres.
@@ -21,7 +21,7 @@
 
 
 /* -----------------------------------------------
-   2. GAME CARD — Left stripe
+   2. CARTE JEU — Trait gauche
    ----------------------------------------------- */
 
 .cozy-game-card {
@@ -48,7 +48,7 @@
 
 
 /* -----------------------------------------------
-   3. THUMBNAIL
+   3. VIGNETTE
    ----------------------------------------------- */
 
 .cozy-game-card__thumb {
@@ -207,7 +207,7 @@
 
 
 /* -----------------------------------------------
-   5. SINGLE — VERDICT
+   5. ARTICLE — VERDICT
    ----------------------------------------------- */
 
 .cozy-verdict {
@@ -238,7 +238,7 @@
 
 
 /* -----------------------------------------------
-   6. BARRES DE NOTE (XP bar pattern)
+   6. BARRES DE NOTE (motif barre XP)
    ----------------------------------------------- */
 
 .cozy-rating-bar {
@@ -353,7 +353,7 @@
 
 
 /* -----------------------------------------------
-   9. PROS / CONS
+   9. POUR / CONTRE
    ----------------------------------------------- */
 
 .cozy-verdict__pros-cons {

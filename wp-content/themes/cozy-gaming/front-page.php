@@ -81,47 +81,7 @@ get_header(); ?>
     ?>
     <div class="cozy-homepage__values">
         <div class="cozy-container">
-            <section class="cozy-home-values" data-cozy-reveal>
-                <div class="cozy-home-values__header">
-                    <span class="cozy-home-values__label">Code de la guilde</span>
-                    <h2 class="cozy-home-values__title">
-                        Une guilde fondée sur la <em>bienveillance</em>
-                    </h2>
-                    <p class="cozy-home-values__subtitle">
-                        Chez Cozy Grove, chaque aventurier·ère est le bienvenu, quel que soit son niveau ou son style de jeu.
-                    </p>
-                </div>
-                <div class="cozy-home-values__grid">
-                    <div class="cozy-home-values__card" data-cozy-reveal data-cozy-delay="100">
-                        <div class="cozy-home-values__card-icon" style="--val-color: var(--cozy-amber);">
-                            <i data-lucide="heart"></i>
-                        </div>
-                        <h3>Bienveillance</h3>
-                        <p>Respect, écoute et bonne humeur sont nos maîtres mots. Pas de toxicité ici.</p>
-                    </div>
-                    <div class="cozy-home-values__card" data-cozy-reveal data-cozy-delay="200">
-                        <div class="cozy-home-values__card-icon" style="--val-color: var(--cozy-moss);">
-                            <i data-lucide="users"></i>
-                        </div>
-                        <h3>Inclusivité</h3>
-                        <p>Ouvert à tous les profils de joueur·ses, du débutant au compétitif, sans jugement.</p>
-                    </div>
-                    <div class="cozy-home-values__card" data-cozy-reveal data-cozy-delay="300">
-                        <div class="cozy-home-values__card-icon" style="--val-color: var(--cozy-gold);">
-                            <i data-lucide="sparkles"></i>
-                        </div>
-                        <h3>Fun & Cozy</h3>
-                        <p>L'objectif c'est de passer un bon moment, en pyjama ou en LAN, toujours détendus.</p>
-                    </div>
-                    <div class="cozy-home-values__card" data-cozy-reveal data-cozy-delay="400">
-                        <div class="cozy-home-values__card-icon" style="--val-color: var(--cozy-ember);">
-                            <i data-lucide="shield-check"></i>
-                        </div>
-                        <h3>Safe Space</h3>
-                        <p>Un espace sécurisé avec une charte de bienveillance et des animateurs attentifs.</p>
-                    </div>
-                </div>
-            </section>
+            <?php echo do_shortcode( '[cozy_values]' ); ?>
         </div>
     </div>
 

@@ -197,7 +197,7 @@
     animation: cozy-fade-in-up 0.5s ease both;
 }
 
-/* Left accent stripe */
+/* Trait d'accent gauche */
 .cozy-collection__card::before {
     content: '';
     position: absolute;
@@ -228,7 +228,7 @@
 .cozy-collection__card:nth-child(3n+3) { animation-delay: 0.16s; }
 
 
-/* ── Thumbnail ── */
+/* ── Vignette ── */
 .cozy-collection__card-thumb {
     position: relative;
     aspect-ratio: 16 / 9;
@@ -267,7 +267,7 @@
 }
 
 
-/* ── Score badge ── */
+/* ── Badge de note ── */
 .cozy-collection__card-score {
     position: absolute;
     top: 8px;
@@ -294,7 +294,7 @@
 }
 
 
-/* ── Article count badge ── */
+/* ── Badge compteur d'articles ── */
 .cozy-collection__card-articles {
     position: absolute;
     top: 8px;
@@ -321,7 +321,7 @@
 }
 
 
-/* ── Type badge ── */
+/* ── Badge type d'article ── */
 .cozy-collection__card-type {
     position: absolute;
     bottom: 8px;
@@ -343,7 +343,7 @@
 }
 
 
-/* ── Body ── */
+/* ── Contenu de la carte ── */
 .cozy-collection__card-body {
     display: flex;
     flex-direction: column;
@@ -370,7 +370,7 @@
 }
 
 
-/* ── Platform tags ── */
+/* ── Étiquettes plateformes ── */
 .cozy-collection__card-platforms {
     display: flex;
     flex-wrap: wrap;
@@ -392,7 +392,7 @@
 }
 
 
-/* ── Meta ── */
+/* ── Métadonnées ── */
 .cozy-collection__card-meta {
     display: flex;
     flex-wrap: wrap;

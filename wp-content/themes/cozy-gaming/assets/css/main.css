@@ -1,6 +1,6 @@
 /**
  * ============================================================================
- * COZY GROVE — Design System (main.css)
+ * COZY GROVE — Système de design (main.css)
  * ============================================================================
  *
  * Fondations visuelles : tokens, reset, typographie, layout, utilitaires.
@@ -11,7 +11,7 @@
 
 
 /* ==================================================================
-   1. DESIGN TOKENS (Custom Properties)
+   1. JETONS DE DESIGN (Propriétés CSS)
    ================================================================== */
 
 :root {
@@ -95,7 +95,7 @@
     --cozy-radius-xl:   24px;
     --cozy-radius-full: 9999px;
 
-    /* ── Shadows & Glows ── */
+    /* ── Ombres et lumières ── */
     --cozy-shadow-sm:    0 1px 3px rgba(0,0,0,.3);
     --cozy-shadow-md:    0 4px 12px rgba(0,0,0,.35);
     --cozy-shadow-lg:    0 8px 30px rgba(0,0,0,.4);
@@ -105,7 +105,7 @@
     --cozy-transition:      150ms cubic-bezier(.25,.8,.25,1);
     --cozy-transition-slow: 300ms ease;
 
-    /* ── Layout ── */
+    /* ── Mise en page ── */
     --cozy-max-width:     1200px;
     --cozy-narrow-width:  900px;
     --cozy-header-height: 60px;
@@ -114,7 +114,7 @@
 
 
 /* ==================================================================
-   1b. GLOBAL ANIMATIONS
+   1b. ANIMATIONS GLOBALES
    ================================================================== */
 
 @keyframes cozy-pulse {
@@ -139,7 +139,7 @@
 
 
 /* ==================================================================
-   2. CSS RESET
+   2. RÉINITIALISATION CSS
    ================================================================== */
 
 *,*::before,*::after { box-sizing:border-box; margin:0; padding:0; }
@@ -260,7 +260,7 @@ pre {
 
 
 /* ==================================================================
-   4. LUCIDE ICONS
+   4. ICÔNES LUCIDE
    ================================================================== */
 
 .lucide { width:18px; height:18px; stroke-width:1.75; display:inline-block; vertical-align:middle; flex-shrink:0; }
@@ -270,7 +270,7 @@ pre {
 
 
 /* ==================================================================
-   5. LAYOUT
+   5. MISE EN PAGE
    ================================================================== */
 
 .cozy-container { width:100%; max-width:var(--cozy-max-width); margin:0 auto; padding:0 var(--cozy-space-lg); }
@@ -312,7 +312,7 @@ pre {
 
 
 /* ==================================================================
-   8. ENTRY CONTENT
+   8. CONTENU D'ARTICLE
    ================================================================== */
 
 .entry-content > * + * { margin-top:1.5em; }
@@ -351,7 +351,7 @@ pre {
 
 
 /* ==================================================================
-   9. UTILITIES
+   9. UTILITAIRES
    ================================================================== */
 
 .cozy-label, .section-label {
@@ -377,7 +377,7 @@ pre {
 
 
 /* ==================================================================
-   10. EMPTY / 404 STATES
+   10. ÉTATS VIDES / 404
    ================================================================== */
 
 .cozy-empty { text-align:center; padding:var(--cozy-space-4xl) var(--cozy-space-xl); }
@@ -388,7 +388,7 @@ pre {
 
 
 /* ==================================================================
-   11. ACCESSIBILITY
+   11. ACCESSIBILITÉ
    ================================================================== */
 
 .screen-reader-text { clip:rect(1px,1px,1px,1px); clip-path:inset(50%); width:1px; height:1px; overflow:hidden; position:absolute; white-space:nowrap; }
@@ -401,7 +401,7 @@ pre {
 
 
 /* ==================================================================
-   12. SEARCH FORM
+   12. FORMULAIRE DE RECHERCHE
    ================================================================== */
 
 .cozy-search-form { position:relative; max-width:400px; }

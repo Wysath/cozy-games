@@ -20,7 +20,7 @@
     box-shadow: var(--cozy-shadow-sm);
 }
 
-/* Left amber stripe */
+/* Trait ambre gauche */
 .cozy-social-profile::before {
     content: '';
     position: absolute;

@@ -122,7 +122,7 @@
     padding-left: 40px;
 }
 
-/* ── Hint & validation ── */
+/* ── Indications et validation ── */
 .cozy-form__hint {
     margin-top: var(--cozy-space-xs);
     font-size: var(--cozy-text-xs);
@@ -156,7 +156,7 @@
 .cozy-form__message--success { color: var(--cozy-moss-light); }
 .cozy-form__message--error   { color: var(--cozy-ember-glow); }
 
-/* ── Primary : Quest Button (gradient ambre → braise) ── */
+/* ── Primaire : Bouton quête (gradient ambre → braise) ── */
 .cozy-btn--primary,
 .cozy-btn--quest {
     background: var(--cozy-amber);
@@ -201,7 +201,7 @@
     transform: translateY(0);
 }
 
-/* ── Outline : Scroll Button (bordure ambre) ── */
+/* ── Contour : Bouton parchemin (bordure ambre) ── */
 .cozy-btn--outline,
 .cozy-btn--scroll {
     background: transparent;
@@ -217,7 +217,7 @@
     color: var(--cozy-amber-glow);
 }
 
-/* ── Ghost : minimal ── */
+/* ── Fantôme : minimal ── */
 .cozy-btn--ghost {
     background: var(--cozy-ink-soft);
     color: var(--cozy-muted);
@@ -275,7 +275,7 @@
 
 /* ── Liseré latéral gauche ambre ── */
 
-/* ── Hover : liseré visible + subtile élévation ── */
+/* ── Survol : liseré visible + subtile élévation ── */
 .cozy-card:hover {
     border-color: var(--cozy-amber-dim);
     transform: translateY(-4px);
@@ -314,7 +314,7 @@
     gap: var(--cozy-space-sm);
 }
 
-/* ── Meta ── */
+/* ── Métadonnées ── */
 .cozy-card__meta {
     display: flex;
     align-items: center;
@@ -368,7 +368,7 @@
     overflow: hidden;
 }
 
-/* ── Footer (auteur) ── */
+/* ── Pied de carte (auteur) ── */
 .cozy-card__footer {
     display: flex;
     align-items: center;
@@ -390,7 +390,7 @@
     border-radius: var(--cozy-radius-full);
 }
 
-/* ── Read more ── */
+/* ── Lire la suite ── */
 .cozy-card__read-more {
     display: inline-flex;
     align-items: center;
@@ -455,7 +455,7 @@
     font-size: 6px;
 }
 
-/* ── Badge variantes ── */
+/* ── Variantes de badge ── */
 .cozy-badge--type,
 .cozy-badge--quest {
     color: var(--cozy-amber);
@@ -524,7 +524,7 @@
 
 
 /* ==================================================================
-   4. SINGLE POST
+   4. ARTICLE INDIVIDUEL
    ================================================================== */
 
 .cozy-single__header {
@@ -618,7 +618,7 @@
     height: 12px;
 }
 
-/* ── Thumbnail ── */
+/* ── Vignette ── */
 .cozy-single__thumbnail {
     margin-bottom: var(--cozy-space-2xl);
     border-radius: var(--cozy-radius);
@@ -630,7 +630,7 @@
     display: block;
 }
 
-/* ── Tags ── */
+/* ── Étiquettes ── */
 .cozy-single__tags {
     display: flex;
     align-items: center;
@@ -656,7 +656,7 @@
 
 
 /* ==================================================================
-   5. NAVIGATION PREV / NEXT
+   5. NAVIGATION PRÉCÉDENT / SUIVANT
    ================================================================== */
 
 .cozy-single__nav {
@@ -743,7 +743,7 @@
 
 
 /* ==================================================================
-   7. ARCHIVE HEADER
+   7. EN-TÊTE D'ARCHIVE
    ================================================================== */
 
 .cozy-archive__header {

@@ -330,7 +330,7 @@
     transition: all var(--cozy-transition);
 }
 
-/* Left accent stripe */
+/* Trait d'accent gauche */
 .cozy-articles-archive__card::before {
     content: '';
     position: absolute;
@@ -361,7 +361,7 @@
 .cozy-articles-archive__card:nth-child(3n+3) { animation-delay: 0.12s; }
 
 
-/* ── Thumbnail ── */
+/* ── Vignette ── */
 
 .cozy-articles-archive__card-thumb {
     position: relative;
@@ -423,7 +423,7 @@
 }
 
 
-/* ── Body ── */
+/* ── Contenu de la carte ── */
 
 .cozy-articles-archive__card-body {
     display: flex;

@@ -928,7 +928,6 @@ function cozy_article_admin_columns( $columns ) {
         $new_columns[ $key ] = $label;
 
         if ( 'title' === $key ) {
-            $new_columns['cozy_game']   = '🎮 Jeu';
             $new_columns['cozy_rating'] = '⭐ Note';
         }
     }
@@ -946,11 +945,6 @@ function cozy_article_admin_column_content( $column, $post_id ) {
     }
 
     switch ( $column ) {
-        case 'cozy_game':
-            $name = get_field( 'cozy_game_name', $post_id );
-            echo ! empty( $name ) ? esc_html( $name ) : '<span style="color:#999;">—</span>';
-            break;
-
         case 'cozy_rating':
             $rating = (int) get_field( 'cozy_rating_global', $post_id );
             if ( $rating > 0 ) {
@@ -971,10 +965,15 @@ add_action( 'manage_posts_custom_column', 'cozy_article_admin_column_content', 1
  * -----------------------------------------------
  */
 function cozy_articles_enqueue_assets() {
+    // Charger uniquement sur les pages qui affichent des fiches jeu
+    if ( ! is_singular( 'post' ) && ! is_archive() && ! is_search() ) {
+        return;
+    }
+
     wp_enqueue_style(
         'cozy-articles',
         get_template_directory_uri() . '/assets/css/cozy-articles.css',
-        array(),
+        array( 'cozy-main' ),
         '1.7.0'
     );
 }

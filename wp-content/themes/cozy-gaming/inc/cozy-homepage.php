@@ -9,6 +9,7 @@
  *   - [cozy_upcoming_events]  → Prochains événements (timeline)
  *   - [cozy_latest_posts]     → Derniers articles (cartes)
  *   - [cozy_community_stats]  → Compteurs guilde
+ *   - [cozy_values]           → Piliers / valeurs de la guilde
  *   - [cozy_join_cta]         → Bandeau inscription (visiteurs)
  *
  * @package CozyGaming
@@ -80,8 +81,6 @@ function cozy_hero_shortcode( $atts ) {
         'bg_image' => '',
     ), $atts, 'cozy_hero' );
 
-    $stats = cozy_get_hero_stats();
-
     ob_start();
     ?>
     <section class="cozy-hero" <?php if ( $atts['bg_image'] ) : ?>style="--hero-bg: url('<?php echo esc_url( $atts['bg_image'] ); ?>')"<?php endif; ?>>
@@ -125,7 +124,7 @@ function cozy_hero_shortcode( $atts ) {
                         Rejoindre la guilde
                     </a>
                 <?php else : ?>
-                    <a href="<?php echo esc_url( get_permalink( get_option( 'woocommerce_myaccount_page_id' ) ?: wp_login_url() ) ); ?>" class="cozy-hero__cta cozy-hero__cta--secondary">
+                    <a href="<?php echo esc_url( home_url( '/mon-profil/' ) ); ?>" class="cozy-hero__cta cozy-hero__cta--secondary">
                         <i data-lucide="shield"></i>
                         Mon profil
                     </a>
@@ -511,7 +510,74 @@ add_shortcode( 'cozy_community_stats', 'cozy_shortcode_community_stats' );
 
 /**
  * -----------------------------------------------
- * 5. BANDEAU CTA INSCRIPTION
+ * 5. VALEURS DE LA GUILDE  [cozy_values]
+ * -----------------------------------------------
+ * Affiche les 4 piliers fondateurs de la guilde avec
+ * icônes, titres et descriptions configurables.
+ */
+function cozy_shortcode_values( $atts ) {
+    $atts = shortcode_atts( array(
+        'label'    => 'Code de la guilde',
+        'title'    => 'Une guilde fondée sur la <em>bienveillance</em>',
+        'subtitle' => 'Chez Cozy Grove, chaque aventurier·ère est le bienvenu, quel que soit son niveau ou son style de jeu.',
+    ), $atts, 'cozy_values' );
+
+    $values = array(
+        array(
+            'icon'  => 'heart',
+            'color' => 'var(--cozy-amber)',
+            'title' => 'Bienveillance',
+            'text'  => 'Respect, écoute et bonne humeur sont nos maîtres mots. Pas de toxicité ici.',
+        ),
+        array(
+            'icon'  => 'users',
+            'color' => 'var(--cozy-moss)',
+            'title' => 'Inclusivité',
+            'text'  => 'Ouvert à tous les profils de joueur·ses, du débutant au compétitif, sans jugement.',
+        ),
+        array(
+            'icon'  => 'sparkles',
+            'color' => 'var(--cozy-gold)',
+            'title' => 'Fun & Cozy',
+            'text'  => 'L\'objectif c\'est de passer un bon moment, en pyjama ou en LAN, toujours détendus.',
+        ),
+        array(
+            'icon'  => 'shield-check',
+            'color' => 'var(--cozy-ember)',
+            'title' => 'Safe Space',
+            'text'  => 'Un espace sécurisé avec une charte de bienveillance et des animateurs attentifs.',
+        ),
+    );
+
+    ob_start();
+    ?>
+    <section class="cozy-home-values" data-cozy-reveal>
+        <div class="cozy-home-values__header">
+            <span class="cozy-home-values__label"><?php echo esc_html( $atts['label'] ); ?></span>
+            <h2 class="cozy-home-values__title"><?php echo wp_kses_post( $atts['title'] ); ?></h2>
+            <p class="cozy-home-values__subtitle"><?php echo esc_html( $atts['subtitle'] ); ?></p>
+        </div>
+        <div class="cozy-home-values__grid">
+            <?php foreach ( $values as $i => $val ) : ?>
+                <div class="cozy-home-values__card" data-cozy-reveal data-cozy-delay="<?php echo ( $i + 1 ) * 100; ?>">
+                    <div class="cozy-home-values__card-icon" style="--val-color: <?php echo esc_attr( $val['color'] ); ?>;">
+                        <i data-lucide="<?php echo esc_attr( $val['icon'] ); ?>"></i>
+                    </div>
+                    <h3><?php echo esc_html( $val['title'] ); ?></h3>
+                    <p><?php echo esc_html( $val['text'] ); ?></p>
+                </div>
+            <?php endforeach; ?>
+        </div>
+    </section>
+    <?php
+    return ob_get_clean();
+}
+add_shortcode( 'cozy_values', 'cozy_shortcode_values' );
+
+
+/**
+ * -----------------------------------------------
+ * 6. BANDEAU CTA INSCRIPTION
  * -----------------------------------------------
  */
 function cozy_shortcode_join_cta( $atts ) {
@@ -552,7 +618,7 @@ add_shortcode( 'cozy_join_cta', 'cozy_shortcode_join_cta' );
 
 /**
  * -----------------------------------------------
- * 6. APERÇU SETUPS — Mini-galerie homepage
+ * 7. APERÇU SETUPS — Mini-galerie homepage
  * -----------------------------------------------
  */
 
@@ -616,11 +682,6 @@ function cozy_homepage_setups_preview() {
 
         <?php
         // Trouver la page qui contient le shortcode [cozy_setups]
-        $setups_page = get_pages( array(
-            'meta_key'   => '_wp_page_template',
-            'number'     => 1,
-        ) );
-        // Fallback : chercher par contenu
         global $wpdb;
         $setups_page_id = $wpdb->get_var(
             "SELECT ID FROM {$wpdb->posts}
@@ -646,10 +707,15 @@ function cozy_homepage_setups_preview() {
 
 /**
  * -----------------------------------------------
- * 7. ASSETS
+ * 8. ASSETS
  * -----------------------------------------------
  */
 function cozy_homepage_enqueue_assets() {
+    // Charger uniquement sur la page d'accueil
+    if ( ! is_front_page() ) {
+        return;
+    }
+
     wp_enqueue_style(
         'cozy-hero',
         get_template_directory_uri() . '/assets/css/cozy-hero.css',
