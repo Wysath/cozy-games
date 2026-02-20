@@ -3,6 +3,7 @@
 Bienvenue dans le projet **Cozy Gaming**, un site WordPress conçu pour une guilde gaming bienveillante. Ce projet inclut des fonctionnalités avancées telles que la gestion d'événements, des setups gaming, des articles enrichis, et des rôles personnalisés.
 
 ## 📂 Structure des fichiers
+
 cozy-gaming/
 ├── assets/                     # Fichiers statiques (CSS, JS, images)
 │   ├── css/                    # Feuilles de style
@@ -127,3 +128,4 @@ Les modules sont inclus dans le thème via `functions.php`.
 1. **Cloner le dépôt :**
    ```bash
    git clone https://github.com/votre-repo/cozy-gaming.git
+```
