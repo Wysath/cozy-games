@@ -18,10 +18,13 @@
     <div class="cozy-card__body">
         <div class="cozy-card__meta">
             <?php
-            $categories = get_the_category();
-            if ( ! empty( $categories ) ) : ?>
-                <a href="<?php echo esc_url( get_category_link( $categories[0]->term_id ) ); ?>" class="cozy-badge cozy-badge--sm">
-                    <?php echo esc_html( $categories[0]->name ); ?>
+            $article_type_terms = wp_get_post_terms( get_the_ID(), 'cozy_article_type', array( 'fields' => 'all' ) );
+            if ( ! is_wp_error( $article_type_terms ) && ! empty( $article_type_terms ) ) :
+                $type_term = $article_type_terms[0];
+                $type_link = get_term_link( $type_term );
+            ?>
+                <a href="<?php echo esc_url( $type_link ); ?>" class="cozy-badge cozy-badge--sm">
+                    <?php echo esc_html( $type_term->name ); ?>
                 </a>
             <?php endif; ?>
             <span class="cozy-card__meta-separator"></span>

@@ -18,10 +18,13 @@ get_header(); ?>
                 <header class="cozy-single__header">
                     <div class="cozy-single__meta-top">
                         <?php
-                        $categories = get_the_category();
-                        if ( ! empty( $categories ) ) : ?>
-                            <a href="<?php echo esc_url( get_category_link( $categories[0]->term_id ) ); ?>" class="cozy-badge cozy-badge--category">
-                                <?php echo esc_html( $categories[0]->name ); ?>
+                        $article_type_terms = wp_get_post_terms( get_the_ID(), 'cozy_article_type', array( 'fields' => 'all' ) );
+                        if ( ! is_wp_error( $article_type_terms ) && ! empty( $article_type_terms ) ) :
+                            $type_term = $article_type_terms[0];
+                            $type_link = get_term_link( $type_term );
+                        ?>
+                            <a href="<?php echo esc_url( $type_link ); ?>" class="cozy-badge cozy-badge--category">
+                                <?php echo esc_html( $type_term->name ); ?>
                             </a>
                         <?php endif; ?>
                         <span class="cozy-card__meta-separator"></span>
@@ -65,17 +68,17 @@ get_header(); ?>
                     <?php the_content(); ?>
                 </div>
 
-                <!-- Tags -->
+                <!-- Jeu associé -->
                 <?php
-                $tags = get_the_tags();
-                if ( ! empty( $tags ) ) : ?>
+                $game_terms = wp_get_post_terms( get_the_ID(), 'cozy_game', array( 'fields' => 'all' ) );
+                if ( ! is_wp_error( $game_terms ) && ! empty( $game_terms ) ) : ?>
                     <footer class="cozy-single__tags">
                         <span class="cozy-single__tags-label">
-                            <i data-lucide="tags" class="lucide"></i> Tags
+                            <i data-lucide="gamepad-2" class="lucide"></i> Jeu
                         </span>
-                        <?php foreach ( $tags as $tag ) : ?>
-                            <a href="<?php echo esc_url( get_tag_link( $tag->term_id ) ); ?>" class="cozy-tag">
-                                #<?php echo esc_html( $tag->name ); ?>
+                        <?php foreach ( $game_terms as $game ) : ?>
+                            <a href="<?php echo esc_url( get_term_link( $game ) ); ?>" class="cozy-tag">
+                                <?php echo esc_html( $game->name ); ?>
                             </a>
                         <?php endforeach; ?>
                     </footer>

@@ -737,41 +737,85 @@ function cozy_render_game_card( $post_id ) {
     $all_platforms = cozy_get_platforms();
     $criteria      = cozy_get_rating_criteria();
 
+    // Mapping icônes Lucide pour les critères
+    $criteria_icons = array(
+        'gameplay'      => 'gamepad-2',
+        'direction_art' => 'palette',
+        'bande_son'     => 'music',
+        'scenario'      => 'scroll-text',
+        'accessibilite' => 'accessibility',
+        'ambiance_cozy' => 'coffee',
+    );
+
+    // Mapping icônes Lucide pour les types d'article
+    $type_icons = array(
+        'test'        => 'crosshair',
+        'guide'       => 'book-open',
+        'coup_coeur'  => 'heart',
+        'actualite'   => 'newspaper',
+        'dossier'     => 'folder-open',
+        'decouverte'  => 'compass',
+        'top'         => 'trophy',
+    );
+
     ob_start();
     ?>
     <div class="cozy-game-card">
-        <?php if ( $type_data ) : ?>
-            <div class="cozy-game-card__type-badge" style="background: <?php echo esc_attr( $type_data['color'] ); ?>;">
-                <?php echo $type_data['icon'] . ' ' . esc_html( $type_data['label'] ); ?>
-            </div>
-        <?php endif; ?>
 
+        <!-- Trait ambre gauche -->
+        <div class="cozy-game-card__accent"></div>
+
+        <!-- En-tête : nom du jeu + badge type + note globale -->
         <div class="cozy-game-card__header">
+            <div class="cozy-game-card__header-top">
+                <?php if ( $type_data ) :
+                    $type_slug = ! empty( $terms[0] ) ? $terms[0] : '';
+                    $type_icon = isset( $type_icons[ $type_slug ] ) ? $type_icons[ $type_slug ] : 'tag';
+                ?>
+                    <span class="cozy-game-card__type-badge" style="--badge-color: <?php echo esc_attr( $type_data['color'] ); ?>;">
+                        <i data-lucide="<?php echo esc_attr( $type_icon ); ?>" class="lucide"></i>
+                        <?php echo esc_html( $type_data['label'] ); ?>
+                    </span>
+                <?php endif; ?>
+
+                <?php if ( $ratings['global'] > 0 ) : ?>
+                    <div class="cozy-game-card__score">
+                        <span class="cozy-game-card__score-number"><?php echo $ratings['global']; ?></span>
+                        <span class="cozy-game-card__score-max">/5</span>
+                    </div>
+                <?php endif; ?>
+            </div>
+
             <?php if ( ! empty( $game['name'] ) ) : ?>
-                <h2 class="cozy-game-card__game-name"><?php echo esc_html( $game['name'] ); ?></h2>
+                <h2 class="cozy-game-card__game-name">
+                    <i data-lucide="gamepad-2" class="lucide"></i>
+                    <?php echo esc_html( $game['name'] ); ?>
+                </h2>
             <?php endif; ?>
 
             <?php if ( $ratings['global'] > 0 ) : ?>
-                <div class="cozy-game-card__global-rating">
-                    <div class="cozy-game-card__stars">
-                        <?php for ( $i = 1; $i <= 5; $i++ ) : ?>
-                            <span class="cozy-game-card__star <?php echo ( $i <= $ratings['global'] ) ? 'filled' : ''; ?>">★</span>
-                        <?php endfor; ?>
-                    </div>
-                    <span class="cozy-game-card__rating-value"><?php echo $ratings['global']; ?>/5</span>
+                <div class="cozy-game-card__stars">
+                    <?php for ( $i = 1; $i <= 5; $i++ ) : ?>
+                        <i data-lucide="star" class="lucide cozy-star <?php echo ( $i <= $ratings['global'] ) ? 'cozy-star--filled' : ''; ?>"></i>
+                    <?php endfor; ?>
                 </div>
             <?php endif; ?>
         </div>
 
+        <!-- Détails du jeu -->
         <div class="cozy-game-card__details">
             <?php if ( ! empty( $game['platforms'] ) ) : ?>
-                <div class="cozy-game-card__detail">
-                    <span class="cozy-game-card__detail-label">Plateformes</span>
+                <div class="cozy-game-card__detail cozy-game-card__detail--platforms">
+                    <span class="cozy-game-card__detail-label">
+                        <i data-lucide="monitor" class="lucide"></i> Plateformes
+                    </span>
                     <div class="cozy-game-card__platforms">
                         <?php foreach ( $game['platforms'] as $slug ) :
                             $label = isset( $all_platforms[ $slug ] ) ? $all_platforms[ $slug ] : $slug;
+                            // Retirer l'emoji du label pour n'avoir que le texte
+                            $clean_label = preg_replace( '/^[\x{1F000}-\x{1FFFF}\x{2600}-\x{27BF}]\s*/u', '', $label );
                         ?>
-                            <span class="cozy-game-card__platform"><?php echo esc_html( $label ); ?></span>
+                            <span class="cozy-game-card__platform-tag"><?php echo esc_html( $clean_label ); ?></span>
                         <?php endforeach; ?>
                     </div>
                 </div>
@@ -779,55 +823,69 @@ function cozy_render_game_card( $post_id ) {
 
             <?php if ( ! empty( $game['players'] ) ) : ?>
                 <div class="cozy-game-card__detail">
-                    <span class="cozy-game-card__detail-label"><i data-lucide="users"></i> Joueurs</span>
+                    <span class="cozy-game-card__detail-label">
+                        <i data-lucide="users" class="lucide"></i> Joueurs
+                    </span>
                     <span class="cozy-game-card__detail-value"><?php echo esc_html( $game['players'] ); ?></span>
                 </div>
             <?php endif; ?>
 
             <?php if ( ! empty( $game['playtime'] ) ) : ?>
                 <div class="cozy-game-card__detail">
-                    <span class="cozy-game-card__detail-label"><i data-lucide="clock"></i> Temps de jeu</span>
+                    <span class="cozy-game-card__detail-label">
+                        <i data-lucide="clock" class="lucide"></i> Temps de jeu
+                    </span>
                     <span class="cozy-game-card__detail-value"><?php echo esc_html( $game['playtime'] ); ?></span>
                 </div>
             <?php endif; ?>
 
             <?php if ( ! empty( $game['developer'] ) ) : ?>
                 <div class="cozy-game-card__detail">
-                    <span class="cozy-game-card__detail-label"><i data-lucide="wrench"></i> Développeur</span>
+                    <span class="cozy-game-card__detail-label">
+                        <i data-lucide="code" class="lucide"></i> Développeur
+                    </span>
                     <span class="cozy-game-card__detail-value"><?php echo esc_html( $game['developer'] ); ?></span>
                 </div>
             <?php endif; ?>
 
             <?php if ( ! empty( $game['publisher'] ) ) : ?>
                 <div class="cozy-game-card__detail">
-                    <span class="cozy-game-card__detail-label"><i data-lucide="package"></i> Éditeur</span>
+                    <span class="cozy-game-card__detail-label">
+                        <i data-lucide="building-2" class="lucide"></i> Éditeur
+                    </span>
                     <span class="cozy-game-card__detail-value"><?php echo esc_html( $game['publisher'] ); ?></span>
                 </div>
             <?php endif; ?>
         </div>
 
+        <!-- Notes détaillées (barres XP) -->
         <?php if ( ! empty( $ratings['criteria'] ) ) : ?>
             <div class="cozy-game-card__ratings">
-                <h3 class="cozy-game-card__ratings-title"><i data-lucide="bar-chart-3"></i> Notes détaillées</h3>
+                <h3 class="cozy-game-card__ratings-title">
+                    <i data-lucide="bar-chart-3" class="lucide"></i> Notes détaillées
+                </h3>
                 <div class="cozy-game-card__ratings-grid">
                     <?php foreach ( $ratings['criteria'] as $slug => $value ) :
                         if ( ! isset( $criteria[ $slug ] ) ) continue;
                         $criterion = $criteria[ $slug ];
                         $percent   = ( $value / 5 ) * 100;
+                        $icon_name = isset( $criteria_icons[ $slug ] ) ? $criteria_icons[ $slug ] : 'circle';
                     ?>
                         <div class="cozy-game-card__rating-row">
                             <span class="cozy-game-card__rating-label">
-                                <?php echo $criterion['icon'] . ' ' . esc_html( $criterion['label'] ); ?>
+                                <i data-lucide="<?php echo esc_attr( $icon_name ); ?>" class="lucide"></i>
+                                <?php echo esc_html( $criterion['label'] ); ?>
                             </span>
                             <div class="cozy-game-card__rating-bar">
-                                <div class="cozy-game-card__rating-fill" style="width: <?php echo $percent; ?>%;" data-value="<?php echo $value; ?>"></div>
+                                <div class="cozy-game-card__rating-fill" style="width: <?php echo $percent; ?>%;"></div>
                             </div>
-                            <span class="cozy-game-card__rating-score"><?php echo $value; ?>/5</span>
+                            <span class="cozy-game-card__rating-score"><?php echo $value; ?><small>/5</small></span>
                         </div>
                     <?php endforeach; ?>
                 </div>
             </div>
         <?php endif; ?>
+
     </div>
     <?php
     return ob_get_clean();
@@ -858,11 +916,19 @@ function cozy_render_verdict_card( $post_id ) {
     ob_start();
     ?>
     <div class="cozy-verdict">
-        <h3 class="cozy-verdict__title"><i data-lucide="file-text"></i> Notre verdict</h3>
+
+        <!-- Trait ambre gauche -->
+        <div class="cozy-verdict__accent"></div>
+
+        <div class="cozy-verdict__header">
+            <i data-lucide="scroll-text" class="lucide"></i>
+            <h3>Notre verdict</h3>
+        </div>
 
         <?php if ( ! empty( $verdict['text'] ) ) : ?>
-            <blockquote class="cozy-verdict__text">
-                <?php echo esc_html( $verdict['text'] ); ?>
+            <blockquote class="cozy-verdict__quote">
+                <i data-lucide="quote" class="lucide cozy-verdict__quote-icon"></i>
+                <p><?php echo esc_html( $verdict['text'] ); ?></p>
             </blockquote>
         <?php endif; ?>
 
@@ -870,10 +936,15 @@ function cozy_render_verdict_card( $post_id ) {
             <div class="cozy-verdict__pros-cons">
                 <?php if ( ! empty( $verdict['pros'] ) ) : ?>
                     <div class="cozy-verdict__column cozy-verdict__column--pros">
-                        <h4><i data-lucide="circle-check"></i> Points forts</h4>
+                        <h4 class="cozy-verdict__column-title">
+                            <i data-lucide="circle-check" class="lucide"></i> Points forts
+                        </h4>
                         <ul>
                             <?php foreach ( $verdict['pros'] as $pro ) : ?>
-                                <li><?php echo esc_html( $pro ); ?></li>
+                                <li>
+                                    <i data-lucide="plus" class="lucide"></i>
+                                    <span><?php echo esc_html( $pro ); ?></span>
+                                </li>
                             <?php endforeach; ?>
                         </ul>
                     </div>
@@ -881,10 +952,15 @@ function cozy_render_verdict_card( $post_id ) {
 
                 <?php if ( ! empty( $verdict['cons'] ) ) : ?>
                     <div class="cozy-verdict__column cozy-verdict__column--cons">
-                        <h4><i data-lucide="circle-x"></i> Points faibles</h4>
+                        <h4 class="cozy-verdict__column-title">
+                            <i data-lucide="circle-x" class="lucide"></i> Points faibles
+                        </h4>
                         <ul>
                             <?php foreach ( $verdict['cons'] as $con ) : ?>
-                                <li><?php echo esc_html( $con ); ?></li>
+                                <li>
+                                    <i data-lucide="minus" class="lucide"></i>
+                                    <span><?php echo esc_html( $con ); ?></span>
+                                </li>
                             <?php endforeach; ?>
                         </ul>
                     </div>
@@ -894,18 +970,21 @@ function cozy_render_verdict_card( $post_id ) {
 
         <?php if ( $ratings['global'] > 0 ) : ?>
             <div class="cozy-verdict__final-score">
-                <span class="cozy-verdict__score-label">Note finale</span>
-                <div class="cozy-verdict__score-value">
+                <div class="cozy-verdict__score-badge">
                     <span class="cozy-verdict__score-number"><?php echo $ratings['global']; ?></span>
                     <span class="cozy-verdict__score-max">/5</span>
                 </div>
-                <div class="cozy-verdict__score-stars">
-                    <?php for ( $i = 1; $i <= 5; $i++ ) : ?>
-                        <span class="cozy-verdict__star <?php echo ( $i <= $ratings['global'] ) ? 'filled' : ''; ?>">★</span>
-                    <?php endfor; ?>
+                <div class="cozy-verdict__score-info">
+                    <span class="cozy-verdict__score-label">Note finale</span>
+                    <div class="cozy-verdict__score-stars">
+                        <?php for ( $i = 1; $i <= 5; $i++ ) : ?>
+                            <i data-lucide="star" class="lucide cozy-star <?php echo ( $i <= $ratings['global'] ) ? 'cozy-star--filled' : ''; ?>"></i>
+                        <?php endfor; ?>
+                    </div>
                 </div>
             </div>
         <?php endif; ?>
+
     </div>
     <?php
     return ob_get_clean();

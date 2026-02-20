@@ -239,7 +239,29 @@ require_once get_template_directory() . '/inc/cozy-contact.php';
 
 
 // ============================================================================
-// 5. RÔLES PERSONNALISÉS
+// 5. DÉSACTIVATION DES TAXONOMIES NATIVES (category & post_tag)
+// ============================================================================
+// Les articles utilisent cozy_article_type et cozy_game comme taxonomies.
+// Les catégories et étiquettes natives de WordPress sont redondantes.
+
+function cozy_unregister_native_taxonomies() {
+    unregister_taxonomy_for_object_type( 'category', 'post' );
+    unregister_taxonomy_for_object_type( 'post_tag', 'post' );
+}
+add_action( 'init', 'cozy_unregister_native_taxonomies', 99 );
+
+/**
+ * Masque les menus admin résiduels des taxonomies natives.
+ */
+function cozy_hide_native_taxonomy_menus() {
+    remove_submenu_page( 'edit.php', 'edit-tags.php?taxonomy=category' );
+    remove_submenu_page( 'edit.php', 'edit-tags.php?taxonomy=post_tag' );
+}
+add_action( 'admin_menu', 'cozy_hide_native_taxonomy_menus' );
+
+
+// ============================================================================
+// 6. RÔLES PERSONNALISÉS
 // ============================================================================
 
 /**
@@ -420,7 +442,7 @@ add_action( 'admin_init', 'cozy_redirect_admin_dashboard' );
 
 
 // ============================================================================
-// 6. HELPERS DU THÈME
+// 7. HELPERS DU THÈME
 // ============================================================================
 
 /**
@@ -461,7 +483,7 @@ function cozy_pagination() {
 
 
 // ============================================================================
-// 7. SÉCURITÉ — DURCISSEMENT DU THÈME
+// 8. SÉCURITÉ — DURCISSEMENT DU THÈME
 // ============================================================================
 
 /**

@@ -1,544 +1,655 @@
 /**
  * ============================================================================
- * COZY GROVE — Articles / Grimoire  (v3.0 — Système de design Guilde)
+ * COZY GROVE — Articles / Grimoire  (v4.0 — Refonte complète)
  * ============================================================================
  *
- * Cartes de jeux, verdict, barres XP, pros/cons, étoiles, tags, filtres.
- * Esthétique guilde médiévale cozy.
+ * Fiche jeu, verdict, barres XP, étoiles Lucide, pros/cons.
+ * Esthétique guilde médiévale cozy — design premium.
  */
 
 
-/* -----------------------------------------------
-   1. GRILLE ARTICLES
-   ----------------------------------------------- */
-
-.cozy-games-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: var(--cozy-space-lg);
-    margin: var(--cozy-space-lg) 0;
-}
-
-
-/* -----------------------------------------------
-   2. CARTE JEU — Trait gauche
-   ----------------------------------------------- */
+/* ==================================================================
+   1. FICHE JEU — Conteneur principal
+   ================================================================== */
 
 .cozy-game-card {
     position: relative;
     background: var(--cozy-bg-card);
     border: 1px solid var(--cozy-border);
-    border-radius: var(--cozy-radius);
+    border-radius: var(--cozy-radius-lg, 12px);
     overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    transition: all var(--cozy-transition);
-}
-
-.cozy-game-card::after {
-    display: none;
+    margin-bottom: var(--cozy-space-xl);
+    transition: border-color var(--cozy-transition), box-shadow var(--cozy-transition);
 }
 
 .cozy-game-card:hover {
     border-color: var(--cozy-amber-dim);
-    transform: translateY(-4px);
-    box-shadow: 0 0 24px var(--cozy-glow-amber), var(--cozy-shadow-lg);
+    box-shadow: 0 0 32px rgba(200, 129, 58, 0.08);
 }
 
-
-
-/* -----------------------------------------------
-   3. VIGNETTE
-   ----------------------------------------------- */
-
-.cozy-game-card__thumb {
-    position: relative;
-    aspect-ratio: 16 / 9;
-    overflow: hidden;
-}
-
-.cozy-game-card__thumb img {
-    width: 100%;
+/* Trait ambre gauche — signature Cozy Grove */
+.cozy-game-card__accent {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
     height: 100%;
-    object-fit: cover;
-    transition: transform 0.4s ease;
-}
-
-.cozy-game-card:hover .cozy-game-card__thumb img {
-    transform: scale(1.03);
-}
-
-.cozy-game-card__platform {
-    position: absolute;
-    top: 8px;
-    left: 8px;
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-    padding: 3px 10px;
-    background: rgba(34, 32, 28, 0.82);
-    backdrop-filter: blur(6px);
-    border-radius: var(--cozy-radius);
-    font-family: var(--cozy-font-ui);
-    font-size: 10px;
-    font-weight: 500;
-    color: #fff;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-}
-
-.cozy-game-card__platform .lucide {
-    width: 12px;
-    height: 12px;
-}
-
-.cozy-game-card__type {
-    position: absolute;
-    top: 8px;
-    right: 8px;
-    padding: 3px 10px;
-    background: var(--cozy-amber);
-    border-radius: var(--cozy-radius);
-    font-family: var(--cozy-font-ui);
-    font-size: 10px;
-    font-weight: 600;
-    color: var(--cozy-ink);
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    box-shadow: 0 1px 0 var(--cozy-amber-dim), 0 2px 8px rgba(200, 129, 58, 0.18);
-}
-
-.cozy-game-card__score-badge {
-    position: absolute;
-    bottom: 8px;
-    right: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-width: 38px;
-    height: 38px;
-    padding: 0 6px;
-    background: rgba(34, 32, 28, 0.92);
-    backdrop-filter: blur(8px);
-    border: 1px solid var(--cozy-amber);
-    border-radius: var(--cozy-radius);
-    font-family: var(--cozy-font-ui);
-    font-size: 10px;
-    font-weight: 500;
-    color: var(--cozy-amber-glow);
-    box-shadow: 0 0 16px rgba(200, 129, 58, 0.3);
-    text-shadow: 0 0 10px rgba(200, 129, 58, 0.4);
+    background: linear-gradient(180deg, var(--cozy-amber) 0%, var(--cozy-gold) 50%, var(--cozy-amber-dim) 100%);
+    border-radius: var(--cozy-radius-lg, 12px) 0 0 var(--cozy-radius-lg, 12px);
+    z-index: 1;
 }
 
 
-/* -----------------------------------------------
-   4. CONTENU CARTE
-   ----------------------------------------------- */
+/* ==================================================================
+   2. FICHE JEU — En-tête (nom + badge + score)
+   ================================================================== */
 
-.cozy-game-card__body {
-    padding: var(--cozy-space-md);
-    display: flex;
-    flex-direction: column;
-    flex: 1;
+.cozy-game-card__header {
+    padding: var(--cozy-space-lg) var(--cozy-space-lg) 0 calc(var(--cozy-space-lg) + 8px);
 }
 
-.cozy-game-card__title {
-    font-family: var(--cozy-font-heading);
-    font-weight: 800;
-    font-size: 1.05rem;
-    color: var(--cozy-cream);
-    line-height: 1.3;
-    margin-bottom: 6px;
-}
-
-.cozy-game-card__title a {
-    color: inherit;
-    text-decoration: none;
-    transition: color var(--cozy-transition);
-}
-
-.cozy-game-card__title a:hover {
-    color: var(--cozy-amber);
-}
-
-.cozy-game-card__excerpt {
-    font-size: var(--cozy-text-sm);
-    color: var(--cozy-muted);
-    line-height: 1.55;
-    margin-bottom: var(--cozy-space-sm);
-    flex: 1;
-}
-
-.cozy-game-card__meta {
-    display: flex;
-    align-items: center;
-    gap: var(--cozy-space-sm);
-    flex-wrap: wrap;
-    margin-top: auto;
-    padding-top: var(--cozy-space-sm);
-    border-top: 1px solid var(--cozy-border);
-}
-
-.cozy-game-card__author {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    font-family: var(--cozy-font-ui);
-    font-size: 10px;
-    color: var(--cozy-muted);
-    letter-spacing: 0.02em;
-}
-
-.cozy-game-card__author img {
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    border: 1px solid var(--cozy-border);
-}
-
-.cozy-game-card__date {
-    font-family: var(--cozy-font-ui);
-    font-size: 10px;
-    color: var(--cozy-muted);
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-    margin-left: auto;
-}
-
-
-/* -----------------------------------------------
-   5. ARTICLE — VERDICT
-   ----------------------------------------------- */
-
-.cozy-verdict {
-    margin: var(--cozy-space-xl) 0;
-    padding: var(--cozy-space-lg);
-    background: var(--cozy-bg-card);
-    border: 1px solid var(--cozy-border);
-    border-radius: var(--cozy-radius);
-    position: relative;
-}
-
-.cozy-verdict__header {
-    font-family: var(--cozy-font-ui);
-    font-size: 10px;
-    font-weight: 500;
-    color: var(--cozy-cream);
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    margin-bottom: var(--cozy-space-md);
-    display: flex;
-    align-items: center;
-    gap: var(--cozy-space-sm);
-}
-
-.cozy-verdict__header .lucide {
-    color: var(--cozy-amber);
-}
-
-
-/* -----------------------------------------------
-   6. BARRES DE NOTE (motif barre XP)
-   ----------------------------------------------- */
-
-.cozy-rating-bar {
-    margin-bottom: var(--cozy-space-md);
-}
-
-.cozy-rating-bar__label {
+.cozy-game-card__header-top {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 4px;
+    gap: var(--cozy-space-sm);
+    margin-bottom: var(--cozy-space-sm);
 }
 
-.cozy-rating-bar__name {
+/* Badge type d'article */
+.cozy-game-card__type-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 14px;
+    background: color-mix(in srgb, var(--badge-color, var(--cozy-amber)) 15%, transparent);
+    border: 1px solid color-mix(in srgb, var(--badge-color, var(--cozy-amber)) 30%, transparent);
+    border-radius: 999px;
     font-family: var(--cozy-font-ui);
-    font-size: 10px;
-    font-weight: 500;
-    color: var(--cozy-cream);
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--badge-color, var(--cozy-amber));
     text-transform: uppercase;
-    letter-spacing: 0.04em;
+    letter-spacing: 0.06em;
 }
 
-.cozy-rating-bar__value {
+.cozy-game-card__type-badge .lucide {
+    width: 14px;
+    height: 14px;
+}
+
+/* Score */
+.cozy-game-card__score {
+    display: flex;
+    align-items: baseline;
+    gap: 2px;
+    padding: 8px 14px;
+    background: rgba(200, 129, 58, 0.08);
+    border: 1px solid var(--cozy-amber-dim);
+    border-radius: var(--cozy-radius);
+    box-shadow: 0 0 16px rgba(200, 129, 58, 0.1);
+}
+
+.cozy-game-card__score-number {
+    font-family: var(--cozy-font-display);
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--cozy-amber-glow);
+    line-height: 1;
+    text-shadow: 0 0 12px rgba(200, 129, 58, 0.3);
+}
+
+.cozy-game-card__score-max {
     font-family: var(--cozy-font-ui);
-    font-size: 10px;
+    font-size: 0.8rem;
+    color: var(--cozy-muted);
     font-weight: 500;
-    color: var(--cozy-amber);
 }
 
-.cozy-rating-bar__track {
-    width: 100%;
-    height: 6px;
+/* Nom du jeu */
+.cozy-game-card__game-name {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--cozy-font-heading);
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: var(--cozy-cream);
+    line-height: 1.3;
+    margin: 0;
+}
+
+.cozy-game-card__game-name .lucide {
+    width: 22px;
+    height: 22px;
+    color: var(--cozy-amber);
+    flex-shrink: 0;
+}
+
+/* Étoiles Lucide */
+.cozy-game-card__stars {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    margin-top: var(--cozy-space-xs, 6px);
+}
+
+
+/* ==================================================================
+   3. ÉTOILES LUCIDE (partagé fiche + verdict)
+   ================================================================== */
+
+.cozy-star {
+    width: 18px;
+    height: 18px;
+    color: var(--cozy-border);
+    stroke-width: 1.5;
+    transition: color 0.2s ease, fill 0.2s ease;
+}
+
+.cozy-star--filled {
+    color: var(--cozy-gold);
+    fill: var(--cozy-gold);
+    filter: drop-shadow(0 0 4px rgba(212, 175, 55, 0.4));
+}
+
+
+/* ==================================================================
+   4. FICHE JEU — Détails (grille d'infos)
+   ================================================================== */
+
+.cozy-game-card__details {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    margin: var(--cozy-space-lg) calc(var(--cozy-space-lg) + 8px) 0;
     background: var(--cozy-border);
-    border-radius: 1px;
+    border-radius: var(--cozy-radius);
     overflow: hidden;
 }
 
-.cozy-rating-bar__fill {
-    height: 100%;
-    background: linear-gradient(90deg, var(--cozy-amber), var(--cozy-gold));
-    border-radius: 1px;
-    transition: width 0.6s ease;
+.cozy-game-card__detail {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: var(--cozy-space-md);
+    background: var(--cozy-bg-card);
 }
 
-
-/* -----------------------------------------------
-   7. SCORE FINAL
-   ----------------------------------------------- */
-
-.cozy-verdict__score {
-    display: flex;
-    align-items: center;
-    gap: var(--cozy-space-md);
-    margin-top: var(--cozy-space-lg);
-    padding-top: var(--cozy-space-md);
-    border-top: 1px solid var(--cozy-border);
+/* La ligne plateformes prend toute la largeur */
+.cozy-game-card__detail--platforms {
+    grid-column: 1 / -1;
 }
 
-.cozy-verdict__score-number {
+.cozy-game-card__detail-label {
     display: flex;
     align-items: center;
-    justify-content: center;
-    width: 56px;
-    height: 56px;
-    background: var(--cozy-amber);
-    border-radius: var(--cozy-radius);
-    font-family: var(--cozy-font-display);
-    font-size: 1.5rem;
+    gap: 6px;
+    font-family: var(--cozy-font-ui);
+    font-size: 10px;
     font-weight: 600;
-    color: var(--cozy-ink);
-}
-
-.cozy-verdict__score-text {
-    flex: 1;
-}
-
-.cozy-verdict__score-label {
-    font-family: var(--cozy-font-heading);
-    font-weight: 800;
-    font-size: 1.1rem;
-    color: var(--cozy-cream);
-    margin-bottom: 2px;
-}
-
-.cozy-verdict__score-summary {
-    font-size: var(--cozy-text-sm);
     color: var(--cozy-muted);
-    line-height: 1.5;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
 }
 
+.cozy-game-card__detail-label .lucide {
+    width: 14px;
+    height: 14px;
+    color: var(--cozy-amber-dim);
+}
 
-/* -----------------------------------------------
-   8. ÉTOILES
-   ----------------------------------------------- */
+.cozy-game-card__detail-value {
+    font-family: var(--cozy-font-body);
+    font-size: var(--cozy-text-sm);
+    color: var(--cozy-cream);
+    font-weight: 500;
+}
 
-.cozy-stars {
+/* Tags plateforme */
+.cozy-game-card__platforms {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.cozy-game-card__platform-tag {
     display: inline-flex;
     align-items: center;
-    gap: 2px;
+    padding: 4px 12px;
+    background: rgba(200, 129, 58, 0.06);
+    border: 1px solid var(--cozy-border);
+    border-radius: 999px;
+    font-family: var(--cozy-font-ui);
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--cozy-cream);
+    letter-spacing: 0.02em;
+    transition: all var(--cozy-transition);
 }
 
-.cozy-stars .lucide {
+.cozy-game-card__platform-tag:hover {
+    border-color: var(--cozy-amber-dim);
+    color: var(--cozy-amber);
+    background: rgba(200, 129, 58, 0.1);
+}
+
+
+/* ==================================================================
+   5. FICHE JEU — Notes détaillées (barres XP)
+   ================================================================== */
+
+.cozy-game-card__ratings {
+    padding: var(--cozy-space-lg) calc(var(--cozy-space-lg) + 8px) var(--cozy-space-lg);
+}
+
+.cozy-game-card__ratings-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--cozy-font-ui);
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--cozy-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin: 0 0 var(--cozy-space-md) 0;
+}
+
+.cozy-game-card__ratings-title .lucide {
     width: 16px;
     height: 16px;
-    color: var(--cozy-border);
+    color: var(--cozy-amber);
 }
 
-.cozy-stars .lucide.filled {
-    color: var(--cozy-gold);
-    fill: var(--cozy-gold);
+.cozy-game-card__ratings-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.cozy-game-card__rating-row {
+    display: grid;
+    grid-template-columns: 160px 1fr 44px;
+    align-items: center;
+    gap: 12px;
+}
+
+.cozy-game-card__rating-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--cozy-font-ui);
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--cozy-cream);
+}
+
+.cozy-game-card__rating-label .lucide {
+    width: 15px;
+    height: 15px;
+    color: var(--cozy-amber-dim);
+    flex-shrink: 0;
+}
+
+/* Barre XP */
+.cozy-game-card__rating-bar {
+    height: 8px;
+    background: var(--cozy-border);
+    border-radius: 4px;
+    overflow: hidden;
+    position: relative;
+}
+
+.cozy-game-card__rating-bar::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+        90deg,
+        transparent 0px,
+        transparent 19%,
+        rgba(0, 0, 0, 0.15) 19%,
+        rgba(0, 0, 0, 0.15) 20%
+    );
+    z-index: 1;
+    border-radius: 4px;
+}
+
+.cozy-game-card__rating-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--cozy-amber-dim), var(--cozy-amber), var(--cozy-gold));
+    border-radius: 4px;
+    transition: width 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    position: relative;
+    box-shadow: 0 0 8px rgba(200, 129, 58, 0.3);
+}
+
+.cozy-game-card__rating-score {
+    font-family: var(--cozy-font-ui);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--cozy-amber-glow);
+    text-align: right;
+}
+
+.cozy-game-card__rating-score small {
+    font-weight: 400;
+    color: var(--cozy-muted);
+    font-size: 11px;
 }
 
 
-/* -----------------------------------------------
-   9. POUR / CONTRE
-   ----------------------------------------------- */
+/* ==================================================================
+   6. VERDICT — Conteneur principal
+   ================================================================== */
+
+.cozy-verdict {
+    position: relative;
+    margin: var(--cozy-space-xl) 0;
+    background: var(--cozy-bg-card);
+    border: 1px solid var(--cozy-border);
+    border-radius: var(--cozy-radius-lg, 12px);
+    overflow: hidden;
+    transition: border-color var(--cozy-transition), box-shadow var(--cozy-transition);
+}
+
+.cozy-verdict:hover {
+    border-color: var(--cozy-amber-dim);
+    box-shadow: 0 0 32px rgba(200, 129, 58, 0.08);
+}
+
+/* Trait ambre gauche */
+.cozy-verdict__accent {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: linear-gradient(180deg, var(--cozy-amber) 0%, var(--cozy-gold) 50%, var(--cozy-amber-dim) 100%);
+    border-radius: var(--cozy-radius-lg, 12px) 0 0 var(--cozy-radius-lg, 12px);
+    z-index: 1;
+}
+
+
+/* ==================================================================
+   7. VERDICT — En-tête
+   ================================================================== */
+
+.cozy-verdict__header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: var(--cozy-space-lg) var(--cozy-space-lg) 0 calc(var(--cozy-space-lg) + 8px);
+}
+
+.cozy-verdict__header > .lucide {
+    width: 20px;
+    height: 20px;
+    color: var(--cozy-amber);
+    flex-shrink: 0;
+}
+
+.cozy-verdict__header h3 {
+    font-family: var(--cozy-font-heading);
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: var(--cozy-cream);
+    margin: 0;
+}
+
+
+/* ==================================================================
+   8. VERDICT — Citation
+   ================================================================== */
+
+.cozy-verdict__quote {
+    position: relative;
+    margin: var(--cozy-space-md) var(--cozy-space-lg) var(--cozy-space-md) calc(var(--cozy-space-lg) + 8px);
+    padding: var(--cozy-space-md) var(--cozy-space-md) var(--cozy-space-md) var(--cozy-space-lg);
+    background: rgba(200, 129, 58, 0.04);
+    border-left: 3px solid var(--cozy-amber-dim);
+    border-radius: 0 var(--cozy-radius) var(--cozy-radius) 0;
+}
+
+.cozy-verdict__quote-icon {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    width: 18px;
+    height: 18px;
+    color: var(--cozy-amber-dim);
+    opacity: 0.5;
+}
+
+.cozy-verdict__quote p {
+    font-family: var(--cozy-font-body);
+    font-size: var(--cozy-text-base, 1rem);
+    font-style: italic;
+    color: var(--cozy-cream);
+    line-height: 1.7;
+    margin: 0;
+}
+
+
+/* ==================================================================
+   9. VERDICT — Points forts / faibles
+   ================================================================== */
 
 .cozy-verdict__pros-cons {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: var(--cozy-space-md);
-    margin-top: var(--cozy-space-md);
+    padding: 0 var(--cozy-space-lg) var(--cozy-space-md) calc(var(--cozy-space-lg) + 8px);
 }
 
-.cozy-verdict__pros,
-.cozy-verdict__cons {
+.cozy-verdict__column {
     padding: var(--cozy-space-md);
     border-radius: var(--cozy-radius);
+    border: 1px solid;
 }
 
-.cozy-verdict__pros {
-    border: 1px solid var(--cozy-moss);
+.cozy-verdict__column--pros {
+    border-color: rgba(74, 102, 73, 0.3);
     background: rgba(74, 102, 73, 0.06);
 }
 
-.cozy-verdict__cons {
-    border: 1px solid var(--cozy-ember);
+.cozy-verdict__column--cons {
+    border-color: rgba(155, 58, 30, 0.3);
     background: rgba(155, 58, 30, 0.06);
 }
 
-.cozy-verdict__pros-title,
-.cozy-verdict__cons-title {
-    font-family: var(--cozy-font-ui);
-    font-size: 10px;
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    margin-bottom: var(--cozy-space-sm);
+.cozy-verdict__column-title {
     display: flex;
     align-items: center;
-    gap: 5px;
+    gap: 6px;
+    font-family: var(--cozy-font-ui);
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin: 0 0 var(--cozy-space-sm) 0;
 }
 
-.cozy-verdict__pros-title {
+.cozy-verdict__column--pros .cozy-verdict__column-title {
     color: var(--cozy-moss-light);
 }
 
-.cozy-verdict__cons-title {
+.cozy-verdict__column--cons .cozy-verdict__column-title {
     color: var(--cozy-ember-glow);
 }
 
-.cozy-verdict__pros-title .lucide,
-.cozy-verdict__cons-title .lucide {
-    width: 14px;
-    height: 14px;
+.cozy-verdict__column-title .lucide {
+    width: 15px;
+    height: 15px;
 }
 
-.cozy-verdict__pros ul,
-.cozy-verdict__cons ul {
+.cozy-verdict__column ul {
     list-style: none;
     padding: 0;
     margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
 }
 
-.cozy-verdict__pros li,
-.cozy-verdict__cons li {
-    position: relative;
-    padding-left: 16px;
+.cozy-verdict__column li {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
     font-size: var(--cozy-text-sm);
     color: var(--cozy-cream);
-    margin-bottom: 4px;
     line-height: 1.5;
 }
 
-.cozy-verdict__pros li::before {
-    content: "+";
-    position: absolute;
-    left: 0;
-    font-family: var(--cozy-font-ui);
-    font-weight: 500;
+.cozy-verdict__column li .lucide {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+    margin-top: 3px;
+}
+
+.cozy-verdict__column--pros li .lucide {
     color: var(--cozy-moss-light);
 }
 
-.cozy-verdict__cons li::before {
-    content: "−";
-    position: absolute;
-    left: 0;
-    font-family: var(--cozy-font-ui);
-    font-weight: 500;
+.cozy-verdict__column--cons li .lucide {
     color: var(--cozy-ember-glow);
 }
 
 
-/* -----------------------------------------------
-   10. TAGS PLATEFORME / GENRE
-   ----------------------------------------------- */
+/* ==================================================================
+   10. VERDICT — Score final
+   ================================================================== */
 
-.cozy-game-tags {
+.cozy-verdict__final-score {
     display: flex;
-    flex-wrap: wrap;
-    gap: 5px;
-    margin: var(--cozy-space-sm) 0;
+    align-items: center;
+    gap: var(--cozy-space-md);
+    padding: var(--cozy-space-md) var(--cozy-space-lg) var(--cozy-space-lg) calc(var(--cozy-space-lg) + 8px);
+    margin-top: var(--cozy-space-xs, 4px);
+    border-top: 1px solid var(--cozy-border);
 }
 
-.cozy-game-tag {
-    display: inline-flex;
-    align-items: center;
+.cozy-verdict__score-badge {
+    display: flex;
+    align-items: baseline;
+    gap: 2px;
+    padding: 12px 18px;
+    background: linear-gradient(135deg, var(--cozy-amber), var(--cozy-gold));
+    border-radius: var(--cozy-radius);
+    box-shadow: 0 4px 16px rgba(200, 129, 58, 0.25), 0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+}
+
+.cozy-verdict__score-badge .cozy-verdict__score-number {
+    font-family: var(--cozy-font-display);
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--cozy-ink);
+    line-height: 1;
+}
+
+.cozy-verdict__score-badge .cozy-verdict__score-max {
+    font-family: var(--cozy-font-ui);
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: rgba(34, 32, 28, 0.6);
+}
+
+.cozy-verdict__score-info {
+    display: flex;
+    flex-direction: column;
     gap: 4px;
-    padding: 3px 10px;
-    border: 1px solid var(--cozy-border);
-    border-radius: var(--cozy-radius);
+}
+
+.cozy-verdict__score-label {
     font-family: var(--cozy-font-ui);
-    font-size: 10px;
-    font-weight: 500;
+    font-size: 11px;
+    font-weight: 600;
     color: var(--cozy-muted);
     text-transform: uppercase;
-    letter-spacing: 0.04em;
-    transition: all var(--cozy-transition);
+    letter-spacing: 0.08em;
 }
 
-.cozy-game-tag:hover {
-    border-color: var(--cozy-amber);
-    color: var(--cozy-amber);
-}
-
-.cozy-game-tag .lucide {
-    width: 12px;
-    height: 12px;
-}
-
-
-/* -----------------------------------------------
-   11. FILTRE
-   ----------------------------------------------- */
-
-.cozy-games-filter {
+.cozy-verdict__score-stars {
     display: flex;
     align-items: center;
-    gap: var(--cozy-space-sm);
-    flex-wrap: wrap;
-    margin-bottom: var(--cozy-space-lg);
+    gap: 3px;
 }
 
-.cozy-games-filter__label {
-    font-family: var(--cozy-font-ui);
-    font-size: 10px;
-    font-weight: 500;
-    color: var(--cozy-muted);
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-}
-
-.cozy-games-filter select {
-    padding: 6px 12px;
-    border: 1px solid var(--cozy-border);
-    border-radius: var(--cozy-radius);
-    background: var(--cozy-bg-card);
-    font-family: var(--cozy-font-body);
-    font-size: var(--cozy-text-sm);
-    color: var(--cozy-cream);
-    cursor: pointer;
-    transition: border-color var(--cozy-transition);
-}
-
-.cozy-games-filter select:focus {
-    outline: none;
-    border-color: var(--cozy-amber-dim);
-    box-shadow: 0 0 0 3px rgba(200, 129, 58, 0.08);
+.cozy-verdict__score-stars .cozy-star {
+    width: 20px;
+    height: 20px;
 }
 
 
-/* -----------------------------------------------
-   12. RESPONSIVE
-   ----------------------------------------------- */
+/* ==================================================================
+   11. RESPONSIVE
+   ================================================================== */
+
+@media (max-width: 768px) {
+    .cozy-game-card__details {
+        grid-template-columns: 1fr;
+    }
+
+    .cozy-game-card__rating-row {
+        grid-template-columns: 110px 1fr 40px;
+        gap: 8px;
+    }
+
+    .cozy-game-card__rating-label {
+        font-size: 11px;
+    }
+
+    .cozy-game-card__game-name {
+        font-size: 1.2rem;
+    }
+}
 
 @media (max-width: 600px) {
-    .cozy-games-grid {
-        grid-template-columns: 1fr;
+    .cozy-game-card__header,
+    .cozy-game-card__ratings {
+        padding-left: calc(var(--cozy-space-md) + 8px);
+        padding-right: var(--cozy-space-md);
+    }
+
+    .cozy-game-card__details {
+        margin-left: calc(var(--cozy-space-md) + 8px);
+        margin-right: var(--cozy-space-md);
+    }
+
+    .cozy-game-card__rating-row {
+        grid-template-columns: 1fr 44px;
+        gap: 6px;
+    }
+
+    .cozy-game-card__rating-label {
+        grid-column: 1 / -1;
+    }
+
+    .cozy-game-card__rating-bar {
+        grid-column: 1;
     }
 
     .cozy-verdict__pros-cons {
         grid-template-columns: 1fr;
     }
 
-    .cozy-verdict {
-        padding: var(--cozy-space-md);
+    .cozy-verdict__header,
+    .cozy-verdict__quote,
+    .cozy-verdict__pros-cons,
+    .cozy-verdict__final-score {
+        padding-left: calc(var(--cozy-space-md) + 8px);
+        padding-right: var(--cozy-space-md);
     }
 
-    .cozy-verdict__score {
+    .cozy-verdict__quote {
+        margin-left: calc(var(--cozy-space-md) + 8px);
+        margin-right: var(--cozy-space-md);
+    }
+
+    .cozy-verdict__final-score {
         flex-direction: column;
-        text-align: center;
+        align-items: flex-start;
     }
 }

@@ -5,7 +5,7 @@
  * ============================================================================
  *
  * Affiche tous les articles du Grimoire avec des filtres interactifs
- * par type d'article, jeu, catégorie, et tri par date/note.
+ * par type d'article, jeu, et tri par date/note.
  *
  * Usage :
  *   [cozy_articles_archive]
@@ -37,7 +37,6 @@ function cozy_articles_archive_shortcode( $atts ) {
     // ── Récupérer les filtres depuis l'URL (server-side) ──
     $filter_type     = isset( $_GET['cozy_type'] )     ? sanitize_text_field( $_GET['cozy_type'] )     : '';
     $filter_game     = isset( $_GET['cozy_game'] )     ? sanitize_text_field( $_GET['cozy_game'] )     : '';
-    $filter_category = isset( $_GET['cozy_category'] ) ? sanitize_text_field( $_GET['cozy_category'] ) : '';
     $filter_sort     = isset( $_GET['cozy_sort'] )     ? sanitize_text_field( $_GET['cozy_sort'] )     : 'date-desc';
     $filter_search   = isset( $_GET['cozy_search'] )   ? sanitize_text_field( $_GET['cozy_search'] )   : '';
 
@@ -98,14 +97,6 @@ function cozy_articles_archive_shortcode( $atts ) {
         );
     }
 
-    if ( ! empty( $filter_category ) ) {
-        $tax_query[] = array(
-            'taxonomy' => 'category',
-            'field'    => 'slug',
-            'terms'    => $filter_category,
-        );
-    }
-
     if ( ! empty( $tax_query ) ) {
         $tax_query['relation'] = 'AND';
         $args['tax_query']     = $tax_query;
@@ -120,13 +111,6 @@ function cozy_articles_archive_shortcode( $atts ) {
     // Jeux avec articles
     $games = get_terms( array(
         'taxonomy'   => 'cozy_game',
-        'hide_empty' => true,
-        'orderby'    => 'name',
-        'order'      => 'ASC',
-    ) );
-
-    // Catégories avec articles
-    $categories = get_categories( array(
         'hide_empty' => true,
         'orderby'    => 'name',
         'order'      => 'ASC',
@@ -150,7 +134,7 @@ function cozy_articles_archive_shortcode( $atts ) {
                 </h2>
                 <span class="cozy-articles-archive__count">
                     <?php echo esc_html( $query->found_posts ); ?> article<?php echo $query->found_posts > 1 ? 's' : ''; ?>
-                    <?php if ( $query->found_posts < $total_all && ( $filter_type || $filter_game || $filter_category || $filter_search ) ) : ?>
+                    <?php if ( $query->found_posts < $total_all && ( $filter_type || $filter_game || $filter_search ) ) : ?>
                         <span class="cozy-articles-archive__count-total">/ <?php echo esc_html( $total_all ); ?></span>
                     <?php endif; ?>
                 </span>
@@ -214,28 +198,6 @@ function cozy_articles_archive_shortcode( $atts ) {
                     </div>
                 <?php endif; ?>
 
-                <!-- Catégorie -->
-                <?php if ( ! empty( $categories ) ) : ?>
-                    <div class="cozy-articles-archive__filter-group">
-                        <span class="cozy-articles-archive__filter-label">
-                            <i data-lucide="folder" class="lucide"></i> Catégorie
-                        </span>
-                        <div class="cozy-articles-archive__filter-pills">
-                            <button class="cozy-articles-archive__pill <?php echo empty( $filter_category ) ? 'is-active' : ''; ?>"
-                                    data-filter="category" data-value="">
-                                Toutes
-                            </button>
-                            <?php foreach ( $categories as $cat ) : ?>
-                                <button class="cozy-articles-archive__pill <?php echo ( $filter_category === $cat->slug ) ? 'is-active' : ''; ?>"
-                                        data-filter="category" data-value="<?php echo esc_attr( $cat->slug ); ?>">
-                                    <?php echo esc_html( $cat->name ); ?>
-                                    <span class="cozy-articles-archive__pill-count"><?php echo esc_html( $cat->count ); ?></span>
-                                </button>
-                            <?php endforeach; ?>
-                        </div>
-                    </div>
-                <?php endif; ?>
-
                 <!-- Tri -->
                 <div class="cozy-articles-archive__filter-group">
                     <span class="cozy-articles-archive__filter-label">
@@ -266,7 +228,7 @@ function cozy_articles_archive_shortcode( $atts ) {
             </div>
 
             <!-- Filtres actifs -->
-            <?php if ( $filter_type || $filter_game || $filter_category || $filter_search ) : ?>
+            <?php if ( $filter_type || $filter_game || $filter_search ) : ?>
                 <div class="cozy-articles-archive__active-filters">
                     <span class="cozy-articles-archive__active-label">Filtres actifs :</span>
 
@@ -285,16 +247,6 @@ function cozy_articles_archive_shortcode( $atts ) {
                     ?>
                         <span class="cozy-articles-archive__active-tag" data-remove="game">
                             <?php echo esc_html( $game_label ); ?>
-                            <i data-lucide="x" class="lucide"></i>
-                        </span>
-                    <?php endif; ?>
-
-                    <?php if ( $filter_category ) :
-                        $cat_obj = get_category_by_slug( $filter_category );
-                        $cat_label = $cat_obj ? $cat_obj->name : $filter_category;
-                    ?>
-                        <span class="cozy-articles-archive__active-tag" data-remove="category">
-                            <?php echo esc_html( $cat_label ); ?>
                             <i data-lucide="x" class="lucide"></i>
                         </span>
                     <?php endif; ?>
@@ -437,7 +389,6 @@ function cozy_articles_archive_shortcode( $atts ) {
                         'add_args'  => array_filter( array(
                             'cozy_type'     => $filter_type ?: false,
                             'cozy_game'     => $filter_game ?: false,
-                            'cozy_category' => $filter_category ?: false,
                             'cozy_sort'     => ( $filter_sort !== 'date-desc' ) ? $filter_sort : false,
                             'cozy_search'   => $filter_search ?: false,
                         ) ),

@@ -26,7 +26,6 @@
         var filters    = {
             type:     params.get('cozy_type')     || '',
             game:     params.get('cozy_game')      || '',
-            category: params.get('cozy_category')  || '',
             sort:     params.get('cozy_sort')       || 'date-desc',
             search:   params.get('cozy_search')     || '',
         };
@@ -38,7 +37,6 @@
             // Nettoyer les anciens params
             url.searchParams.delete('cozy_type');
             url.searchParams.delete('cozy_game');
-            url.searchParams.delete('cozy_category');
             url.searchParams.delete('cozy_sort');
             url.searchParams.delete('cozy_search');
             url.searchParams.delete('paged');
@@ -49,7 +47,6 @@
             // Ajouter les filtres actifs
             if (filters.type)                       url.searchParams.set('cozy_type', filters.type);
             if (filters.game)                       url.searchParams.set('cozy_game', filters.game);
-            if (filters.category)                   url.searchParams.set('cozy_category', filters.category);
             if (filters.sort && filters.sort !== 'date-desc') url.searchParams.set('cozy_sort', filters.sort);
             if (filters.search)                     url.searchParams.set('cozy_search', filters.search);
 
@@ -104,7 +101,7 @@
 
         // ── Réinitialiser tous les filtres ──
         function resetAll() {
-            filters = { type: '', game: '', category: '', sort: 'date-desc', search: '' };
+            filters = { type: '', game: '', sort: 'date-desc', search: '' };
             applyFilters();
         }
 
