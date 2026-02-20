@@ -4,29 +4,39 @@ Bienvenue dans le projet **Cozy Gaming**, un site WordPress conçu pour une guil
 
 ## 📂 Structure des fichiers
 cozy-gaming/
-├── assets/
-│   ├── css/
-│   │   ├── [main.css](http://_vscodecontentref_/0)
-│   │   ├── [cozy-hero.css](http://_vscodecontentref_/1)
-│   │   ├── [cozy-articles.css](http://_vscodecontentref_/2)
-│   │   └── ...
-│   ├── js/
-│   │   ├── [main.js](http://_vscodecontentref_/3)
-│   │   ├── [cozy-homepage.js](http://_vscodecontentref_/4)
-│   │   └── ...
-│   └── images/
-├── inc/
-│   ├── [cozy-articles.php](http://_vscodecontentref_/5)
-│   ├── [cozy-setups.php](http://_vscodecontentref_/6)
-│   ├── [cozy-friend-codes.php](http://_vscodecontentref_/7)
-│   ├── ...
-├── template-parts/
-│   ├── [content.php](http://_vscodecontentref_/8)
-│   └── ...
-├── [front-page.php](http://_vscodecontentref_/9)
-├── [single.php](http://_vscodecontentref_/10)
-├── [search.php](http://_vscodecontentref_/11)
-└── ...
+├── assets/                     # Fichiers statiques (CSS, JS, images)
+│   ├── css/                    # Feuilles de style
+│   │   ├── main.css            # Styles globaux
+│   │   ├── cozy-hero.css       # Styles pour la section hero
+│   │   ├── cozy-articles.css   # Styles pour les articles et le grimoire
+│   │   ├── cozy-setups.css     # Styles pour la galerie setups
+│   │   ├── cozy-contact.css    # Styles pour le formulaire de contact
+│   │   └── ...                 # Autres styles spécifiques
+│   ├── js/                     # Scripts JavaScript
+│   │   ├── main.js             # Script principal (menu, animations)
+│   │   ├── cozy-homepage.js    # Interactions spécifiques à la page d'accueil
+│   │   ├── cozy-setups.js      # Gestion des setups (upload, suppression, lightbox)
+│   │   └── ...                 # Autres scripts spécifiques
+│   └── images/                 # Images statiques utilisées dans le thème
+├── inc/                        # Modules PHP personnalisés
+│   ├── cozy-articles.php       # Gestion des articles enrichis (ACF)
+│   ├── cozy-setups.php         # Gestion de la galerie setups
+│   ├── cozy-friend-codes.php   # Gestion des codes ami par plateforme
+│   ├── cozy-contact.php        # Gestion du formulaire de contact
+│   ├── cozy-dashboard-widgets.php # Widgets personnalisés pour le tableau de bord
+│   └── ...                     # Autres modules
+├── template-parts/             # Templates réutilisables
+│   ├── content.php             # Template pour le contenu des articles
+│   └── ...                     # Autres templates
+├── front-page.php              # Template de la page d'accueil
+├── single.php                  # Template des articles individuels
+├── search.php                  # Template des résultats de recherche
+├── comments.php                # Gestion des commentaires
+├── functions.php               # Configuration principale du thème
+├── header.php                  # En-tête du site
+├── footer.php                  # Pied de page du site
+└── style.css                   # Feuille de style principale du thème
+
 
 ### 1. **Thème principal : `cozy-gaming`**
 Le thème contient les fichiers principaux pour le rendu du site.
