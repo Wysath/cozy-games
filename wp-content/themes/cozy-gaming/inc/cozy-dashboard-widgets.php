@@ -265,12 +265,13 @@ function cozy_widget_admin_community_overview() {
     <ul class="cozy-dash-roles">
         <?php
         $role_labels = [
-            'administrator'   => '🔑 Administrateurs',
-            'editor'          => '📝 Éditeurs',
-            'author'          => '✍️ Auteurs',
-            'animateur_cozy'  => '🎯 Animateurs Cozy',
-            'subscriber'      => '👤 Membres (abonnés)',
-            'contributor'     => '📄 Contributeurs',
+            'administrator'       => '🔑 Administrateurs',
+            'editor'              => '📝 Éditeurs',
+            'author'              => '✍️ Auteurs',
+            'animateur_cozy'      => '🎯 Animateurs Cozy',
+            'gestionnaire_setups' => '🖥️ Gestionnaires Setups',
+            'subscriber'          => '👤 Membres (abonnés)',
+            'contributor'         => '📄 Contributeurs',
         ];
         foreach ( $role_labels as $role_slug => $label ) {
             $count = $role_counts[ $role_slug ] ?? 0;

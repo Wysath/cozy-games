@@ -58,7 +58,7 @@
 .cozy-homepage__stats {
     position: relative;
     z-index: 2;
-    margin-top: -48px;
+    margin-top: 64px;
     margin-bottom: var(--cozy-space-3xl);
     padding: 0 var(--cozy-space-xl);
 }

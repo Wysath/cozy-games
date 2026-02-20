@@ -239,30 +239,184 @@ require_once get_template_directory() . '/inc/cozy-contact.php';
 
 
 // ============================================================================
-// 5. RÔLE PERSONNALISÉ : ANIMATEUR COZY
+// 5. RÔLES PERSONNALISÉS
 // ============================================================================
 
-function cozy_add_custom_role() {
+/**
+ * Enregistre les rôles personnalisés :
+ *   - animateur_cozy     : gestion des événements uniquement
+ *   - gestionnaire_setups : gestion des setups uniquement
+ */
+function cozy_add_custom_roles() {
+    // ── Animateur Cozy — accès événements uniquement ──
     if ( ! get_role( 'animateur_cozy' ) ) {
         add_role(
             'animateur_cozy',
             'Animateur Cozy',
             [
-                'read'         => true,
-                'edit_posts'   => false,
-                'delete_posts' => false,
-                'publish_posts'=> false,
-                'upload_files' => true,
+                'read'                    => true,
+                'upload_files'            => true,
+
+                // Événements (cozy_event)
+                'edit_cozy_events'        => true,
+                'edit_others_cozy_events' => true,
+                'publish_cozy_events'     => true,
+                'delete_cozy_events'      => true,
+                'delete_others_cozy_events' => true,
+                'edit_published_cozy_events' => true,
+                'delete_published_cozy_events' => true,
+
+                // Taxonomies événements (cozy_game, cozy_event_type)
+                'manage_cozy_game'        => true,
+                'edit_cozy_game'          => true,
+                'delete_cozy_game'        => true,
+                'assign_cozy_game'        => true,
+                'manage_cozy_event_type'  => true,
+                'edit_cozy_event_type'    => true,
+                'delete_cozy_event_type'  => true,
+                'assign_cozy_event_type'  => true,
+            ]
+        );
+    }
+
+    // ── Gestionnaire Setups — accès setups uniquement ──
+    if ( ! get_role( 'gestionnaire_setups' ) ) {
+        add_role(
+            'gestionnaire_setups',
+            'Gestionnaire Setups',
+            [
+                'read'                     => true,
+                'upload_files'             => true,
+
+                // Setups (cozy_setup)
+                'edit_cozy_setups'         => true,
+                'edit_others_cozy_setups'  => true,
+                'publish_cozy_setups'      => true,
+                'delete_cozy_setups'       => true,
+                'delete_others_cozy_setups' => true,
+                'edit_published_cozy_setups' => true,
+                'delete_published_cozy_setups' => true,
             ]
         );
     }
 }
-add_action( 'after_switch_theme', 'cozy_add_custom_role' );
+add_action( 'after_switch_theme', 'cozy_add_custom_roles' );
 
-function cozy_remove_custom_role() {
-    remove_role( 'animateur_cozy' );
+/**
+ * Force la mise à jour des rôles même sans changer de thème.
+ * Compare un numéro de version et recrée les rôles si nécessaire.
+ */
+function cozy_maybe_update_roles() {
+    $current_version = '2.0';
+    if ( get_option( 'cozy_roles_version' ) !== $current_version ) {
+        // Supprimer les anciennes versions pour recréer proprement
+        remove_role( 'animateur_cozy' );
+        remove_role( 'gestionnaire_setups' );
+        cozy_add_custom_roles();
+
+        // Accorder les capabilities custom à l'admin
+        $admin = get_role( 'administrator' );
+        if ( $admin ) {
+            // Événements
+            foreach ( [ 'edit_cozy_event', 'read_cozy_event', 'delete_cozy_event',
+                        'edit_cozy_events', 'edit_others_cozy_events', 'publish_cozy_events',
+                        'read_private_cozy_events', 'delete_cozy_events',
+                        'delete_private_cozy_events', 'delete_published_cozy_events',
+                        'delete_others_cozy_events', 'edit_private_cozy_events',
+                        'edit_published_cozy_events' ] as $cap ) {
+                $admin->add_cap( $cap );
+            }
+            // Taxonomies événements
+            foreach ( [ 'manage_cozy_game', 'edit_cozy_game', 'delete_cozy_game', 'assign_cozy_game',
+                        'manage_cozy_event_type', 'edit_cozy_event_type',
+                        'delete_cozy_event_type', 'assign_cozy_event_type' ] as $cap ) {
+                $admin->add_cap( $cap );
+            }
+            // Setups
+            foreach ( [ 'edit_cozy_setup', 'read_cozy_setup', 'delete_cozy_setup',
+                        'edit_cozy_setups', 'edit_others_cozy_setups', 'publish_cozy_setups',
+                        'read_private_cozy_setups', 'delete_cozy_setups',
+                        'delete_private_cozy_setups', 'delete_published_cozy_setups',
+                        'delete_others_cozy_setups', 'edit_private_cozy_setups',
+                        'edit_published_cozy_setups' ] as $cap ) {
+                $admin->add_cap( $cap );
+            }
+        }
+
+        update_option( 'cozy_roles_version', $current_version );
+    }
 }
-add_action( 'switch_theme', 'cozy_remove_custom_role' );
+add_action( 'admin_init', 'cozy_maybe_update_roles' );
+
+function cozy_remove_custom_roles() {
+    remove_role( 'animateur_cozy' );
+    remove_role( 'gestionnaire_setups' );
+}
+add_action( 'switch_theme', 'cozy_remove_custom_roles' );
+
+
+/**
+ * Restreint le menu admin selon le rôle.
+ * - Animateur Cozy : ne voit que les événements
+ * - Gestionnaire Setups : ne voit que les setups
+ */
+function cozy_restrict_admin_menus() {
+    $user = wp_get_current_user();
+
+    if ( in_array( 'animateur_cozy', $user->roles, true ) ) {
+        // Supprimer tout sauf Événements, Médias et Profil
+        remove_menu_page( 'index.php' );              // Tableau de bord
+        remove_menu_page( 'edit.php' );                // Articles
+        remove_menu_page( 'edit.php?post_type=page' ); // Pages
+        remove_menu_page( 'edit-comments.php' );       // Commentaires
+        remove_menu_page( 'themes.php' );              // Apparence
+        remove_menu_page( 'plugins.php' );             // Extensions
+        remove_menu_page( 'users.php' );               // Utilisateurs
+        remove_menu_page( 'tools.php' );               // Outils
+        remove_menu_page( 'options-general.php' );     // Réglages
+        remove_menu_page( 'edit.php?post_type=cozy_setup' ); // Setups
+    }
+
+    if ( in_array( 'gestionnaire_setups', $user->roles, true ) ) {
+        // Supprimer tout sauf Setups, Médias et Profil
+        remove_menu_page( 'index.php' );              // Tableau de bord
+        remove_menu_page( 'edit.php' );                // Articles
+        remove_menu_page( 'edit.php?post_type=page' ); // Pages
+        remove_menu_page( 'edit-comments.php' );       // Commentaires
+        remove_menu_page( 'themes.php' );              // Apparence
+        remove_menu_page( 'plugins.php' );             // Extensions
+        remove_menu_page( 'users.php' );               // Utilisateurs
+        remove_menu_page( 'tools.php' );               // Outils
+        remove_menu_page( 'options-general.php' );     // Réglages
+        remove_menu_page( 'edit.php?post_type=cozy_event' ); // Événements
+    }
+}
+add_action( 'admin_menu', 'cozy_restrict_admin_menus', 999 );
+
+/**
+ * Redirige les rôles restreints vers leur page admin par défaut.
+ */
+function cozy_redirect_admin_dashboard() {
+    if ( ! is_admin() ) {
+        return;
+    }
+
+    global $pagenow;
+    $user = wp_get_current_user();
+
+    // Rediriger le tableau de bord vers la bonne section
+    if ( $pagenow === 'index.php' ) {
+        if ( in_array( 'animateur_cozy', $user->roles, true ) ) {
+            wp_redirect( admin_url( 'edit.php?post_type=cozy_event' ) );
+            exit;
+        }
+        if ( in_array( 'gestionnaire_setups', $user->roles, true ) ) {
+            wp_redirect( admin_url( 'edit.php?post_type=cozy_setup' ) );
+            exit;
+        }
+    }
+}
+add_action( 'admin_init', 'cozy_redirect_admin_dashboard' );
 
 
 // ============================================================================

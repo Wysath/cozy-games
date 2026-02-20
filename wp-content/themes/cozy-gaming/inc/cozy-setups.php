@@ -57,7 +57,8 @@ function cozy_register_setup_cpt() {
         'has_archive'         => false,
         'exclude_from_search' => true,
         'show_in_rest'        => true,
-        'capability_type'     => 'post',
+        'capability_type'     => array( 'cozy_setup', 'cozy_setups' ),
+        'map_meta_cap'        => true,
     );
 
     register_post_type( 'cozy_setup', $args );

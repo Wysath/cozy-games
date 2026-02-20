@@ -15,6 +15,8 @@ function cozy_events_register_cpt() {
         'supports'      => ['title', 'editor', 'thumbnail'],
         'menu_icon'     => 'dashicons-calendar-alt',
         'rewrite'       => ['slug' => 'events'],
+        'capability_type' => ['cozy_event', 'cozy_events'],
+        'map_meta_cap'    => true,
     ]);
 
     // --- Taxonomy : Jeux (partagée entre événements et articles) ---
@@ -54,6 +56,12 @@ function cozy_events_register_cpt() {
         'public'        => true,
         'show_in_rest'  => true,
         'rewrite'       => ['slug' => 'event-type'],
+        'capabilities'  => [
+            'manage_terms' => 'manage_cozy_event_type',
+            'edit_terms'   => 'edit_cozy_event_type',
+            'delete_terms' => 'delete_cozy_event_type',
+            'assign_terms' => 'assign_cozy_event_type',
+        ],
     ]);
 }
 add_action( 'init', 'cozy_events_register_cpt' );

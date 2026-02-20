@@ -56,12 +56,16 @@
             ?>
         </nav>
 
-        <!-- Actions header (connexion / profil) -->
+        <!-- Actions header (connexion / profil / déconnexion) -->
         <div class="cozy-header__actions">
             <?php if ( is_user_logged_in() ) : ?>
-                <a href="<?php echo esc_url( admin_url( 'profile.php' ) ); ?>" class="cozy-header__user" title="Mon profil">
+                <a href="<?php echo esc_url( home_url( '/mon-profil/' ) ); ?>" class="cozy-header__user" title="Mon profil">
                     <?php echo get_avatar( get_current_user_id(), 32 ); ?>
                     <span class="cozy-header__username"><?php echo esc_html( wp_get_current_user()->display_name ); ?></span>
+                </a>
+                <a href="<?php echo esc_url( wp_logout_url( home_url( '/' ) ) ); ?>" class="cozy-header__logout" title="<?php esc_attr_e( 'Déconnexion', 'cozy-gaming' ); ?>">
+                    <i data-lucide="log-out"></i>
+                    <span class="cozy-header__logout-text"><?php esc_html_e( 'Déconnexion', 'cozy-gaming' ); ?></span>
                 </a>
             <?php else : ?>
                 <a href="<?php echo esc_url( wp_login_url( get_permalink() ) ); ?>" class="cozy-header__login">
